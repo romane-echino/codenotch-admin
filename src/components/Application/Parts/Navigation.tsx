@@ -78,7 +78,7 @@ export const Navigation: React.FC<INavigationProps> = (props) => {
                                                         <Disclosure>
                                                             {({ open }) => (
                                                                 <>
-                                                                    <Disclosure.Button className={`w-full flex items-center rounded-lg ${open && 'bg-gray-100 dark:bg-gray-800 text-purple-500'}`}>
+                                                                    <Disclosure.Button className={`w-full flex items-center rounded-lg ${open && 'bg-gray-100 dark:bg-gray-800 text-primary-500'}`}>
                                                                         <NavigationItem key={itemIndex} item={item} sideBarToggle={sideBarToggle} />
                                                                         <div className="size-8 flex items-center justify-center">
                                                                             <i className="fa-duotone fa-light fa-angle-down text-xl"></i>
@@ -129,7 +129,7 @@ const NavigationItem: React.FC<{ item: IAppMenuItem, sideBarToggle: boolean }> =
         Component = NavLink;
         props.to = item.Route;
         props.exact = true;
-        props.activeClassName = "bg-gray-100 dark:bg-gray-800 text-purple-500";
+        props.activeClassName = "bg-gray-100 dark:bg-gray-800 text-primary-500";
     }
 
     return (

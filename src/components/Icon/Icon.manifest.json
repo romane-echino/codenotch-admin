@@ -1,0 +1,48 @@
+{
+  "name": "Icon",
+  "menu": "",
+  "props": [
+     {
+      "name": "Value",
+      "displayName": "Value",
+      "type": "string"
+    },
+    {
+      "name": "Size",
+      "displayName": "Size",
+      "type": "string",
+      "default": "Normal",
+      "enum":[
+        "ExtraSmall",
+        "Small",
+        "Normal",
+        "Large",
+        "ExtraLarge"
+      ]
+    },
+    {
+      "name": "Color",
+      "displayName": "Color",
+      "type": "string",
+      "default":"Primary",
+      "enum": [
+        "Primary",
+        "Success",
+        "Warning",
+        "Info",
+        "Error"
+      ]
+    },
+    {
+      "name": "Animate",
+      "displayName": "Animate",
+      "type": "string",
+      "enum": [
+        "None",
+        "Beat",
+        "Fade",
+        "Spin"
+      ]
+    }
+  ]
+}

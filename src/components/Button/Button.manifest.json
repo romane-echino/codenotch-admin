@@ -18,6 +18,7 @@
       "displayName": "Type",
       "type": "string",
       "required": true,
+      
       "enum": [
         "Primary",
         "Secondary",

@@ -31,7 +31,7 @@ export class Sizing extends React.Component<IPageInheritedProps, ISizingState> {
         }
 
         return (
-            <div className={classes} style={style}>
+            <div className={`${classes}`} style={style}>
                 {this.props.children}
             </div>
         )

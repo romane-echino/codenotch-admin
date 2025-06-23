@@ -20,7 +20,7 @@ export interface IListColumn {
 	Field: string;
 	Output?: boolean;
 	Visible?: boolean;
-	Renderer?: (item: any) => React.ReactNode;
+	Renderer?: (as: string, data: any) => React.ReactNode;
 }
 
 
@@ -142,15 +142,17 @@ export class List extends React.Component<IListProps, IListState> {
 								{this.state.data.slice(0, this.props.Take ?? this.state.data.length).map((item, index) => {
 									return (
 										<tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-											{this.state.columns.filter(c => c.Visible === true).map((column, index) => (
-												<td className="px-6 py-3 whitespace-nowrap first:pl-0">
-													<div className="flex items-center">
-														<p className="text-gray-500 text-theme-sm dark:text-gray-400">
-															{column.Renderer ? column.Renderer(item) : item[column.Field] || ''}
-														</p>
-													</div>
-												</td>
-											))}
+											{this.state.columns.filter(c => c.Visible === true).map((column, index) => {
+												return (
+													<td className="px-6 py-3 whitespace-nowrap first:pl-0">
+														<div className="flex items-center">
+															<p className="text-gray-500 text-theme-sm dark:text-gray-400">
+																{column.Renderer ? column.Renderer('item',item[column.Field]) : item[column.Field] || ''}
+															</p>
+														</div>
+													</td>
+												)
+											})}
 										</tr>
 									)
 								})}

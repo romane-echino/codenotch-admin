@@ -23,10 +23,6 @@ export class KPI extends React.Component<IKPIProps, IKPIState> {
 		}
 	}
 
-	componentDidMount(): void {
-		console.log('KPI', this.props);
-	}
-
 	render() {
 		return (
 			<Sizing {...this.props}>

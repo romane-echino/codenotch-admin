@@ -4,6 +4,7 @@ import { Switch, Route, NavLink } from "react-router-dom";
 import { IPageProps } from '../Page/Page';
 import { Header } from './Parts/Header';
 import { Navigation } from './Parts/Navigation';
+import { getTint } from '../../utils/ColorPaletteUtils';
 export interface IApplicationProps extends IApplicationThemeProps, IUserInfoProps, IChildrenInheritedProps<IApplicationInheritedProps> {
   LogoUrl?: string;
   LogoDarkUrl?: string;
@@ -64,6 +65,8 @@ export class Application extends React.Component<IApplicationProps, IApplication
         document.head.removeChild(link);
       }
     }
+
+    document.getElementsByTagName("body")[0].style = getTint(this.props.Tint ?? '#465fff');
 
     this.processNavigation(this.props);
   }
