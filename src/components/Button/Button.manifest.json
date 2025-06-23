@@ -1,5 +1,37 @@
 {
   "name": "Button",
   "menu": "",
-  "props": []
+  "props": [
+    {
+      "name": "Label",
+      "displayName": "Label",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string"
+    },
+    {
+      "name": "Type",
+      "displayName": "Type",
+      "type": "string",
+      "required": true,
+      "enum": [
+        "Primary",
+        "Secondary",
+        "Success",
+        "Warning",
+        "Error",
+        "Info"
+      ],
+      "default": "Secondary"
+    },
+    {
+      "name": "OnClick",
+      "displayName": "OnClick",
+      "type": "action"
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "Box",
-  "menu": "",
+  "menu": "Layout",
   "props": [
      {
       "name": "Title",

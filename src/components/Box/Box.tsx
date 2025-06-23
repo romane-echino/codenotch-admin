@@ -41,8 +41,8 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 						</div>
 
 						{this.props.Actions &&
-							<div>
-								Actions
+							<div className='flex items-center gap-3'>
+								{this.props.Actions}
 							</div>
 						}
 					</div>
