@@ -1,0 +1,33 @@
+{
+  "name": "Label",
+  "menu": "",
+  "props": [
+     {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+     {
+      "name": "Value",
+      "displayName": "Value",
+      "type": "string"
+    },
+    {
+      "name": "Size",
+      "displayName": "Size",
+      "type": "string",
+      "enum":["Small", "Medium", "Large"]
+    },
+     {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string"
+    },
+    {
+      "name": "IconColor",
+      "displayName": "IconColor",
+      "type": "string",
+      "enum":["Success", "Warning", "Error", "Info", "Primary"]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "KPI",
+  "menu": "",
+  "props": [
+    {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string"
+    },
+    {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+    {
+      "name": "Count",
+      "displayName": "Count",
+      "type": "number"
+    },
+    {
+      "name": "Rate",
+      "displayName": "Rate",
+      "type": "number"
+    }
+  ]
+}

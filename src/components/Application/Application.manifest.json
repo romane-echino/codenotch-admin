@@ -1,0 +1,62 @@
+{
+  "name": "Application",
+  "menu": "Layout",
+  "props": [
+    {
+      "name": "LogoUrl",
+      "displayName": "LogoUrl",
+      "type": "string"
+    },
+    {
+      "name": "LogoDarkUrl",
+      "displayName": "LogoDarkUrl",
+      "type": "string"
+    },
+    {
+      "name": "LogoIcon",
+      "displayName": "LogoIcon",
+      "type": "string"
+    },
+    {
+      "name": "Tint",
+      "displayName": "Tint",
+      "type": "string"
+    }
+  ],
+  "childrenProps": [
+    {
+      "name": "Menu",
+      "displayName": "Menu",
+      "type": "string"
+    },
+    {
+      "name": "ParentPage",
+      "displayName": "ParentPage",
+      "type": "string"
+    },
+    {
+      "name": "Route",
+      "displayName": "Route",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string"
+    }
+  ],
+  "children": {
+    "type": "component",
+    "min": 1,
+    "include": [
+      "Page"
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "Page",
+  "menu": "Layout",
+  "props": [
+    {
+      "name": "Layout",
+      "displayName": "Layout",
+      "type": "string",
+      "required": true,
+      "default": "Grid",
+      "enum": [
+        "Grid",
+        "Flow",
+        "Full"
+      ]
+    }
+  ],
+  "childrenProps": [
+    {
+      "name": "ColSpan",
+      "displayName": "ColSpan",
+      "type": "string",
+      "enum": [
+        "1/2",
+        "1/3",
+        "1/4",
+        "3/4",
+        "2/3",
+        "full"
+      ]
+    },
+    {
+      "name": "RowSpan",
+      "displayName": "RowSpan",
+      "type": "string"
+    }
+  ]
+}
