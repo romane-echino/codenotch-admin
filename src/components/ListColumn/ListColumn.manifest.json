@@ -1,5 +1,32 @@
 {
   "name": "List column",
   "menu": "",
-  "props": []
+  "props": [ 
+    {
+      "name": "DisplayName",
+      "displayName": "DisplayName",
+      "type": "string"
+    },
+    {
+      "name": "Field",
+      "displayName": "Field",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "Output",
+      "displayName": "Output",
+      "type": "boolean"
+    },
+    {
+      "name": "Visible",
+      "displayName": "Visible",
+      "type": "boolean"
+    },
+    {
+      "name": "Renderer",
+      "displayName": "Renderer",
+      "type": "renderer"
+    }
+  ]
 }

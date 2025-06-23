@@ -25,7 +25,7 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 		return (
 			<div className={`rounded-2xl h-full grow ${hasBorder && 'border border-gray-200'} bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6`}>
 				{(this.props.Title!== undefined || this.props.Subtitle!== undefined || this.props.Actions !== undefined) &&
-					<div className='flex justify-between'>
+					<div className='flex justify-between mb-4 items-center'>
 						<div>
 							{this.props.Title &&
 								<h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">

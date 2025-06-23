@@ -75,8 +75,6 @@ export class Application extends React.Component<IApplicationProps, IApplication
     //@ts-ignore
     let childrenProps = this.props.childrenProps as IApplicationInheritedProps[] ?? [];
 
-    console.log("Children Props", childrenProps);
-
     // First, group by Menu
     const menuGroups: { [key: string]: IApplicationInheritedProps[] } = {};
 
@@ -139,8 +137,6 @@ export class Application extends React.Component<IApplicationProps, IApplication
       });
     });
 
-    console.log("Hierarchical Menu", menu);
-
     this.setState({
       menu: menu
     });
@@ -158,8 +154,6 @@ export class Application extends React.Component<IApplicationProps, IApplication
       if (hasSubRoutes) {
         exactRoute = true; // Always exact for parent routes
       }
-
-      console.log("Route", routePath, "Exact:", exactRoute, "Has Sub Routes:", hasSubRoutes);
 
       return (
         <Route key={index} path={routePath} exact={exactRoute}>

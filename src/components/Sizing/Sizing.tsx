@@ -15,8 +15,6 @@ export class Sizing extends React.Component<IPageInheritedProps, ISizingState> {
 
     render() {
         let classes = '';
-
-        console.log('Sizing', this.props.ColSpan);
         switch (this.props.ColSpan) {
             case '1/2': classes += 'col-span-12 xl:col-span-6'; break;
             case '1/3': classes += 'col-span-12 xl:col-span-4'; break;

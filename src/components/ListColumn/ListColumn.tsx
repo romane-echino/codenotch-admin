@@ -1,15 +1,14 @@
 import React from 'react';
 import './ListColumn.scss';
+import { IListColumn } from '../List/List';
 
-interface IListColumnProps {
-}
 
 interface IListColumnState {
 }
 
-export class ListColumn extends React.Component<IListColumnProps, IListColumnState> {
+export class ListColumn extends React.Component<IListColumn, IListColumnState> {
 
-	constructor(props: IListColumnProps) {
+	constructor(props: IListColumn) {
 		super(props);
 
 		this.state = {

@@ -4,8 +4,7 @@
   "props": [
     {
       "name": "Source",
-      "displayName": "Source",
-      "type": "object"
+      "displayName": "Source"
     },
     {
       "name": "Title",
