@@ -58,5 +58,8 @@
     "include": [
       "Page"
     ]
+  },
+  "snippets": {
+    "scenar.io": "<Application>\n\t$0\n</Application>"
   }
 }

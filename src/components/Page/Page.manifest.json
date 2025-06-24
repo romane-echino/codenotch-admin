@@ -34,5 +34,8 @@
       "displayName": "RowSpan",
       "type": "string"
     }
-  ]
+  ],
+  "snippets": {
+    "scenar.io": "<Page Application.Title=\"${1:My Page}\" Application.Route=\"${2:/dashboard}\">\n\t$0\n</Page>"
+  }
 }
