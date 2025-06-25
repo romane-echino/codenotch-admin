@@ -13,6 +13,11 @@
         "Flow",
         "Full"
       ]
+    },
+    {
+      "name": "Header",
+      "displayName": "Header",
+      "type": "reactnode"
     }
   ],
   "childrenProps": [

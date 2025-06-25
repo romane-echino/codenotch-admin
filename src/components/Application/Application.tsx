@@ -160,7 +160,7 @@ export class Application extends React.Component<IApplicationProps, IApplication
 
       return (
         <Route key={index} path={routePath} exact={exactRoute}>
-          {this.props.children![index]}
+          {React.cloneElement(this.props.children[index], {})}
         </Route>
       )
     });

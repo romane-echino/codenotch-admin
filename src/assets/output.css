@@ -323,6 +323,9 @@
   .mr-1 {
     margin-right: calc(var(--spacing) * 1);
   }
+  .mr-2 {
+    margin-right: calc(var(--spacing) * 2);
+  }
   .mr-3 {
     margin-right: calc(var(--spacing) * 3);
   }
@@ -526,6 +529,9 @@
   .flex-col {
     flex-direction: column;
   }
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
   .items-center {
     align-items: center;
   }
@@ -552,6 +558,9 @@
   }
   .gap-1 {
     gap: calc(var(--spacing) * 1);
+  }
+  .gap-1\.5 {
+    gap: calc(var(--spacing) * 1.5);
   }
   .gap-2 {
     gap: calc(var(--spacing) * 2);
@@ -698,6 +707,9 @@
   }
   .fill-gray-500 {
     fill: var(--color-gray-500);
+  }
+  .stroke-current {
+    stroke: currentcolor;
   }
   .stroke-gray-500 {
     stroke: var(--color-gray-500);
@@ -1058,23 +1070,10 @@
       border-width: 0px;
     }
   }
-  .focus\:border-primary-300 {
-    &:focus {
-      border-color: rgb(var(--primary-color-300));
-    }
-  }
   .focus\:ring-3 {
     &:focus {
       --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
       box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-    }
-  }
-  .focus\:ring-primary-500\/10 {
-    &:focus {
-      --tw-ring-color: rgb(var(--primary-color-500));
-      @supports (color: color-mix(in lab, red, red)) {
-        --tw-ring-color: color-mix(in oklab, rgb(var(--primary-color-500)) 10%, transparent);
-      }
     }
   }
   .focus\:outline-hidden {
@@ -1476,13 +1475,6 @@
         @media (hover: hover) {
           color: var(--color-white);
         }
-      }
-    }
-  }
-  .dark\:focus\:border-primary-800 {
-    &:where(.dark, .dark *) {
-      &:focus {
-        border-color: rgb(var(--primary-color-800));
       }
     }
   }

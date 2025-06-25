@@ -1,10 +1,18 @@
 import React from 'react';
 import './Page.scss';
 import { IChildrenInheritedProps } from '@echino/echino.ui.sdk';
+import { Header } from './Parts/Header';
 
 export interface IPageProps extends IChildrenInheritedProps<IPageInheritedProps> {
 
 	Layout: 'Grid' | 'Flow' | 'Full'
+	Header:React.ReactNode;
+
+	Title?:string;
+	Subtitle?:string;
+	Icon?:string;
+	ParentPageTitle?: string;
+	ParentPageRoute?: string;
 }
 
 interface IPageState {
@@ -19,6 +27,7 @@ export class Page extends React.Component<IPageProps, IPageState> {
 
 	static defaultProps: IPageProps = {
 		Layout: 'Grid',
+		Header: null,
 		childrenProps: [],
 	}
 
@@ -27,6 +36,10 @@ export class Page extends React.Component<IPageProps, IPageState> {
 
 		this.state = {
 		}
+	}
+
+	componentDidMount(): void {
+		//alert(this.props.Title);
 	}
 
 	getChildren() {
@@ -57,6 +70,8 @@ export class Page extends React.Component<IPageProps, IPageState> {
 
 				return (
 					<div className="p-4 mx-auto max-w-[1536px] md:p-6">
+						<Header CustomHeader={this.props.Header} {...this.props}/>
+
 						<div className="grid grid-cols-12 gap-4 md:gap-6">
 							{this.getChildren()}
 						</div>
@@ -65,6 +80,8 @@ export class Page extends React.Component<IPageProps, IPageState> {
 			case 'Flow':
 				return (
 					<div className="p-4 mx-auto max-w-[1536px] md:p-6">
+						<Header CustomHeader={this.props.Header} {...this.props}/>
+
 						<div className="flex flex-col gap-4 md:gap-6">
 							{this.getChildren()}
 						</div>
@@ -73,6 +90,8 @@ export class Page extends React.Component<IPageProps, IPageState> {
 			case 'Full':
 				return (
 					<div className="p-4 md:p-6">
+						<Header CustomHeader={this.props.Header} {...this.props}/>
+
 						<div className="flex flex-col gap-4 md:gap-6">
 							{this.getChildren()}
 						</div>
