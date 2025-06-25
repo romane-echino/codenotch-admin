@@ -10,18 +10,17 @@ interface ITextInputProps extends IBindableComponentProps {
 	OnChange?: Action<string>;
 	Icon?: string;
 	Disabled?: boolean;
+	Helper?:string;
 
 	Prefix?: React.ReactNode;
 	Suffix?: React.ReactNode;
 }
 
 interface ITextInputState {
-
 	focused: boolean;
 }
 
 export class TextInput extends React.Component<ITextInputProps, ITextInputState> {
-
 
 	inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
@@ -38,12 +37,11 @@ export class TextInput extends React.Component<ITextInputProps, ITextInputState>
 		if (this.props.OnChange) {
 			this.props.OnChange(value);
 		}
-
 	}
 
 	render() {
 		return (
-			<Sizing ColSpan='1/2'>
+			<Sizing {...this.props}>
 				{this.props.Title &&
 					<label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
 						{this.props.Title}

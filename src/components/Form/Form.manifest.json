@@ -1,5 +1,39 @@
 {
   "name": "Form",
-  "menu": "",
-  "props": []
+  "menu": "Input",
+  "props": [
+    {
+      "name":"HasLayout",
+      "description": "Whether the form has a layout",
+      "type": "boolean"
+    },
+    {
+      "name":"OnChange",
+      "description": "OnChange",
+      "type": "action"
+    }
+  ],
+  "childrenProps":[
+    {
+      "name": "Field",
+      "description": "Form field",
+      "type": "string"
+    },
+     {
+      "name": "ColSpan",
+      "displayName": "ColSpan",
+      "type": "string",
+      "enum": [
+        "1/2",
+        "1/3",
+        "1/4",
+        "3/4",
+        "2/3",
+        "full"
+      ]
+    }
+  ],
+  "snippets": {
+    "scenar.io": "<Form>\n\t$0\n</Form>"
+  }
 }
