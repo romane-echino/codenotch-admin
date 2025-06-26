@@ -34,5 +34,8 @@
       "displayName": "OnClick",
       "type": "action"
     }
-  ]
+  ],
+  "snippets": {
+    "scenar.io": "<Button Label=\"${1:Label}\" />"
+  }
 }

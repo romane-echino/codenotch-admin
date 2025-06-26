@@ -158,9 +158,16 @@ export class Application extends React.Component<IApplicationProps, IApplication
         exactRoute = true; // Always exact for parent routes
       }
 
+      let props = this.props.children![index].props
+      props.children.props = {
+        ...child,
+        ...props.children.props
+      }
+
       return (
         <Route key={index} path={routePath} exact={exactRoute}>
-          {React.cloneElement(this.props.children[index], {})}
+          {/*React.cloneElement(this.props.children![index], {...props})*/}
+          {this.props.children![index]}
         </Route>
       )
     });

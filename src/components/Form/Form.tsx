@@ -5,20 +5,20 @@ import { IPageInheritedProps } from '../Page/Page';
 import { Sizing } from '../Sizing/Sizing';
 import { Action, IChildrenInheritedProps } from '@echino/echino.ui.sdk';
 
-interface IFormProps extends IBoxProps, IPageInheritedProps, IChildrenInheritedProps<{Field:string}> {
+interface IFormProps extends IBoxProps, IPageInheritedProps, IChildrenInheritedProps<{ Field: string }> {
 	HasLayout?: boolean;
-	OnChange?:Action<any>;
+	OnChange?: Action<any>;
 }
 
 interface IFormState {
-	value:any;
+	value: any;
 }
 
 export class Form extends React.Component<IFormProps, IFormState> {
 
 	static defaultProps: IFormProps = {
 		HasLayout: true,
-		childrenProps:[],
+		childrenProps: [],
 	};
 
 	constructor(props: IFormProps) {
@@ -29,9 +29,9 @@ export class Form extends React.Component<IFormProps, IFormState> {
 		}
 	}
 
-	fieldChanged(field:string, value:any) {
+	fieldChanged(field: string, value: any) {
 		let newValue = { ...this.state.value };
-		if(field.includes('.')) {
+		if (field.includes('.')) {
 			// Handle nested fields
 			const keys = field.split('.');
 			let current = newValue;
@@ -46,7 +46,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 		else {
 			newValue[field] = value;
 		}
-		
+
 		this.setState({ value: newValue });
 
 		if (this.props.OnChange) {
@@ -55,17 +55,21 @@ export class Form extends React.Component<IFormProps, IFormState> {
 	}
 
 	getChildren() {
-		return React.Children.map(this.props.children, (child,index) => {
-			let childProps = this.props.childrenProps[index] || {};
-			if (React.isValidElement(child)) {
-				// Clone the child and pass additional props
-				return React.cloneElement(child, {
-					...child.props,
-					OnChange: childProps.Field ? (value: any) => this.fieldChanged(childProps.Field, value) : undefined,
-				});
+		let children = React.Children.map(this.props.children, (child, index) => {
+			//@ts-ignore
+			let effectiveProps = child.props;
+			effectiveProps.children.props = {
+				...this.props.childrenProps[index],
+				...effectiveProps.children.props
 			}
-			return child; // Return the child as is if it's not a valid React element
+
+			if (React.isValidElement(child)) {
+				//@ts-ignore
+				return React.cloneElement(child, effectiveProps);
+			}
 		});
+
+		return children;
 	}
 
 	render() {
@@ -73,8 +77,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
 			return (
 				<Sizing {...this.props}>
 					<Box {...this.props}>
-						<div className='grid grid-cols-12 gap-4 md:gap-6'>
-							{this.props.children}
+						<div className='grid grid-cols-12 gap-4 md:gap-6 @container'>
+							{this.getChildren()}
 						</div>
 					</Box>
 				</Sizing>
@@ -82,9 +86,9 @@ export class Form extends React.Component<IFormProps, IFormState> {
 		}
 		else {
 			return (
-				<>
-					{this.props.children}
-				</>
+				<div className='grid grid-cols-12 gap-4 md:gap-6 @container'>
+					{this.getChildren()}
+				</div>
 			)
 		}
 

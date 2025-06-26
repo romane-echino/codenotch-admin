@@ -2,18 +2,11 @@ import React from 'react';
 import './TextInput.scss';
 import { Action, IBindableComponentProps } from '@echino/echino.ui.sdk';
 import { Sizing } from '../Sizing/Sizing';
+import { IPageInheritedProps } from '../Page/Page';
+import { AbstractInput, IInputProps } from '../AbstractInput/AbstractInput';
 
-interface ITextInputProps extends IBindableComponentProps {
-	Title?: string;
-	Placeholder?: string;
-	Value?: string;
-	OnChange?: Action<string>;
-	Icon?: string;
-	Disabled?: boolean;
-	Helper?:string;
+interface ITextInputProps extends IInputProps, IBindableComponentProps, IPageInheritedProps {
 
-	Prefix?: React.ReactNode;
-	Suffix?: React.ReactNode;
 }
 
 interface ITextInputState {
@@ -33,15 +26,29 @@ export class TextInput extends React.Component<ITextInputProps, ITextInputState>
 	}
 
 	updateValue(value: string) {
-		this.props.onPropertyChanged('Value',undefined, value) 
+		this.props.onPropertyChanged('Value', undefined, value)
 		if (this.props.OnChange) {
 			this.props.OnChange(value);
 		}
 	}
 
 	render() {
+
 		return (
-			<Sizing {...this.props}>
+			<AbstractInput Focus={this.state.focused} {...this.props}>
+				<input type="text"
+					ref={this.inputRef}
+					placeholder={this.props.Placeholder}
+					defaultValue={this.props.Value}
+					disabled={this.props.Disabled}
+					onChange={(e) => this.updateValue(e.target.value)}
+					className={`${this.props.Icon && 'pl-9'} px-4 py-2.5 w-full focus:border-0 focus:outline-hidden placeholder:text-gray-400 dark:placeholder:text-white/30`}
+					onBlur={(e) => this.setState({ focused: false })}
+					onFocus={(e) => this.setState({ focused: true })} />
+			</AbstractInput>
+		)
+		return (
+			<Sizing {...this.props} Containered={true}>
 				{this.props.Title &&
 					<label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
 						{this.props.Title}

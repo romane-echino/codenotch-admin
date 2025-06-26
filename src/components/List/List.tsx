@@ -64,6 +64,7 @@ export class List extends React.Component<IListProps, IListState> {
 
 		let columns: IListColumn[] = [];
 
+		//When custom columns are provided
 		if (customColumns.length > 0) {
 			columns = customColumns.map((col: any) => {
 				return {
@@ -74,6 +75,7 @@ export class List extends React.Component<IListProps, IListState> {
 					Renderer: col.Renderer
 				};
 			});
+			// When source is a direct array reference
 		} else if (Array.isArray(this.props.Source) && this.props.Source.length > 0) {
 			columns = Object.keys(this.props.Source[0]).map((key) => {
 				return {
@@ -84,32 +86,51 @@ export class List extends React.Component<IListProps, IListState> {
 				};
 			});
 		}
+		// When source is a query API / SIOQL
 		else if (typeof this.props.Source === 'object' && this.props.Source !== null) {
 			let request = this.props.Source as IDataRequest;
 
-			if (request.state === 'success' && Array.isArray(request.data)) {
-				columns = Object.keys(request.data[0]).map((key) => {
-					return {
-						DisplayName: key.charAt(0).toUpperCase() + key.slice(1),
-						Field: key,
-						Output: true,
-						Visible: true,
-					};
-				});
-			}
-		}
 
-		if (Array.isArray(this.props.Source) && this.props.Source.length > 0) {
-			this.setState({ columns, data: this.props.Source });
-			return;
-		}
-		else if (typeof this.props.Source === 'object' && this.props.Source !== null) {
-			let request = this.props.Source as IDataRequest;
-			if (request.state === 'success' && Array.isArray(request.data)) {
-				this.setState({ columns, data: request.data });
+			if (request.state === 'success' && request.data) {
+				//For API object data structure
+				if (Array.isArray(request.data)) {
+					columns = Object.keys(request.data[0]).map((key) => {
+						return {
+							DisplayName: key.charAt(0).toUpperCase() + key.slice(1),
+							Field: key,
+							Output: true,
+							Visible: true,
+						};
+					});
+				}
+				//For SIOQL object data structure
+				else if (typeof request.data === 'object' && request.data !== null) {
+					let arrayKey = Object.keys(request.data).find(key => Array.isArray(request.data[key]));
+					if (arrayKey) {
+						columns = Object.keys(request.data[arrayKey]).map((key) => {
+							return {
+								DisplayName: key.charAt(0).toUpperCase() + key.slice(1),
+								Field: key,
+								Output: true,
+								Visible: true,
+							};
+						});
+					}
+				}
 			}
-			else if (request.state === 'loading') {
-				this.setState({ columns, data: [] });
+
+			if (Array.isArray(this.props.Source) && this.props.Source.length > 0) {
+				this.setState({ columns, data: this.props.Source });
+				return;
+			}
+			else if (typeof this.props.Source === 'object' && this.props.Source !== null) {
+				let request = this.props.Source as IDataRequest;
+				if (request.state === 'success' && Array.isArray(request.data)) {
+					this.setState({ columns, data: request.data });
+				}
+				else if (request.state === 'loading') {
+					this.setState({ columns, data: [] });
+				}
 			}
 		}
 	}
@@ -147,7 +168,7 @@ export class List extends React.Component<IListProps, IListState> {
 													<td className="px-6 py-3 whitespace-nowrap first:pl-0">
 														<div className="flex items-center">
 															<p className="text-gray-500 text-theme-sm dark:text-gray-400">
-																{column.Renderer ? column.Renderer('item',item[column.Field]) : item[column.Field] || ''}
+																{column.Renderer ? column.Renderer('item', item[column.Field]) : item[column.Field] || ''}
 															</p>
 														</div>
 													</td>

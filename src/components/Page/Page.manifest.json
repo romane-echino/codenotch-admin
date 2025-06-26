@@ -17,7 +17,7 @@
     {
       "name": "Header",
       "displayName": "Header",
-      "type": "reactnode"
+      "type": "reactNode"
     }
   ],
   "childrenProps": [

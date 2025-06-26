@@ -1,9 +1,13 @@
 import React from 'react';
-import './TextInput.scss';
-import { Action, IBindableComponentProps } from '@echino/echino.ui.sdk';
+import { Action } from '@echino/echino.ui.sdk';
 import { Sizing } from '../Sizing/Sizing';
 
-interface IAbstractInputProps extends IBindableComponentProps {
+export interface IAbstractInputProps extends IInputProps {
+    Focus: boolean;
+}
+
+
+export interface IInputProps{
     Title?: string;
     Placeholder?: string;
     Value?: string;
@@ -16,15 +20,29 @@ interface IAbstractInputProps extends IBindableComponentProps {
     Suffix?: React.ReactNode;
 }
 
-export class AbstractInput extends React.Component<IAbstractInputProps, undefined> {
+interface IAbstractInputState{
+    focused: boolean;
+}
+
+export class AbstractInput extends React.Component<IAbstractInputProps, IAbstractInputState> {
 
     constructor(props: IAbstractInputProps) {
         super(props);
+        this.state = {
+            focused: false
+        };
     }
+
+
+componentDidUpdate(prevProps: Readonly<IAbstractInputProps>, prevState: Readonly<IAbstractInputState>, snapshot?: any): void {
+    if (this.props.Focus !== prevProps.Focus) {
+        this.setState({ focused: this.props.Focus });
+    }
+}
 
     render() {
         return (
-            <Sizing {...this.props}>
+            <Sizing {...this.props} Containered={true}>
                 {this.props.Title &&
                     <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                         {this.props.Title}
@@ -32,7 +50,7 @@ export class AbstractInput extends React.Component<IAbstractInputProps, undefine
                 }
 
                 <div  className={` cursor-text flex dark:bg-dark-900 h-11 w-full rounded-lg border  bg-transparent  text-sm text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 
-                    ${true && !this.props.Disabled ? 'border-primary-300 dark:border-primary-800 ring-primary-500/10 ring-3' : 'border-gray-300'}`}>
+                    ${this.state.focused && !this.props.Disabled ? 'border-primary-300 dark:border-primary-800 ring-primary-500/10 ring-3' : 'border-gray-300'}`}>
 
                     {this.props.Prefix &&
                         <span className="pointer-events-none flex items-center justify-center border-r border-gray-200 py-3 pr-3 pl-3.5  dark:border-gray-800">

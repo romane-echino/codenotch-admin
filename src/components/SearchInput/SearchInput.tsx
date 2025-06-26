@@ -1,7 +1,7 @@
 import React from 'react';
-import './SearchInput.scss';
+import { AbstractInput, IAbstractInputProps } from '../AbstractInput/AbstractInput';
 
-interface ISearchInputProps {
+interface ISearchInputProps extends IAbstractInputProps {
 }
 
 interface ISearchInputState {
@@ -18,7 +18,9 @@ export class SearchInput extends React.Component<ISearchInputProps, ISearchInput
 
 	render() {
 		return (
-			<div className="searchinput">SearchInput</div>
+			<AbstractInput {...this.props}>
+				SearchInput
+			</AbstractInput>
 		)
 	}
 

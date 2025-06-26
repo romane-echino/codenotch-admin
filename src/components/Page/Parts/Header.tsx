@@ -18,7 +18,7 @@ export const Header: React.FC<HeaderProps> = ({
     ParentPageRoute
 }) => {
     return (
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6 h-11">
             <div>
                 <h2 className="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName">
                     {Icon && <i className={`${Icon} mr-2`}></i>}

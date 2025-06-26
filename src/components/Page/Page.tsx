@@ -6,7 +6,7 @@ import { Header } from './Parts/Header';
 export interface IPageProps extends IChildrenInheritedProps<IPageInheritedProps> {
 
 	Layout: 'Grid' | 'Flow' | 'Full'
-	Header:React.ReactNode;
+	Header?:React.ReactNode;
 
 	Title?:string;
 	Subtitle?:string;
@@ -27,7 +27,6 @@ export class Page extends React.Component<IPageProps, IPageState> {
 
 	static defaultProps: IPageProps = {
 		Layout: 'Grid',
-		Header: null,
 		childrenProps: [],
 	}
 
@@ -39,7 +38,7 @@ export class Page extends React.Component<IPageProps, IPageState> {
 	}
 
 	componentDidMount(): void {
-		//alert(this.props.Title);
+		//alert(JSON.stringify(this.props.Header, null, 2));
 	}
 
 	getChildren() {
