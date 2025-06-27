@@ -1,5 +1,26 @@
 {
   "name": "Dropdown",
   "menu": "",
-  "props": []
+  "props": [
+    {
+      "name": "Source",
+      "displayName": "Source",
+      "type": "reactNode"
+    },
+    {
+      "name": "OptionRenderer",
+      "displayName": "OptionRenderer",
+      "type": "renderer"
+    },
+    {
+      "name": "LabelRenderer",
+      "displayName": "LabelRenderer",
+      "type": "reactNode"
+    },
+    {
+      "name": "DisabledRenderer",
+      "displayName": "DisabledRenderer",
+      "type": "reactNode"
+    }
+  ]
 }

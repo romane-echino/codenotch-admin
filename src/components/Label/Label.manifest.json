@@ -29,5 +29,8 @@
       "type": "string",
       "enum":["Success", "Warning", "Error", "Info", "Primary"]
     }
-  ]
+  ],
+  "snippets": {
+    "scenar.io": "<Label Value=\"${1:Label}\" />"
+  }
 }

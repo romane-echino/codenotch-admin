@@ -6,12 +6,17 @@ export interface IAbstractInputProps extends IInputProps {
     Focus: boolean;
 }
 
+interface IAbstractListAction{
+   value:any, 
+   index: number
+}
 
 export interface IInputProps{
     Title?: string;
     Placeholder?: string;
     Value?: string;
     OnChange?: Action<string>;
+    OnSelect?: Action<IAbstractListAction>;
     Icon?: string;
     Disabled?: boolean;
     Helper?:string;
@@ -49,8 +54,8 @@ componentDidUpdate(prevProps: Readonly<IAbstractInputProps>, prevState: Readonly
                     </label>
                 }
 
-                <div  className={` cursor-text flex dark:bg-dark-900 h-11 w-full rounded-lg border  bg-transparent  text-sm text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 
-                    ${this.state.focused && !this.props.Disabled ? 'border-primary-300 dark:border-primary-800 ring-primary-500/10 ring-3' : 'border-gray-300'}`}>
+                <div  className={` cursor-text flex dark:bg-dark-900 min-h-11 w-full rounded-lg border  bg-transparent  text-sm   dark:bg-gray-900 text-gray-800 dark:text-white/90 
+                    ${this.state.focused && !this.props.Disabled ? 'border-primary-300 dark:border-primary-800 ring-primary-500/10 ring-3' : 'border-gray-300 dark:border-gray-700'}`}>
 
                     {this.props.Prefix &&
                         <span className="pointer-events-none flex items-center justify-center border-r border-gray-200 py-3 pr-3 pl-3.5  dark:border-gray-800">

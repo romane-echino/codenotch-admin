@@ -3,9 +3,9 @@ import './Form.scss';
 import { Box, IBoxProps } from '../Box/Box';
 import { IPageInheritedProps } from '../Page/Page';
 import { Sizing } from '../Sizing/Sizing';
-import { Action, IChildrenInheritedProps } from '@echino/echino.ui.sdk';
+import { Action, IBindableComponentProps, IChildrenInheritedProps } from '@echino/echino.ui.sdk';
 
-interface IFormProps extends IBoxProps, IPageInheritedProps, IChildrenInheritedProps<{ Field: string }> {
+interface IFormProps extends IBoxProps, IPageInheritedProps,IBindableComponentProps, IChildrenInheritedProps<{ Field: string }> {
 	HasLayout?: boolean;
 	OnChange?: Action<any>;
 }
@@ -16,7 +16,7 @@ interface IFormState {
 
 export class Form extends React.Component<IFormProps, IFormState> {
 
-	static defaultProps: IFormProps = {
+	static defaultProps = {
 		HasLayout: true,
 		childrenProps: [],
 	};
@@ -48,6 +48,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 		}
 
 		this.setState({ value: newValue });
+		this.props.onPropertyChanged('value', undefined, newValue);
 
 		if (this.props.OnChange) {
 			this.props.OnChange(newValue);
@@ -56,11 +57,14 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
 	getChildren() {
 		let children = React.Children.map(this.props.children, (child, index) => {
+			
 			//@ts-ignore
-			let effectiveProps = child.props;
+			let effectiveProps:any = { ...child.props };
+			let field:string |undefined = this.props.childrenProps[index]?.Field;
 			effectiveProps.children.props = {
 				...this.props.childrenProps[index],
-				...effectiveProps.children.props
+				...effectiveProps?.children?.props,
+				OnChange:field ? (value: any) => this.fieldChanged(field, value) : undefined,
 			}
 
 			if (React.isValidElement(child)) {

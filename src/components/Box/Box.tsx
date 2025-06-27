@@ -50,7 +50,7 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 				}
 
 				{this.props.Modal ?
-					<div className='max-h-[450px] overflow-x-hidden overflow-y-auto'>{this.props.children}</div> : 
+					<div className='max-h-[450px] overflow-x-hidden px-1 overflow-y-auto'>{this.props.children}</div> : 
 					this.props.children
 				}
 

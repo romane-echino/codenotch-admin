@@ -1,6 +1,9 @@
 {
   "name": "Form",
   "menu": "Input",
+  "bindable": [
+    "value"
+  ],
   "props": [
     {
       "name":"HasLayout",
