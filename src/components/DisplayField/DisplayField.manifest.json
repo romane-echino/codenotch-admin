@@ -1,0 +1,20 @@
+{
+  "name": "Display field",
+  "menu": "",
+  "props": [
+     {
+      "name": "Field",
+      "displayName": "Field",
+      "type": "string",
+      "required": true
+    },
+     {
+      "name": "Label",
+      "displayName": "Label",
+      "type": "string"
+    }
+  ],
+  "snippets": {
+    "scenar.io": "<DisplayField Field=\"${1:field}\" />"
+  }
+}

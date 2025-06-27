@@ -8,8 +8,8 @@
       "type": "string"
     },
     {
-      "name": "Title",
-      "displayName": "Title",
+      "name": "Label",
+      "displayName": "Label",
       "type": "string"
     },
     {

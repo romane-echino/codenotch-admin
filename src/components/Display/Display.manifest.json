@@ -1,0 +1,34 @@
+{
+  "name": "Display",
+  "menu": "",
+  "props": [
+    {
+      "name": "Source",
+      "displayName": "Source",
+      "type": "object"
+    },
+    {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+     {
+      "name": "Subtitle",
+      "displayName": "Subtitle",
+      "type": "string"
+    },
+     {
+      "name": "Actions",
+      "displayName": "Actions",
+      "type": "reactNode"
+    },
+    {
+      "name": "Footer",
+      "displayName": "Footer",
+      "type": "reactNode"
+    }
+  ],
+  "snippets": {
+    "scenar.io": "<Display Source=\"${1}\" />"
+  }
+}

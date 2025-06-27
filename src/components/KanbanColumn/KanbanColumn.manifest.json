@@ -1,0 +1,16 @@
+{
+  "name": "Kanban column",
+  "menu": "",
+  "props": [
+    {
+      "name": "Field",
+      "displayName": "Field",
+      "type": "string"
+    },
+    {
+      "name": "Label",
+      "displayName": "Label",
+      "type": "string"
+    }
+  ]
+}

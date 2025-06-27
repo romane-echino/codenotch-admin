@@ -1,0 +1,36 @@
+{
+  "name": "Kanban",
+  "menu": "",
+  "props": [
+    {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+     {
+      "name": "Subtitle",
+      "displayName": "Subtitle",
+      "type": "string"
+    },
+     {
+      "name": "Actions",
+      "displayName": "Actions",
+      "type": "reactNode"
+    },
+    {
+      "name": "Footer",
+      "displayName": "Footer",
+      "type": "reactNode"
+    },
+    {
+      "name": "Source",
+      "displayName": "Source",
+      "type": "array"
+    },
+    {
+      "name": "CardRenderer",
+      "displayName": "CardRenderer",
+      "type": "renderer"
+    }
+  ]
+}

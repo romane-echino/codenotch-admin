@@ -1,0 +1,97 @@
+<Application type="SPA">
+	<Application.Imports>
+		<Import Namespace="e" Source="/static/" />
+	</Application.Imports>
+
+
+	<Application.Declarations>
+		<Data Id="source">
+			[{
+					"name": "contact",
+					"tasks": [{
+							"title": "Finish user onboarding",
+							"dueDate": "2027-01-07",
+							"comments": 1
+						},
+						{
+							"title": "Solve the Dribbble prioritisation issue with the team",
+							"dueDate": "2027-01-08",
+							"comments": 2,
+							"links": 1,
+							"tag": "Marketing"
+						},
+						{
+							"title": "Change license and remove products",
+							"dueDate": "2027-01-08",
+							"tag": "Dev"
+						}
+					]
+				},
+				{
+					"name": "planned",
+					"tasks": [{
+							"title": "Work In Progress (WIP) Dashboard",
+							"dueDate": "2027-01-06",
+							"comments": 1
+						},
+						{
+							"title": "Kanban Flow Manager",
+							"dueDate": "2027-02-12",
+							"comments": 8,
+							"links": 2,
+							"tag": "Template"
+						},
+						{
+							"title": "Product Update - Q4 2024",
+							"description": "Dedicated form for a category of users that will perform actions.",
+							"dueDate": "2027-02-12",
+							"comments": 8
+						},
+						{
+							"title": "Make figbot send comment when ticket is auto-moved back to inbox",
+							"dueDate": "2027-03-08",
+							"comments": 1
+						}
+
+					]
+				},
+				{
+					"name": "planned",
+					"tasks": [{
+							"title": "Manage internal feedback",
+							"dueDate": "2027-01-07",
+							"comments": 1
+						},
+						{
+							"title": "Do some projects on React Native with Flutter",
+							"dueDate": "2027-01-08",
+							"tag": "Development"
+						},
+						{
+							"title": "Design marketing assets",
+							"dueDate": "2027-01-08",
+							"comments": 2,
+							"links": 1,
+							"tag": "Marketing"
+						},
+						{
+							"title": "Kanban Flow Manager",
+							"dueDate": "2027-02-12",
+							"comments": 8,
+							"tag": "Template"
+						}
+					]
+				}
+			]
+		</Data>
+	</Application.Declarations>
+
+	<e:Application Tint="#005566" LogoUrl="https://placehold.co/150x60/000000/FFF" LogoDarkUrl="https://placehold.co/150x60/000000/FFF" LogoIcon="https://placehold.co/64x64/000000/FFF">
+		<e:Page Layout="Grid" Application.Route="/" Application.Title="Dashboard" Application.Icon="fa-duotone fa-light fa-chart-line">
+			<e:Kanban Source="{_auml.source.data}" />
+		</e:Page>
+	</e:Application>
+
+
+
+</Application>

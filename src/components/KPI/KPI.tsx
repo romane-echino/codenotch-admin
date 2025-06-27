@@ -2,11 +2,11 @@ import React from 'react';
 import './KPI.scss';
 import { Sizing } from '../Sizing/Sizing';
 import { IPageInheritedProps } from '../Page/Page';
-import { Box } from '../Box/Box';
+import { Box, IBoxProps } from '../Box/Box';
 
-interface IKPIProps extends IPageInheritedProps {
+interface IKPIProps extends IPageInheritedProps, IBoxProps {
 	Icon: string;
-	Title: string;
+	Label: string;
 	Count: number;
 	Rate: number;
 }
@@ -26,7 +26,7 @@ export class KPI extends React.Component<IKPIProps, IKPIState> {
 	render() {
 		return (
 			<Sizing {...this.props}>
-				<Box>
+				<Box {...this.props}>
 					{this.props.Icon &&
 						<div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800">
 							<i className={`${this.props.Icon}`}></i>
@@ -36,7 +36,7 @@ export class KPI extends React.Component<IKPIProps, IKPIState> {
 					<div className="mt-5 flex items-end justify-between">
 						<div>
 							<span className="text-sm text-gray-500 dark:text-gray-400">
-								{this.props.Title}
+								{this.props.Label}
 							</span>
 							<h4 className="mt-2 text-3xl font-bold text-gray-800 dark:text-white/90">
 								{this.props.Count?.toLocaleString()}
