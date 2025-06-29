@@ -7,6 +7,17 @@ for (let i = links.length - 1; i >= 0; i--) {
     }
 }
 
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/fr'
+import 'dayjs/locale/en'
+import 'dayjs/locale/de'
+import 'dayjs/locale/it'
+import 'dayjs/locale/es'
+
+dayjs.extend(duration);
+dayjs.extend(relativeTime)
 
 export * from './components/KPI/KPI'
 export * from './components/Barchart/Barchart'

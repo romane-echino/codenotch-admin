@@ -1,9 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Kanban.scss';
 import { IPageInheritedProps } from '../Page/Page';
 import { Box, IBoxProps } from '../Box/Box';
 import { Sizing } from '../Sizing/Sizing';
 import { KanbanCard } from '../KanbanCard/KanbanCard';
+import {
+	CancelDrop,
+	closestCenter,
+	pointerWithin,
+	rectIntersection,
+	CollisionDetection,
+	DndContext,
+	DragOverlay,
+	DropAnimation,
+	getFirstCollision,
+	KeyboardSensor,
+	MouseSensor,
+	TouchSensor,
+	Modifiers,
+	useDroppable,
+	UniqueIdentifier,
+	useSensors,
+	useSensor,
+	MeasuringStrategy,
+	KeyboardCoordinateGetter,
+	defaultDropAnimationSideEffects,
+} from '@dnd-kit/core';
+import {
+	AnimateLayoutChanges,
+	SortableContext,
+	useSortable,
+	arrayMove,
+	defaultAnimateLayoutChanges,
+	verticalListSortingStrategy,
+	SortingStrategy,
+	horizontalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { createPortal } from 'react-dom';
 
 interface IKanbanProps extends IPageInheritedProps, IBoxProps {
 	Source?: any[];
@@ -11,7 +44,125 @@ interface IKanbanProps extends IPageInheritedProps, IBoxProps {
 	CardField?: string
 }
 
-interface IKanbanState {
+export interface IKanbanColumns {
+	Id: UniqueIdentifier;
+	Label?: string;
+}
+
+export const Kanban: React.FC<IKanbanProps> = (props) => {
+	const [columns, setColumns] = React.useState<IKanbanColumns[]>([]);
+	const cardField = props.CardField || 'items';
+
+	const sensors = useSensors(
+		useSensor(MouseSensor),
+		useSensor(TouchSensor),
+	);
+
+	useEffect(() => {
+		updateSource();
+	}, [props.Source, props.children]);
+
+
+	function updateSource() {
+		let columns: IKanbanColumns[] = [];
+
+		let customColumns = React.Children.toArray(props.children)
+			.map(c => (c as any).props.children.props)
+			.filter(c => c.componentDescription.tag.split(':')[1] === 'DisplayField')
+
+		if (customColumns.length > 0) {
+			columns = customColumns.map((col: any) => {
+				return {
+					Id: col.Id,
+					Label: col.Label
+				};
+			});
+		}
+		else {
+			columns = props.Source!.map((col, index) => {
+				return {
+					Id: index,
+					Label: col['name'] || 'Column ' + (index + 1)
+				};
+			});
+		}
+
+		setColumns(columns);
+	}
+
+	function defaultCardRenderer(card: any) {
+		console.log('defaultCardRenderer', Object.keys(card)[0], card);
+		return (
+			<KanbanCard Source={card} />
+		);
+	}
+
+	let columnIds: UniqueIdentifier[] = columns && columns.map((col) => col.Id) || [];
+
+	return (
+
+		<Sizing {...props}>
+			<Box {...props}>
+				<DndContext
+					sensors={sensors}
+					onDragStart={() => { }}
+					onDragEnd={() => { }}
+					onDragOver={() => { }}
+				>
+					<div className="mt-7 -mx-6 grid divide-x grid-cols-1 border-t border-gray-200 dark:border-gray-800 sm:mt-0 sm:grid-cols-2 xl:grid-cols-3">
+						<SortableContext items={columnIds} >
+							{columns.map((column, index) => (
+								<div className="swim-lane flex flex-col gap-5 p-4 xl:p-6">
+									<div className="mb-1 flex items-center justify-between">
+										<h3 className="flex items-center gap-3 text-base font-medium text-gray-800 dark:text-white/90">
+											{column.Label}
+											<span className="inline-flex rounded-full bg-gray-100 px-2 py-0.5 text-theme-xs font-medium text-gray-700 dark:bg-white/[0.03] dark:text-white/80">
+												3
+											</span>
+										</h3>
+
+										<div x-data="{openDropDown: false}" className="relative">
+											<button className="text-gray-700 dark:text-gray-400">
+												<svg className="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path fill-rule="evenodd" clip-rule="evenodd" d="M5.99902 10.2451C6.96552 10.2451 7.74902 11.0286 7.74902 11.9951V12.0051C7.74902 12.9716 6.96552 13.7551 5.99902 13.7551C5.03253 13.7551 4.24902 12.9716 4.24902 12.0051V11.9951C4.24902 11.0286 5.03253 10.2451 5.99902 10.2451ZM17.999 10.2451C18.9655 10.2451 19.749 11.0286 19.749 11.9951V12.0051C19.749 12.9716 18.9655 13.7551 17.999 13.7551C17.0325 13.7551 16.249 12.9716 16.249 12.0051V11.9951C16.249 11.0286 17.0325 10.2451 17.999 10.2451ZM13.749 11.9951C13.749 11.0286 12.9655 10.2451 11.999 10.2451C11.0325 10.2451 10.249 11.0286 10.249 11.9951V12.0051C10.249 12.9716 11.0325 13.7551 11.999 13.7551C12.9655 13.7551 13.749 12.9716 13.749 12.0051V11.9951Z" fill=""></path>
+												</svg>
+											</button>
+											<div x-show="openDropDown" className="absolute right-0 top-full z-40 w-[140px] space-y-1 rounded-2xl border border-gray-200 bg-white p-2 shadow-theme-md dark:border-gray-800 dark:bg-gray-dark" style={{ display: 'none' }}>
+												<button className="flex w-full rounded-lg px-3 py-2 text-left text-theme-xs font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300">
+													Edit
+												</button>
+												<button className="flex w-full rounded-lg px-3 py-2 text-left text-theme-xs font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300">
+													Delete
+												</button>
+												<button className="flex w-full rounded-lg px-3 py-2 text-left text-theme-xs font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300">
+													Clear All
+												</button>
+											</div>
+										</div>
+									</div>
+
+
+									<SortableContext items={[]}>
+										{cardField && props.Source![index][cardField] && props.Source![index][cardField].map((card: any, cardIndex: number) => (
+											<>
+												{props.CardRenderer ?
+													props.CardRenderer('item', card) :
+													defaultCardRenderer(card)}
+											</>
+										))}
+									</SortableContext>
+
+								</div>
+							))}
+						</SortableContext>
+					</div>
+				</DndContext>
+			</Box>
+		</Sizing>
+	)
+}
+
+/*interface IKanbanState {
 	columns: IKanbanColumns[];
 	cardField?: string;
 }
@@ -20,6 +171,11 @@ export interface IKanbanColumns {
 	Field: string;
 	Label?: string;
 }
+
+const sensors = useSensors(
+	useSensor(MouseSensor),
+	useSensor(TouchSensor),
+);
 
 export class Kanban extends React.Component<IKanbanProps, IKanbanState> {
 
@@ -63,7 +219,7 @@ export class Kanban extends React.Component<IKanbanProps, IKanbanState> {
 		if (this.props.Source && this.props.Source.length > 0) {
 			let first = this.props.Source[0];
 			let key = Object.keys(first).find((key) => Array.isArray(first[key]));
-			console.log('key', key,Object.keys(this.props.Source[0]));
+			console.log('key', key, Object.keys(this.props.Source[0]));
 			if (typeof key === 'string') {
 				cardField = key;
 			}
@@ -73,16 +229,92 @@ export class Kanban extends React.Component<IKanbanProps, IKanbanState> {
 	}
 
 	defaultCardRenderer(card: any) {
-		console.log('defaultCardRenderer',Object.keys(card)[0], card);
+		console.log('defaultCardRenderer', Object.keys(card)[0], card);
 		return (
-			<KanbanCard Title={card[Object.keys(card)[0]]} />
+			<KanbanCard Source={card} />
 		);
 	}
 
 	render() {
+
+		let columns = this.state.columns.length > 0 ? this.state.columns : this.props.Source || [];
+		let columnIds: UniqueIdentifier[] = columns && columns.map((col) => col.id) || [];
+		
+		return (
+			<DndContext
+				sensors={sensors}
+				onDragStart={() => { }}
+				onDragEnd={() => { }}
+				onDragOver={() => { }}
+			>
+				<div className="mt-7 -mx-6 grid grid-cols-1 border-t border-gray-200 dark:border-gray-800 sm:mt-0 sm:grid-cols-2 xl:grid-cols-3">
+					<SortableContext items={columnIds}>
+						{columns.map((column) => (
+							<div className="swim-lane flex flex-col gap-5 p-4 xl:p-6">
+								<div className="mb-1 flex items-center justify-between">
+									<h3 className="flex items-center gap-3 text-base font-medium text-gray-800 dark:text-white/90">
+										To Do {this.state.cardField}
+										<span className="inline-flex rounded-full bg-gray-100 px-2 py-0.5 text-theme-xs font-medium text-gray-700 dark:bg-white/[0.03] dark:text-white/80">
+											3
+										</span>
+									</h3>
+
+									<div x-data="{openDropDown: false}" className="relative">
+										<button className="text-gray-700 dark:text-gray-400">
+											<svg className="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path fill-rule="evenodd" clip-rule="evenodd" d="M5.99902 10.2451C6.96552 10.2451 7.74902 11.0286 7.74902 11.9951V12.0051C7.74902 12.9716 6.96552 13.7551 5.99902 13.7551C5.03253 13.7551 4.24902 12.9716 4.24902 12.0051V11.9951C4.24902 11.0286 5.03253 10.2451 5.99902 10.2451ZM17.999 10.2451C18.9655 10.2451 19.749 11.0286 19.749 11.9951V12.0051C19.749 12.9716 18.9655 13.7551 17.999 13.7551C17.0325 13.7551 16.249 12.9716 16.249 12.0051V11.9951C16.249 11.0286 17.0325 10.2451 17.999 10.2451ZM13.749 11.9951C13.749 11.0286 12.9655 10.2451 11.999 10.2451C11.0325 10.2451 10.249 11.0286 10.249 11.9951V12.0051C10.249 12.9716 11.0325 13.7551 11.999 13.7551C12.9655 13.7551 13.749 12.9716 13.749 12.0051V11.9951Z" fill=""></path>
+											</svg>
+										</button>
+										<div x-show="openDropDown" className="absolute right-0 top-full z-40 w-[140px] space-y-1 rounded-2xl border border-gray-200 bg-white p-2 shadow-theme-md dark:border-gray-800 dark:bg-gray-dark" style={{ display: 'none' }}>
+											<button className="flex w-full rounded-lg px-3 py-2 text-left text-theme-xs font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300">
+												Edit
+											</button>
+											<button className="flex w-full rounded-lg px-3 py-2 text-left text-theme-xs font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300">
+												Delete
+											</button>
+											<button className="flex w-full rounded-lg px-3 py-2 text-left text-theme-xs font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300">
+												Clear All
+											</button>
+										</div>
+									</div>
+								</div>
+
+								{this.state.cardField && column[this.state.cardField] && column[this.state.cardField].map((card: any, cardIndex: number) => (
+									<>
+										{this.props.CardRenderer ?
+											this.props.CardRenderer('item', card) :
+											this.defaultCardRenderer(card)}
+									</>
+								))}
+
+							</div>
+						))}
+					</SortableContext>
+				</div>
+
+				{"document" in window &&
+					createPortal(
+						<DragOverlay>
+							{activeColumn && (
+								<BoardColumn
+									isOverlay
+									column={activeColumn}
+									tasks={tasks.filter(
+										(task) => task.columnId === activeColumn.id
+									)}
+								/>
+							)}
+							{activeTask && <TaskCard task={activeTask} isOverlay />}
+						</DragOverlay>,
+						document.body
+					)}
+			</DndContext>
+		)
 		return (
 			<Sizing {...this.props}>
 				<Box {...this.props}>
+
+
 					<div className="mt-7 -mx-6 grid grid-cols-1 border-t border-gray-200 dark:border-gray-800 sm:mt-0 sm:grid-cols-2 xl:grid-cols-3">
 						{this.props.Source && this.props.Source.map((column, index) => (
 
@@ -474,4 +706,4 @@ export class Kanban extends React.Component<IKanbanProps, IKanbanState> {
 		)
 	}
 
-}
+}*/

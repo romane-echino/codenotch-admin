@@ -1,54 +1,76 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&display=swap");
 @source inline("xl:col-span-{3,4,6,8,9}");
 @source inline("@xl:col-span-{3,4,6,8,9}");
 @source inline("text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl}");
 @source inline("size-{4,5,6,7,8,9,10}");
 @custom-variant dark (&:where(.dark, .dark *));
 
-*, body,html{
-    font-family: 'Outfit', sans-serif;
+*,
+body,
+html {
+  font-family: "Outfit", sans-serif;
 }
 
 @theme {
-    --color-success-50: #ecfdf3;
-    --color-success-300: #6ce9a6;
-    --color-success-500: #12b76a;
-    --color-success-600: #039855;
-    --color-success-700: #027a48;
-    --color-success-800: #05603a;
-    --color-error-50: #fef3f2;
-    --color-error-300: #fda29b;
-    --color-error-400: #f97066;
-    --color-error-500: #f04438;
-    --color-error-600: #d92d20;
-    --color-error-700: #b42318;
-    --color-error-800: #912018;
-    --color-warning-50: #fffaeb;
-    --color-warning-400: #fdb022;
-    --color-warning-500: #f79009;
-    --color-warning-600: #dc6803;
-    --color-warning-700: #b54708;
-    --color-info-50: #eff6ff;
-    --color-info-300: #93c5fd;
-    --color-info-500: #2563eb;
-    --color-info-600: #1d4ed8;
-    --color-info-700: #1e40af;
-    --color-info-800: #1e3a8a;
+  --color-success-50: #ecfdf3;
+  --color-success-300: #6ce9a6;
+  --color-success-500: #12b76a;
+  --color-success-600: #039855;
+  --color-success-700: #027a48;
+  --color-success-800: #05603a;
+  --color-error-50: #fef3f2;
+  --color-error-300: #fda29b;
+  --color-error-400: #f97066;
+  --color-error-500: #f04438;
+  --color-error-600: #d92d20;
+  --color-error-700: #b42318;
+  --color-error-800: #912018;
+  --color-warning-50: #fffaeb;
+  --color-warning-400: #fdb022;
+  --color-warning-500: #f79009;
+  --color-warning-600: #dc6803;
+  --color-warning-700: #b54708;
+  --color-info-50: #eff6ff;
+  --color-info-300: #93c5fd;
+  --color-info-500: #2563eb;
+  --color-info-600: #1d4ed8;
+  --color-info-700: #1e40af;
+  --color-info-800: #1e3a8a;
 
-  }
+  --color-turquoise: #1abc9c;
+  --color-emerald: #2ecc71;
+  --color-peter-river: #3498db;
+  --color-amethyst: #9b59b6;
+  --color-wet-asphalt: #34495e;
+  --color-green-sea: #16a085;
+  --color-nephritis: #27ae60;
+  --color-belize-hole: #2980b9;
+  --color-wisteria: #8e44ad;
+  --color-midnight-blue: #2c3e50;
+  --color-sunflower: #f1c40f;
+  --color-carrot: #e67e22;
+  --color-alizarin: #e74c3c;
+  --color-clouds: #ecf0f1;
+  --color-concrete: #95a5a6;
+  --color-orange: #f39c12;
+  --color-pumpkin: #d35400;
+  --color-pomegranate: #c0392b;
+  --color-silver: #bdc3c7;
+  --color-asbestos: #7f8c8d;
+}
 
 @theme inline {
-      --color-primary-50: rgb(var(--primary-color-50));
-    --color-primary-100: rgb(var(--primary-color-100));
-    --color-primary-200: rgb(var(--primary-color-200));
-    --color-primary-300: rgb(var(--primary-color-300));
-    --color-primary-400: rgb(var(--primary-color-400));
-    --color-primary-500: rgb(var(--primary-color-500));
-    --color-primary-600: rgb(var(--primary-color-600));
-    --color-primary-700: rgb(var(--primary-color-700));
-    --color-primary-800: rgb(var(--primary-color-800));
-    --color-primary-900: rgb(var(--primary-color-900));
-    --color-primary-950: rgb(var(--primary-color-950));
-    --color-primary: rgb(var(--primary-color));
+  --color-primary-50: rgb(var(--primary-color-50));
+  --color-primary-100: rgb(var(--primary-color-100));
+  --color-primary-200: rgb(var(--primary-color-200));
+  --color-primary-300: rgb(var(--primary-color-300));
+  --color-primary-400: rgb(var(--primary-color-400));
+  --color-primary-500: rgb(var(--primary-color-500));
+  --color-primary-600: rgb(var(--primary-color-600));
+  --color-primary-700: rgb(var(--primary-color-700));
+  --color-primary-800: rgb(var(--primary-color-800));
+  --color-primary-900: rgb(var(--primary-color-900));
+  --color-primary-950: rgb(var(--primary-color-950));
+  --color-primary: rgb(var(--primary-color));
 }
