@@ -87,6 +87,7 @@
 					<e:ListColumn.Renderer>
 						<e:Icon Value="{_auml.item?'fas fa-circle-check':'fas fa-circle-xmark'}" Size="Normal" Color="{_auml.item?'Success':''}" />
 					</e:ListColumn.Renderer>
+
 				</e:ListColumn>
 			</e:List>
 
@@ -110,17 +111,25 @@
 					<e:Button.OnClick>
 						<Dialog Modal="true">
 							<e:ModalDialog Title="Create a new task" Subtitle="Task can be attributed to contact, companies and users">
-								<e:Form HasLayout="false">
+								<e:Form Id="aForm" HasLayout="false">
+									<e:TextInput Form.Field="firstname" Title="Prénom" Placeholder="ex: Steve" Form.ColSpan="1/2" />
 									<e:TextInput Form.ColSpan="1/2" />
-									<e:TextInput Form.ColSpan="1/2" />
+									<e:TextArea Form.Field="reason.description" Title="Raison" Placeholder="ex: Vacances" Icon="far fa-home" />
 
 									<e:SearchInput />
-									<e:Dropdown />
+									<e:Dropdown Placeholder="Select an option" Source="{['salut','machin']}">
+										<e:Dropdown.OptionRenderer>
+											<e:Label Value="Couoou" Title="Salut" />
+										</e:Dropdown.OptionRenderer>
+									</e:Dropdown>
 
 									<e:DateInput />
 
 									<e:DateRangeInput />
 								</e:Form>
+
+
+								<e:Label Value="{JSON.stringify(_auml.aForm.value)}" />
 
 								<e:ModalDialog.Footer>
 									<e:Button Label="Cancel" Type="Error">

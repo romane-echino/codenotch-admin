@@ -8,12 +8,15 @@
 		<Data Id="source">
 			[{
 					"name": "contact",
+					"id": 0,
 					"tasks": [{
+							"id": 0,
 							"title": "Finish user onboarding",
-							"dueDate": "2027-01-07",
+							"dueDate": "2025-07-07",
 							"comments": 1
 						},
 						{
+							"id": 1,
 							"title": "Solve the Dribbble prioritisation issue with the team",
 							"dueDate": "2027-01-08",
 							"comments": 2,
@@ -21,6 +24,7 @@
 							"tag": "Marketing"
 						},
 						{
+							"id": 2,
 							"title": "Change license and remove products",
 							"dueDate": "2027-01-08",
 							"tag": "Dev"
@@ -29,12 +33,15 @@
 				},
 				{
 					"name": "planned",
+					"id": 1,
 					"tasks": [{
+							"id": 3,
 							"title": "Work In Progress (WIP) Dashboard",
 							"dueDate": "2027-01-06",
 							"comments": 1
 						},
 						{
+							"id": 4,
 							"title": "Kanban Flow Manager",
 							"dueDate": "2027-02-12",
 							"comments": 8,
@@ -42,12 +49,16 @@
 							"tag": "Template"
 						},
 						{
+							"id": 5,
 							"title": "Product Update - Q4 2024",
 							"description": "Dedicated form for a category of users that will perform actions.",
+							"image":"https://placehold.co/640x480/000000/FFF",
+							"profile":"https://placehold.co/64x64/000000/FFF",
 							"dueDate": "2027-02-12",
 							"comments": 8
 						},
 						{
+							"id": 6,
 							"title": "Make figbot send comment when ticket is auto-moved back to inbox",
 							"dueDate": "2027-03-08",
 							"comments": 1
@@ -56,18 +67,22 @@
 					]
 				},
 				{
-					"name": "planned",
+					"name": "done",
+					"id": 2,
 					"tasks": [{
+							"id": 7,
 							"title": "Manage internal feedback",
 							"dueDate": "2027-01-07",
 							"comments": 1
 						},
 						{
+							"id": 8,
 							"title": "Do some projects on React Native with Flutter",
 							"dueDate": "2027-01-08",
 							"tag": "Development"
 						},
 						{
+							"id": 9,
 							"title": "Design marketing assets",
 							"dueDate": "2027-01-08",
 							"comments": 2,
@@ -75,6 +90,7 @@
 							"tag": "Marketing"
 						},
 						{
+							"id": 10,
 							"title": "Kanban Flow Manager",
 							"dueDate": "2027-02-12",
 							"comments": 8,
@@ -88,7 +104,27 @@
 
 	<e:Application Tint="#005566" LogoUrl="https://placehold.co/150x60/000000/FFF" LogoDarkUrl="https://placehold.co/150x60/000000/FFF" LogoIcon="https://placehold.co/64x64/000000/FFF">
 		<e:Page Layout="Grid" Application.Route="/" Application.Title="Dashboard" Application.Icon="fa-duotone fa-light fa-chart-line">
+
 			<e:Kanban Source="{_auml.source.data}" />
+
+			<e:Kanban Source="{_auml.source.data}">
+				<e:KanbanColumn Label="Contact" />
+				<e:KanbanColumn Label="Planifié" />
+				<e:KanbanColumn Label="Terminé" />
+
+				<e:Kanban.CardRenderer>
+					<e:KanbanCard 
+					ColumnId="{_auml.item.columnId}" 
+					CardId="{_auml.item.id}" 
+					Title="{_auml.item.content.title}" 
+					Description="{_auml.item.content.description}" 
+					CommentsCount="{_auml.item.content.comments}" 
+					Tags="{_auml.item.content.tag}" 
+					ImageUrl="{_auml.item.content.image}" 
+					UserImageUrl="{_auml.item.content.profile}" 
+					Due="{_auml.item.content.dueDate}" />
+				</e:Kanban.CardRenderer>
+			</e:Kanban>
 		</e:Page>
 	</e:Application>
 

@@ -1,5 +1,51 @@
 {
   "name": "Kanban card",
   "menu": "",
-  "props": []
+  "props": [
+    {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+    {
+      "name": "ColumnId",
+      "displayName": "ColumnId",
+      "type": "string"
+    },
+    {
+      "name": "CardId",
+      "displayName": "CardId",
+      "type": "string"
+    },
+    {
+      "name": "Tags",
+      "displayName": "Tags",
+      "type": "string"
+    },
+    {
+      "name": "Due",
+      "displayName": "Due",
+      "type": "string"
+    },
+    {
+      "name": "Description",
+      "displayName": "Description",
+      "type": "string"
+    },
+    {
+      "name": "CommentsCount",
+      "displayName": "CommentsCount",
+      "type": "string"
+    },
+    {
+      "name": "ImageUrl",
+      "displayName": "ImageUrl",
+      "type": "string"
+    },
+    {
+      "name": "UserImageUrl",
+      "displayName": "UserImageUrl",
+      "type": "string"
+    }
+  ]
 }
