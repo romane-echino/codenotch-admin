@@ -17,7 +17,6 @@ export const ColumnContainer: React.FC<IColumnContainer> = ({ column, cards, car
     }, [cards]);
 
     function defaultCardRenderer(card: any, index: number) {
-        console.log('defaultCardRenderer', Object.keys(card)[0], card);
         return (
             <KanbanCard CardId={card.id} ColumnId={card.columnId} Title={card.content['title']} key={index} />
         );

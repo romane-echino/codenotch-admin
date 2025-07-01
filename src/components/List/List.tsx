@@ -58,15 +58,16 @@ export class List extends React.Component<IListProps, IListState> {
 		if (!this.props.Source)
 			return;
 
-		let customColumns = React.Children.toArray(this.props.children)
+		let sourceCustomColumns = React.Children.toArray(this.props.children)
 			.map(c => (c as any).props.children.props)
 			.filter(c => c.componentDescription.tag.split(':')[1] === 'ListColumn')
 
 		let columns: IListColumn[] = [];
+		let customColumns: IListColumn[] | undefined = undefined;
 
 		//When custom columns are provided
-		if (customColumns.length > 0) {
-			columns = customColumns.map((col: any) => {
+		if (sourceCustomColumns.length > 0) {
+			customColumns = sourceCustomColumns.map((col: any) => {
 				return {
 					DisplayName: col.DisplayName || col.Field.charAt(0).toUpperCase() + col.Field.slice(1),
 					Field: col.Field,
@@ -76,8 +77,10 @@ export class List extends React.Component<IListProps, IListState> {
 				};
 			});
 			// When source is a direct array reference
-		} else if (Array.isArray(this.props.Source) && this.props.Source.length > 0) {
-			columns = Object.keys(this.props.Source[0]).map((key) => {
+		}
+		
+		if (Array.isArray(this.props.Source) && this.props.Source.length > 0) {
+			columns = customColumns ?? Object.keys(this.props.Source[0]).map((key) => {
 				return {
 					DisplayName: key.charAt(0).toUpperCase() + key.slice(1),
 					Field: key,
@@ -85,6 +88,8 @@ export class List extends React.Component<IListProps, IListState> {
 					Visible: true,
 				};
 			});
+
+			this.setState({ columns: columns, data: this.props.Source });
 		}
 		// When source is a query API / SIOQL
 		else if (typeof this.props.Source === 'object' && this.props.Source !== null) {
@@ -94,7 +99,7 @@ export class List extends React.Component<IListProps, IListState> {
 			if (request.state === 'success' && request.data) {
 				//For API object data structure
 				if (Array.isArray(request.data)) {
-					columns = Object.keys(request.data[0]).map((key) => {
+					columns = customColumns ?? Object.keys(request.data[0]).map((key) => {
 						return {
 							DisplayName: key.charAt(0).toUpperCase() + key.slice(1),
 							Field: key,
@@ -102,12 +107,15 @@ export class List extends React.Component<IListProps, IListState> {
 							Visible: true,
 						};
 					});
+
+					this.setState({ columns: columns, data: request.data });
 				}
 				//For SIOQL object data structure
 				else if (typeof request.data === 'object' && request.data !== null) {
 					let arrayKey = Object.keys(request.data).find(key => Array.isArray(request.data[key]));
+					console.log('arrayKey', arrayKey, request.data[arrayKey!], Object.keys(request.data[arrayKey!][0]));
 					if (arrayKey) {
-						columns = Object.keys(request.data[arrayKey]).map((key) => {
+						columns = customColumns ?? Object.keys(request.data[arrayKey][0]).map((key) => {
 							return {
 								DisplayName: key.charAt(0).toUpperCase() + key.slice(1),
 								Field: key,
@@ -115,22 +123,16 @@ export class List extends React.Component<IListProps, IListState> {
 								Visible: true,
 							};
 						});
+
+						this.setState({ columns: columns, data: request.data[arrayKey] });
+					}
+					else {
+						this.setState({ columns: columns, data: [] });
+						console.warn('No array found in SIOQL data structure', request.data);
 					}
 				}
-			}
-
-			if (Array.isArray(this.props.Source) && this.props.Source.length > 0) {
-				this.setState({ columns, data: this.props.Source });
-				return;
-			}
-			else if (typeof this.props.Source === 'object' && this.props.Source !== null) {
-				let request = this.props.Source as IDataRequest;
-				if (request.state === 'success' && Array.isArray(request.data)) {
-					this.setState({ columns, data: request.data });
-				}
-				else if (request.state === 'loading') {
-					this.setState({ columns, data: [] });
-				}
+			} else {
+				this.setState({ columns: columns, data: [] });
 			}
 		}
 	}

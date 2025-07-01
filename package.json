@@ -6,7 +6,7 @@
   "license": "ISC",
   "author": "",
   "scripts": {
-    "start": "echino start",
+    "start": "echino start https://lemollqa.echino.com/crm",
     "add": "echino add",
     "login": "echino login",
     "build": "echino build",

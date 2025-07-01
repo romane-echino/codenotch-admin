@@ -37,11 +37,6 @@ export const KanbanCard: React.FC<ICardProps> = ({ CardId, ColumnId, Title, Due,
 		var y = dayjs()
 		var x = dayjs(Due);
 
-		console.log("x", x);
-		console.log("y", y, Due);
-		console.log("diff", x.diff(y));
-		console.log("diff2", dayjs.duration(x.diff(y)));
-
 		return dayjs.duration(x.diff(y)).locale("fr").humanize(true);
 	}
 

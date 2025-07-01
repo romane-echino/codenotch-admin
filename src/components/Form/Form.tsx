@@ -12,6 +12,7 @@ interface IFormProps extends IBoxProps, IPageInheritedProps,IBindableComponentPr
 
 interface IFormState {
 	value: any;
+	disabled?: boolean;
 }
 
 export class Form extends React.Component<IFormProps, IFormState> {
@@ -27,6 +28,10 @@ export class Form extends React.Component<IFormProps, IFormState> {
 		this.state = {
 			value: {}
 		}
+
+		this.props.declareFunction('disable',(value: boolean) => {
+			this.setState({ disabled: value });
+		});
 	}
 
 	fieldChanged(field: string, value: any) {
@@ -77,11 +82,15 @@ export class Form extends React.Component<IFormProps, IFormState> {
 	}
 
 	render() {
+
+		let classAttributes = `grid grid-cols-12 gap-4 md:gap-6 @container 
+		${this.state.disabled ? 'pointer-events-none opacity-50' : ''}`;
+		
 		if (this.props.HasLayout) {
 			return (
 				<Sizing {...this.props}>
 					<Box {...this.props}>
-						<div className='grid grid-cols-12 gap-4 md:gap-6 @container'>
+						<div className={classAttributes}>
 							{this.getChildren()}
 						</div>
 					</Box>
@@ -90,7 +99,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 		}
 		else {
 			return (
-				<div className='grid grid-cols-12 gap-4 md:gap-6 @container'>
+				<div className={classAttributes}>
 					{this.getChildren()}
 				</div>
 			)
