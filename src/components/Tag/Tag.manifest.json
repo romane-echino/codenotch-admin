@@ -1,0 +1,43 @@
+{
+  "name": "Tag",
+  "menu": "",
+  "props": [
+    {
+      "name": "Label",
+      "displayName": "Label",
+      "type": "string"
+    },
+    {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string"
+    },
+    {
+      "name": "Color",
+      "displayName": "Color",
+      "type": "string",
+      "enum": [
+        "Turquoise",
+        "Emerald",
+        "PeterRiver",
+        "Amethyst",
+        "WetAsphalt",
+        "GreenSea",
+        "Nephritis",
+        "BelizeHole",
+        "Wisteria",
+        "MidnightBlue",
+        "SunFlower",
+        "Carrot",
+        "Alizarin",
+        "Clouds",
+        "Concrete",
+        "Orange",
+        "Pumpkin",
+        "Pomegranate",
+        "Silver",
+        "Asbestos"
+      ]
+    }
+  ]
+}

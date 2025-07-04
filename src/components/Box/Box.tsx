@@ -1,5 +1,6 @@
 import React from 'react';
 import './Box.scss';
+import { Sizing } from '../Sizing/Sizing';
 
 export interface IBoxProps {
 
@@ -50,7 +51,7 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 				}
 
 				{this.props.Modal ?
-					<div className='max-h-[450px] overflow-x-hidden px-1 overflow-y-auto'>{this.props.children}</div> : 
+					<div className='max-h-[450px] overflow-x-hidden px-1 overflow-y-auto'>{this.props.children}</div> :
 					this.props.children
 				}
 
@@ -62,21 +63,23 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 	render() {
 		if (this.props.Footer) {
 			return (
-				<div className={`border-gray-200 border bg-gray-100 rounded-2xl ${this.props.Modal?'relative w-full max-w-[700px]':'h-full'} flex flex-col`}>
-					{this.renderBox(false)}
+				<Sizing {...this.props}>
+					<div className={`border-gray-200 border bg-gray-100 rounded-2xl ${this.props.Modal ? 'relative w-full max-w-[700px]' : 'h-full'} flex flex-col`}>
+						{this.renderBox(false)}
 
-					<div className={`px-6 py-3.5 sm:py-5 flex ${this.props.Modal?'*:grow':' justify-center'} items-center gap-5 sm:gap-8 `}>
-						{this.props.Footer}
+						<div className={`px-6 py-3.5 sm:py-5 flex ${this.props.Modal ? '*:grow' : ' justify-center'} items-center gap-5 sm:gap-8 `}>
+							{this.props.Footer}
+						</div>
 					</div>
-				</div>
+				</Sizing>
 			)
 
 		}
 		else {
 			return (
-				<>
+				<Sizing {...this.props}>
 					{this.renderBox()}
-				</>
+				</Sizing>
 			)
 		}
 

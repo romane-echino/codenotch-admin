@@ -79,24 +79,22 @@ export class Display extends React.Component<IDisplayProps, IDisplayState> {
 		}
 
 		return (
-			<Sizing {...this.props}>
-				<Box {...this.props}>
-					<div className="grid grid-cols-1 gap-4 justify-start lg:grid-cols-[auto_auto] lg:gap-7 2xl:gap-x-32">
-						{this.state.fields.map((field, index) => {
-							return (
-								<div key={index}>
-									<p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-										{field.Label}
-									</p>
-									<p className="text-sm font-medium text-gray-800 dark:text-white/90">
-										{this.props.Source[field.Field] !== undefined ? this.props.Source[field.Field].toString() : 'N/A'}
-									</p>
-								</div>
-							)
-						})}
-					</div>
-				</Box>
-			</Sizing>
+			<Box {...this.props}>
+				<div className="grid grid-cols-1 gap-4 justify-start lg:grid-cols-[auto_auto] lg:gap-7 2xl:gap-x-32">
+					{this.state.fields.map((field, index) => {
+						return (
+							<div key={index}>
+								<p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
+									{field.Label}
+								</p>
+								<p className="text-sm font-medium text-gray-800 dark:text-white/90">
+									{this.props.Source[field.Field] !== undefined ? this.props.Source[field.Field].toString() : 'N/A'}
+								</p>
+							</div>
+						)
+					})}
+				</div>
+			</Box>
 		)
 	}
 

@@ -5,7 +5,7 @@ import { IPageInheritedProps } from '../Page/Page';
 import { Sizing } from '../Sizing/Sizing';
 import { Action, IBindableComponentProps, IChildrenInheritedProps } from '@echino/echino.ui.sdk';
 
-interface IFormProps extends IBoxProps, IPageInheritedProps,IBindableComponentProps, IChildrenInheritedProps<{ Field: string }> {
+interface IFormProps extends IBoxProps, IPageInheritedProps, IBindableComponentProps, IChildrenInheritedProps<{ Field: string }> {
 	HasLayout?: boolean;
 	OnChange?: Action<any>;
 }
@@ -29,7 +29,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 			value: {}
 		}
 
-		this.props.declareFunction('disable',(value: boolean) => {
+		this.props.declareFunction('disable', (value: boolean) => {
 			this.setState({ disabled: value });
 		});
 	}
@@ -62,14 +62,14 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
 	getChildren() {
 		let children = React.Children.map(this.props.children, (child, index) => {
-			
+
 			//@ts-ignore
-			let effectiveProps:any = { ...child.props };
-			let field:string |undefined = this.props.childrenProps[index]?.Field;
+			let effectiveProps: any = { ...child.props };
+			let field: string | undefined = this.props.childrenProps[index]?.Field;
 			effectiveProps.children.props = {
 				...this.props.childrenProps[index],
 				...effectiveProps?.children?.props,
-				OnChange:field ? (value: any) => this.fieldChanged(field, value) : undefined,
+				OnChange: field ? (value: any) => this.fieldChanged(field, value) : undefined,
 			}
 
 			if (React.isValidElement(child)) {
@@ -85,16 +85,14 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
 		let classAttributes = `grid grid-cols-12 gap-4 md:gap-6 @container 
 		${this.state.disabled ? 'pointer-events-none opacity-50' : ''}`;
-		
+
 		if (this.props.HasLayout) {
 			return (
-				<Sizing {...this.props}>
-					<Box {...this.props}>
-						<div className={classAttributes}>
-							{this.getChildren()}
-						</div>
-					</Box>
-				</Sizing>
+				<Box {...this.props}>
+					<div className={classAttributes}>
+						{this.getChildren()}
+					</div>
+				</Box>
 			)
 		}
 		else {

@@ -199,30 +199,27 @@ export const Kanban: React.FC<IKanbanProps> = (props) => {
 	}
 
 	return (
+		<Box {...props}>
+			<DndContext
+				sensors={sensors}
+				onDragStart={onDragStart}
+				onDragEnd={onDragEnd}
+				onDragOver={onDragOver}>
 
-		<Sizing {...props}>
-			<Box {...props}>
-				<DndContext
-					sensors={sensors}
-					onDragStart={onDragStart}
-					onDragEnd={onDragEnd}
-					onDragOver={onDragOver}>
+				<div className=" divide-x-[1px] divide-gray-200 dark:divide-gray-800 mt-7 -mb-6 -mx-6 grid grid-cols-1 border-t border-gray-200 dark:border-gray-800 sm:mt-0 sm:grid-cols-2 xl:grid-cols-3">
 
-					<div className=" divide-x-[1px] divide-gray-200 dark:divide-gray-800 mt-7 -mb-6 -mx-6 grid grid-cols-1 border-t border-gray-200 dark:border-gray-800 sm:mt-0 sm:grid-cols-2 xl:grid-cols-3">
+					{columns.map((column) => (
+						<ColumnContainer
+							column={column}
+							cardRenderer={props.CardRenderer}
+							cards={cards.filter((card) => card.columnId === column.id)}
+							key={column.id}
 
-						{columns.map((column) => (
-							<ColumnContainer
-								column={column}
-								cardRenderer={props.CardRenderer}
-								cards={cards.filter((card) => card.columnId === column.id)}
-								key={column.id}
-
-							></ColumnContainer>
-						))}
-					</div>
-				</DndContext>
-			</Box>
-		</Sizing>
+						></ColumnContainer>
+					))}
+				</div>
+			</DndContext>
+		</Box>
 	)
 }
 

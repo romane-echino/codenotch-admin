@@ -21,12 +21,10 @@ export class Linechart extends React.Component<ILinechartProps, ILinechartState>
 
 	render() {
 		return (
-			<Sizing {...this.props}>
-				<Box {...this.props}>
-					<span>LineChart</span>
-					<i className="fa-duotone fa-light fa-heart-crack text-lg"></i>
-				</Box>
-			</Sizing>
+			<Box {...this.props}>
+				<span>LineChart</span>
+				<i className="fa-duotone fa-light fa-heart-crack text-lg"></i>
+			</Box>
 		)
 	}
 

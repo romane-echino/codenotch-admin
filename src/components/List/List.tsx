@@ -78,7 +78,7 @@ export class List extends React.Component<IListProps, IListState> {
 			});
 			// When source is a direct array reference
 		}
-		
+
 		if (Array.isArray(this.props.Source) && this.props.Source.length > 0) {
 			columns = customColumns ?? Object.keys(this.props.Source[0]).map((key) => {
 				return {
@@ -139,53 +139,51 @@ export class List extends React.Component<IListProps, IListState> {
 
 	render() {
 		return (
-			<Sizing {...this.props}>
-				<Box {...this.props}>
+			<Box {...this.props}>
 
-					<div className="max-w-full overflow-x-auto custom-scrollbar">
-						<table className="min-w-full">
+				<div className="max-w-full overflow-x-auto custom-scrollbar">
+					<table className="min-w-full">
 
-							<thead className="border-gray-100 border-y dark:border-gray-800">
-								<tr>
-									{this.state.columns.filter(c => c.Visible === true).map((column, index) => (
-										<th key={index} className={`px-6 py-3 whitespace-nowrap first:pl-0`}>
-											<div className="flex items-center">
-												<p className="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-													{column.DisplayName || column.Field}
-												</p>
-											</div>
-										</th>
-									))}
-								</tr>
-							</thead>
+						<thead className="border-gray-100 border-y dark:border-gray-800">
+							<tr>
+								{this.state.columns.filter(c => c.Visible === true).map((column, index) => (
+									<th key={index} className={`px-6 py-3 whitespace-nowrap first:pl-0`}>
+										<div className="flex items-center">
+											<p className="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+												{column.DisplayName || column.Field}
+											</p>
+										</div>
+									</th>
+								))}
+							</tr>
+						</thead>
 
 
-							<tbody className="py-3 divide-y divide-gray-100 dark:divide-gray-800">
+						<tbody className="py-3 divide-y divide-gray-100 dark:divide-gray-800">
 
-								{this.state.data.slice(0, this.props.Take ?? this.state.data.length).map((item, index) => {
-									return (
-										<tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-											{this.state.columns.filter(c => c.Visible === true).map((column, index) => {
-												return (
-													<td className="px-6 py-3 whitespace-nowrap first:pl-0">
-														<div className="flex items-center">
-															<p className="text-gray-500 text-theme-sm dark:text-gray-400">
-																{column.Renderer ? column.Renderer('item', item[column.Field]) : item[column.Field] || ''}
-															</p>
-														</div>
-													</td>
-												)
-											})}
-										</tr>
-									)
-								})}
+							{this.state.data.slice(0, this.props.Take ?? this.state.data.length).map((item, index) => {
+								return (
+									<tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+										{this.state.columns.filter(c => c.Visible === true).map((column, index) => {
+											return (
+												<td className="px-6 py-3 whitespace-nowrap first:pl-0">
+													<div className="flex items-center">
+														<p className="text-gray-500 text-theme-sm dark:text-gray-400">
+															{column.Renderer ? column.Renderer('item', item[column.Field]) : item[column.Field] || ''}
+														</p>
+													</div>
+												</td>
+											)
+										})}
+									</tr>
+								)
+							})}
 
-							</tbody>
+						</tbody>
 
-						</table>
-					</div>
-				</Box>
-			</Sizing>
+					</table>
+				</div>
+			</Box>
 		)
 	}
 

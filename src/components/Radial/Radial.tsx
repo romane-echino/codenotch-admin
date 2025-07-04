@@ -21,12 +21,10 @@ export class Radial extends React.Component<IRadialProps, IRadialState> {
 
 	render() {
 		return (
-			<Sizing {...this.props}>
-				<Box {...this.props}>
-					<span>RadialChart</span>
-					<i className="fa-duotone fa-light fa-heart-crack text-lg"></i>
-				</Box>
-			</Sizing>
+			<Box {...this.props}>
+				<span>RadialChart</span>
+				<i className="fa-duotone fa-light fa-heart-crack text-lg"></i>
+			</Box>
 		)
 	}
 

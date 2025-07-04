@@ -42,6 +42,8 @@ export const DefaultColorPaletteNames = [
     'Asbestos'
 ];
 
+export type ColorPalette = 'Turquoise' | 'Emerald' | 'PeterRiver' | 'Amethyst' | 'WetAsphalt' | 'GreenSea' | 'Nephritis' | 'BelizeHole' | 'Wisteria' | 'MidnightBlue' | 'SunFlower' | 'Carrot' | 'Alizarin' | 'Clouds' | 'Concrete' | 'Orange' | 'Pumpkin' | 'Pomegranate' | 'Silver' | 'Asbestos';
+
 export const DefaultColorPalette = [
     Turquoise,
     Emerald,
@@ -65,6 +67,149 @@ export const DefaultColorPalette = [
     Asbestos
 ];
 
+
+export function getBackgroundColorFromName(name: string) {
+    switch (name) {
+        case 'Turquoise':
+            return 'bg-turquoise';
+        case 'Emerald':
+            return 'bg-emerald';
+        case 'PeterRiver':
+            return 'bg-peter-river';
+        case 'Amethyst':
+            return 'bg-amethyst';
+        case 'WetAsphalt':
+            return 'bg-wet-asphalt';
+        case 'GreenSea':
+            return 'bg-green-sea';
+        case 'Nephritis':
+            return 'bg-nephritis';
+        case 'BelizeHole':
+            return 'bg-belize-hole';
+        case 'Wisteria':
+            return 'bg-wisteria';
+        case 'MidnightBlue':
+            return 'bg-midnight-blue';
+        case 'SunFlower':
+            return 'bg-sun-flower';
+        case 'Carrot':
+            return 'bg-carrot';
+        case 'Alizarin':
+            return 'bg-alizarin';
+        case 'Clouds':
+            return 'bg-clouds';
+        case 'Concrete':
+            return 'bg-concrete';
+        case 'Orange':
+            return 'bg-orange';
+        case 'Pumpkin':
+            return 'bg-pumpkin';
+        case 'Pomegranate':
+            return 'bg-pomegranate';
+        case 'Silver':
+            return 'bg-silver';
+        case 'Asbestos':
+            return 'bg-asbestos';
+        default:
+            return 'bg-gray-200';
+    }
+}
+
+
+export function getTextColorFromName(name: string) {
+    switch (name) {
+        case 'Turquoise':
+            return 'text-turquoise';
+        case 'Emerald':
+            return 'text-emerald';
+        case 'PeterRiver':
+            return 'text-peter-river';
+        case 'Amethyst':
+            return 'text-amethyst';
+        case 'WetAsphalt':
+            return 'text-wet-asphalt';
+        case 'GreenSea':
+            return 'text-green-sea';
+        case 'Nephritis':
+            return 'text-nephritis';
+        case 'BelizeHole':
+            return 'text-belize-hole';
+        case 'Wisteria':
+            return 'text-wisteria';
+        case 'MidnightBlue':
+            return 'text-midnight-blue';
+        case 'SunFlower':
+            return 'text-sun-flower';
+        case 'Carrot':
+            return 'text-carrot';
+        case 'Alizarin':
+            return 'text-alizarin';
+        case 'Clouds':
+            return 'text-clouds';
+        case 'Concrete':
+            return 'text-concrete';
+        case 'Orange':
+            return 'text-orange';
+        case 'Pumpkin':
+            return 'text-pumpkin';
+        case 'Pomegranate':
+            return 'text-pomegranate';
+        case 'Silver':
+            return 'text-silver';
+        case 'Asbestos':
+            return 'text-asbestos';
+        default:
+            return 'text-gray-500';
+    }
+}
+
+
+export function getConstrastColorFromName(name: string) {
+    switch (name) {
+        case 'Turquoise':
+            return 'text-white';
+        case 'Emerald':
+            return 'text-white';
+        case 'PeterRiver':
+            return 'text-white';
+        case 'Amethyst':
+            return 'text-white';
+        case 'WetAsphalt':
+            return 'text-white';
+        case 'GreenSea':
+            return 'text-white';
+        case 'Nephritis':
+            return 'text-white';
+        case 'BelizeHole':
+            return 'text-white';
+        case 'Wisteria':
+            return 'text-white';
+        case 'MidnightBlue':
+            return 'text-white';
+        case 'SunFlower':
+            return 'text-black';
+        case 'Carrot':
+            return 'text-black';
+        case 'Alizarin':
+            return 'text-white';
+        case 'Clouds':
+            return 'text-black';
+        case 'Concrete':
+            return 'text-black';
+        case 'Orange':
+            return 'text-black';
+        case 'Pumpkin':
+            return 'text-white';
+        case 'Pomegranate':
+            return 'text-white';
+        case 'Silver':
+            return 'text-black';
+        case 'Asbestos':
+            return 'text-black';
+        default:
+            return 'text-gray-500';
+    }
+}
 
 export function getColorFromName(name: string) {
     let firstLetter = name.charAt(0).toLowerCase();
