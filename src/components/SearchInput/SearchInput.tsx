@@ -20,6 +20,9 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 	const [data, setData] = React.useState<any[]>([]);
 	const [focus, setFocus] = React.useState(false);
 
+	const [popupPosition, setPopupPosition] = React.useState<'top' | 'bottom'>('bottom');
+    const inputRef = React.useRef<HTMLInputElement>(null);
+
 	function updateSource() {
 		if (!props.Source) return;
 		let data: any[] = getDataFromSource(props.Source);
@@ -29,6 +32,32 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 	React.useEffect(() => {
 		updateSource();
 	}, [props.Source]);
+
+	React.useEffect(() => {
+        const calculatePosition = () => {
+            if (!inputRef.current) return;
+            
+            const rect = inputRef.current.getBoundingClientRect();
+            const inputMiddle = rect.top + rect.height / 2;
+            const windowMiddle = window.innerHeight / 2;
+            
+            // If input is in the lower half of the screen, position popup above
+            setPopupPosition(inputMiddle > windowMiddle ? 'top' : 'bottom');
+        };
+
+        if (focus) {
+            calculatePosition();
+            // Add event listeners when input is focused
+            window.addEventListener('resize', calculatePosition);
+            window.addEventListener('scroll', calculatePosition, true);
+        }
+
+        // Clean up
+        return () => {
+            window.removeEventListener('resize', calculatePosition);
+            window.removeEventListener('scroll', calculatePosition, true);
+        };
+    }, [focus]);
 
 	const filteredData = query === ''
 		? data
@@ -46,6 +75,7 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 
 
 				<Combobox.Input
+				 ref={inputRef}
 					className={`${props.Icon && 'pl-9'} px-4 py-2.5 w-full focus:border-0 focus:outline-hidden placeholder:text-gray-400 dark:placeholder:text-white/30`}
 					displayValue={(item: any) => item ? item[props.DisplayField] : undefined}
 					onChange={(event) => setQuery(event.target.value)}
@@ -58,12 +88,14 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 					placeholder={props.Placeholder || 'Search...'}
 				/>
 
-				<Combobox.Button className="absolute hover:translate-y-1 transition-transform cursor-pointer inset-y-0 right-0 flex items-center pr-4 ">
-					<i className="fa-solid fa-angle-down"></i>
+				<Combobox.Button className="absolute group cursor-pointer inset-y-0 right-0 flex items-center pr-4 ">
+					<i className="fa-solid fa-angle-down group-hover:hover:translate-y-1 transition-transform"></i>
 				</Combobox.Button>
 
 
-				<Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+				<Combobox.Options className={`absolute ${popupPosition === 'top' ? 'bottom-full mb-1' : 'top-full mt-1'} 
+                                max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg 
+                                ring-1 ring-black/5 focus:outline-none sm:text-sm z-50`}>
 					{filteredData.length === 0 && query !== '' ? (
 						<div className="relative cursor-default select-none px-4 py-2 text-gray-700">
 							{props.OnAdd ? (
