@@ -28,6 +28,18 @@
       "displayName": "IconColor",
       "type": "string",
       "enum":["Success", "Warning", "Error", "Info", "Primary"]
+    },
+    {
+      "name": "Align",
+      "displayName": "Align",
+      "type": "string",
+      "enum": ["Left", "Center", "Right"]
+    },
+    {
+      "name": "TextColor",
+      "displayName": "TextColor",
+      "type": "string",
+      "enum": ["Normal", "Inherit"]
     }
   ],
   "snippets": {

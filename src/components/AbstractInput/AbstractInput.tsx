@@ -6,7 +6,7 @@ export interface IAbstractInputProps extends IInputProps {
     Focus: boolean;
 }
 
-interface IAbstractListAction{
+export interface IAbstractListAction{
    value:any, 
    index: number
 }
@@ -15,7 +15,7 @@ export interface IInputProps{
     Title?: string;
     Placeholder?: string;
     Value?: string;
-    OnChange?: Action<string>;
+    OnChange?: Action<any>;
     OnSelect?: Action<IAbstractListAction>;
     Icon?: string;
     Disabled?: boolean;

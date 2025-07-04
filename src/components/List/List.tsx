@@ -3,6 +3,7 @@ import './List.scss';
 import { Sizing } from '../Sizing/Sizing';
 import { Box, IBoxProps } from '../Box/Box';
 import { IPageInheritedProps } from '../Page/Page';
+import { getColumnsFromSource, getDataFromSource } from '../../utils/SourceHandling';
 
 interface IListProps extends IPageInheritedProps, IBoxProps {
 	Source?: any;
@@ -55,86 +56,27 @@ export class List extends React.Component<IListProps, IListState> {
 
 
 	updateSource() {
-		if (!this.props.Source)
-			return;
+		if (!this.props.Source) return;
 
 		let sourceCustomColumns = React.Children.toArray(this.props.children)
 			.map(c => (c as any).props.children.props)
 			.filter(c => c.componentDescription.tag.split(':')[1] === 'ListColumn')
 
-		let columns: IListColumn[] = [];
-		let customColumns: IListColumn[] | undefined = undefined;
 
-		//When custom columns are provided
-		if (sourceCustomColumns.length > 0) {
-			customColumns = sourceCustomColumns.map((col: any) => {
-				return {
-					DisplayName: col.DisplayName || col.Field.charAt(0).toUpperCase() + col.Field.slice(1),
-					Field: col.Field,
-					Output: col.Output !== undefined ? col.Output : true,
-					Visible: col.Visible !== undefined ? col.Visible : true,
-					Renderer: col.Renderer
-				};
-			});
-			// When source is a direct array reference
-		}
-
-		if (Array.isArray(this.props.Source) && this.props.Source.length > 0) {
-			columns = customColumns ?? Object.keys(this.props.Source[0]).map((key) => {
-				return {
-					DisplayName: key.charAt(0).toUpperCase() + key.slice(1),
-					Field: key,
-					Output: true,
-					Visible: true,
-				};
-			});
-
-			this.setState({ columns: columns, data: this.props.Source });
-		}
-		// When source is a query API / SIOQL
-		else if (typeof this.props.Source === 'object' && this.props.Source !== null) {
-			let request = this.props.Source as IDataRequest;
+		let customColumns: IListColumn[] | undefined = sourceCustomColumns.map((col: any) => {
+			return {
+				DisplayName: col.DisplayName || col.Field.charAt(0).toUpperCase() + col.Field.slice(1),
+				Field: col.Field,
+				Output: col.Output !== undefined ? col.Output : true,
+				Visible: col.Visible !== undefined ? col.Visible : true,
+				Renderer: col.Renderer
+			};
+		});
 
 
-			if (request.state === 'success' && request.data) {
-				//For API object data structure
-				if (Array.isArray(request.data)) {
-					columns = customColumns ?? Object.keys(request.data[0]).map((key) => {
-						return {
-							DisplayName: key.charAt(0).toUpperCase() + key.slice(1),
-							Field: key,
-							Output: true,
-							Visible: true,
-						};
-					});
-
-					this.setState({ columns: columns, data: request.data });
-				}
-				//For SIOQL object data structure
-				else if (typeof request.data === 'object' && request.data !== null) {
-					let arrayKey = Object.keys(request.data).find(key => Array.isArray(request.data[key]));
-					console.log('arrayKey', arrayKey, request.data[arrayKey!], Object.keys(request.data[arrayKey!][0]));
-					if (arrayKey) {
-						columns = customColumns ?? Object.keys(request.data[arrayKey][0]).map((key) => {
-							return {
-								DisplayName: key.charAt(0).toUpperCase() + key.slice(1),
-								Field: key,
-								Output: true,
-								Visible: true,
-							};
-						});
-
-						this.setState({ columns: columns, data: request.data[arrayKey] });
-					}
-					else {
-						this.setState({ columns: columns, data: [] });
-						console.warn('No array found in SIOQL data structure', request.data);
-					}
-				}
-			} else {
-				this.setState({ columns: columns, data: [] });
-			}
-		}
+		let columns: IListColumn[] = getColumnsFromSource(this.props.Source, customColumns);
+		let data: any[] = getDataFromSource(this.props.Source);
+		this.setState({ columns: columns, data: data });
 	}
 
 	render() {

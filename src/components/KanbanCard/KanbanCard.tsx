@@ -73,7 +73,7 @@ export const KanbanCard: React.FC<ICardProps> = ({ CardId, ColumnId, Title, Due,
 	return (
 		<div {...attributes} {...listeners}
 			ref={setNodeRef} style={style}
-			className="rounded-xl shadow-sm border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/5">
+			className="rounded-xl select-none cursor-grab shadow-sm border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/5">
 
 			{CardId} / {ColumnId}
 

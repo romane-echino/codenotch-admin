@@ -68,8 +68,6 @@ export class Display extends React.Component<IDisplayProps, IDisplayState> {
 
 		}
 
-		console.log('Display fields', fields);
-
 		this.setState({ fields });
 	}
 

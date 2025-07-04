@@ -4,6 +4,7 @@ import { Box, IBoxProps } from '../Box/Box';
 import { IPageInheritedProps } from '../Page/Page';
 import { Sizing } from '../Sizing/Sizing';
 import { Action, IBindableComponentProps, IChildrenInheritedProps } from '@echino/echino.ui.sdk';
+import { IAbstractListAction } from '../AbstractInput/AbstractInput';
 
 interface IFormProps extends IBoxProps, IPageInheritedProps, IBindableComponentProps, IChildrenInheritedProps<{ Field: string }> {
 	HasLayout?: boolean;
@@ -70,6 +71,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 				...this.props.childrenProps[index],
 				...effectiveProps?.children?.props,
 				OnChange: field ? (value: any) => this.fieldChanged(field, value) : undefined,
+				OnSelect: field ? (value: IAbstractListAction) => this.fieldChanged(field, value.value) : undefined,
 			}
 
 			if (React.isValidElement(child)) {

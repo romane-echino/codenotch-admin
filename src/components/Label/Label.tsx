@@ -10,6 +10,8 @@ interface ILabelProps {
 	IconColor: 'Success' | 'Error' | 'Warning' | 'Info' | 'Primary';
 	Align?: 'Left' | 'Center' | 'Right';
 
+	TextColor:'Normal' | 'Inherit';
+
 }
 
 interface ILabelState {
@@ -17,6 +19,10 @@ interface ILabelState {
 
 export class Label extends React.Component<ILabelProps, ILabelState> {
 
+	static defaultProps: Partial<ILabelProps> = {
+		Align: 'Left',
+		TextColor:'Normal'
+	}
 	constructor(props: ILabelProps) {
 		super(props);
 
@@ -57,12 +63,12 @@ export class Label extends React.Component<ILabelProps, ILabelState> {
 		return (
 			<Sizing {...this.props}>
 				{this.props.Title &&
-					<p className={`${titleClass} mb-1  text-xs text-gray-500 dark:text-gray-400 sm:text-sm`}>
+					<p className={`${titleClass} mb-1  text-xs ${this.props.TextColor === 'Normal'?'text-gray-500 dark:text-gray-400':'opacity-60'} sm:text-sm`}>
 						{this.props.Title}
 					</p>
 				}
 
-				<p className={`flex items-center justify-center gap-1 text-gray-800 dark:text-white/90 ${sizeClass}`}>
+				<p className={`flex items-center justify-center gap-1 ${this.props.TextColor === 'Normal'?'text-gray-800 dark:text-white/90':''} ${sizeClass}`}>
 					{this.props.Value}
 					{this.props.Icon &&
 						<i className={`${this.props.Icon} ${iconColorClass} text-sm`} />

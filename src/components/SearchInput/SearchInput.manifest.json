@@ -1,5 +1,73 @@
 {
   "name": "SearchInput",
-  "menu": "",
-  "props": []
+  "menu": "Input",
+  "bindable": [
+    "value"
+  ],
+  "props": [
+    {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+    {
+      "name": "Placeholder",
+      "displayName": "Placeholder",
+      "type": "string"
+    },
+    {
+      "name": "Value",
+      "displayName": "Value",
+      "type": "string"
+    },
+    {
+      "name": "OnSelect",
+      "displayName": "OnSelect",
+      "type": "action"
+    },
+    {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string"
+    },
+    {
+      "name": "Disabled",
+      "displayName": "Disabled",
+      "type": "boolean"
+    },
+    {
+      "name": "Prefix",
+      "displayName": "Prefix",
+      "type": "reactNode"
+    },
+    {
+      "name": "Suffix",
+      "displayName": "Suffix",
+      "type": "reactNode"
+    },
+    {
+      "name": "Source",
+      "displayName": "Source"
+    },
+    {
+      "name": "DisplayField",
+      "displayName": "DisplayField",
+      "type": "string"
+    },
+    {
+      "name": "ValueField",
+      "displayName": "ValueField",
+      "type": "string"
+    },
+    {
+      "name": "OnAdd",
+      "displayName": "OnAdd",
+      "type": "action"
+    },
+    {
+      "name": "Renderer",
+      "displayName": "Renderer",
+      "type": "renderer"
+    }
+  ]
 }

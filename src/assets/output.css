@@ -402,6 +402,9 @@
   .-ml-5 {
     margin-left: calc(var(--spacing) * -5);
   }
+  .ml-2 {
+    margin-left: calc(var(--spacing) * 2);
+  }
   .block {
     display: block;
   }
@@ -583,6 +586,9 @@
   }
   .cursor-default {
     cursor: default;
+  }
+  .cursor-grab {
+    cursor: grab;
   }
   .cursor-pointer {
     cursor: pointer;
@@ -941,6 +947,9 @@
   }
   .bg-primary-500 {
     background-color: rgb(var(--primary-color-500));
+  }
+  .bg-primary-600 {
+    background-color: rgb(var(--primary-color-600));
   }
   .bg-pumpkin {
     background-color: var(--color-pumpkin);
@@ -1301,8 +1310,14 @@
   .text-pomegranate {
     color: var(--color-pomegranate);
   }
+  .text-primary {
+    color: rgb(var(--primary-color));
+  }
   .text-primary-500 {
     color: rgb(var(--primary-color-500));
+  }
+  .text-primary-600 {
+    color: rgb(var(--primary-color-600));
   }
   .text-pumpkin {
     color: var(--color-pumpkin);
@@ -1355,6 +1370,9 @@
   .opacity-50 {
     opacity: 50%;
   }
+  .opacity-60 {
+    opacity: 60%;
+  }
   .opacity-75 {
     opacity: 75%;
   }
@@ -1405,6 +1423,11 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
+  .transition-transform {
+    transition-property: transform, translate, scale, rotate;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
   .duration-300 {
     --tw-duration: 300ms;
     transition-duration: 300ms;
@@ -1437,6 +1460,14 @@
   .first\:pl-0 {
     &:first-child {
       padding-left: calc(var(--spacing) * 0);
+    }
+  }
+  .hover\:translate-y-1 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-translate-y: calc(var(--spacing) * 1);
+        translate: var(--tw-translate-x) var(--tw-translate-y);
+      }
     }
   }
   .hover\:bg-error-600 {
@@ -1499,6 +1530,13 @@
     &:hover {
       @media (hover: hover) {
         color: var(--color-gray-800);
+      }
+    }
+  }
+  .hover\:underline {
+    &:hover {
+      @media (hover: hover) {
+        text-decoration-line: underline;
       }
     }
   }
