@@ -1,0 +1,25 @@
+{
+  "name": "Inspect",
+  "menu": "",
+  "props": [
+    {
+      "name":"Source",
+      "description": "Source"
+    },
+    {
+      "name":"Expand",
+      "description": "Expand",
+      "type": "boolean"
+    },
+    {
+      "name":"Depth",
+      "description": "Depth",
+      "type": "number"
+    },
+    {
+      "name":"MaxDepth",
+      "description": "MaxDepth",
+      "type": "number"
+    }
+  ]
+}
