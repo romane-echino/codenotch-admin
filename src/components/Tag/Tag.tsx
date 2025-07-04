@@ -21,6 +21,10 @@ export class Tag extends React.Component<ITagProps, ITagState> {
 	}
 
 	render() {
+		if (!this.props.Label && !this.props.Icon) {
+			return null;
+		}
+		
 		return (
 			<span className={`inline-flex items-center justify-center gap-1 rounded-full py-0.5 pl-2 
 			pr-2.5 text-sm font-medium

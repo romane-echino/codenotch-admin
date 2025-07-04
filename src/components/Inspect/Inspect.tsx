@@ -136,7 +136,7 @@ export const Inspect: React.FC<InspectProps> = ({
   const isPrimitive = ['string', 'number', 'boolean', 'null', 'undefined', 'function', 'symbol', 'bigint'].includes(type);
   
   return (
-    <div className={`rounded-lg bg-white dark:bg-gray-900 px-2 py-1  shadow-sm  overflow-x-auto`}> 
+    <div className={`rounded-lg bg-white dark:bg-gray-900 px-2 py-1 overflow-x-auto`}> 
         {isPrimitive ? renderPrimitive(source, type) : renderComplex(source, type)}
     </div>
   );
