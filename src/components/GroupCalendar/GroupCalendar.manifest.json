@@ -1,5 +1,15 @@
 {
   "name": "Group calendar",
   "menu": "",
-  "props": []
+  "props": [
+    {
+      "name": "GroupBy",
+      "displayName": "GroupBy",
+      "type": "string"
+    },
+    {
+      "name": "Source",
+      "displayName": "Source"
+    }
+  ]
 }

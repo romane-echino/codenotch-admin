@@ -4,10 +4,16 @@ import { IPageInheritedProps } from '../Page/Page';
 import { Box, IBoxProps } from '../Box/Box';
 import dayjs from 'dayjs';
 import { getColorFromName } from '../../utils/DefaultColorPalette';
+import { ToggleButton } from '../ToggleButton/ToggleButton';
 
 interface IGroupCalendarProps extends IPageInheritedProps, IBoxProps {
 	GroupBy: string;
 	Source: any;
+
+	StartField:string;
+	EndField:string;
+	TypeField:string;
+	IdField:string;
 }
 
 
@@ -15,15 +21,15 @@ const testData = [
 	{
 		"Id": "1",
 		"ResourceName": "Romane Donnet",
-		"Start": "2025-03-04T09:00:00",
-		"End": "2025-03-10T17:00:00",
+		"Start": "2025-01-14T09:00:00",
+		"End": "2025-01-21T17:00:00",
 		"Type": "Work"
 	},
 	{
 		"Id": "2",
 		"ResourceName": "Alice Smith",
-		"Start": "2025-07-02T10:00:00",
-		"End": "2025-07-03T12:00:00",
+		"Start": "2025-01-03T10:00:00",
+		"End": "2025-01-05T12:00:00",
 		"Type": "Meeting"
 	},
 	{
@@ -90,6 +96,18 @@ export const GroupCalendar: React.FC<IGroupCalendarProps> = (props) => {
 		updateSource(testData, 'ResourceName');
 	}, [props.Source]);
 
+	const getBusinessDatesCount = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) => {
+		var count = 0;
+		var curDate = dayjs(startDate);
+		while (curDate <= endDate) {
+			var dayOfWeek = curDate.weekday();
+			var isWeekend = (dayOfWeek == 6) || (dayOfWeek == 0);
+			if (!isWeekend)
+				count++;
+			curDate = curDate.add(1, 'day');
+		}
+		return count;
+	}
 	const updateSource = (source: any, groupBy: string) => {
 		if (!source) return;
 
@@ -113,14 +131,24 @@ export const GroupCalendar: React.FC<IGroupCalendarProps> = (props) => {
 			rows[item[groupBy]] = 0;
 			typeNames[item[groupBy]] = 0;
 
-			let x = dayjs(item.Start).diff(dayjs().startOf('year'), 'day') * (width + 1);
-			console.log("item", item, x);
+			let monthdiff = dayjs(item.Start).diff(dayjs().startOf('year'), 'month');
+
+			let daydiff = getBusinessDatesCount(dayjs().startOf('year'), dayjs(item.Start)) - 1;
+			let durationdiff = getBusinessDatesCount(dayjs(item.Start), dayjs(item.End));
+			let duration = parseFloat((durationdiff).toFixed(1));
+			console.log("item",item.Id,monthdiff, daydiff, durationdiff , duration , item.Start);
+			let x = (dayjs(item.Start).weekday() === 0 || dayjs(item.Start).weekday() === 6) ? width * (daydiff + 1) : width * daydiff;
+			//console.log("item", x);
+			x += monthdiff*2;
+			//console.log("item", x);
+			//x += daydiff;
+			//console.log("item", x);
 			data.push({
 				id: item.Id,
 				x: x,
 				y: Object.keys(rows).indexOf(item[groupBy]) * height,
-				width: dayjs(item.Start).diff(item.End, 'day', true) * width,
-				color: getColorFromName(item.Type.toLowerCase())
+				width: duration * width,
+				color: getColorFromName(item.Type.toLowerCase(), true)
 			});
 		});
 
@@ -139,7 +167,9 @@ export const GroupCalendar: React.FC<IGroupCalendarProps> = (props) => {
 
 	return (
 		<Box {...props}>
-			<div>Day Weeks Month</div>
+			<div className='flex items-center justify-end mb-2'>
+				<ToggleButton onPropertyChanged={(v,o,n) => {}} Source={['Days', 'Weeks', 'Months']} />
+			</div>
 			<div className="max-w-full ">
 				<div className="min-w-full grid grid-cols-[auto_1fr]">
 					<div className='pt-[60px] divide-gray-100 dark:divide-gray-800 divide-y' >
@@ -165,9 +195,8 @@ export const GroupCalendar: React.FC<IGroupCalendarProps> = (props) => {
 											<div
 												id={day.format('YYYY-MM-DD')}
 												key={dayIndex}
-												className={`border-r 
-													${day.weekday() === 5 ? 'border-gray-200 dark:border-gray-700' : 'border-gray-100 dark:border-gray-800'} 
-													last:border-0`}
+												className={`border-r last:border-0
+													${day.weekday() === 5 ? 'border-gray-200 dark:border-gray-700' : 'border-gray-100 dark:border-gray-800'} `}
 												style={{ width: `${width}px` }}>
 
 												<div className={`${day.isSame(dayjs(), 'day') ? 'bg-primary-500 text-white' : ' text-gray-500 dark:text-gray-400'} 
@@ -177,8 +206,6 @@ export const GroupCalendar: React.FC<IGroupCalendarProps> = (props) => {
 												</div>
 											</div>
 										))}
-
-
 									</div>
 								</div>
 							))}
@@ -190,10 +217,9 @@ export const GroupCalendar: React.FC<IGroupCalendarProps> = (props) => {
 										height: `${height}px`,
 										width: `${block.width}px`,
 										left: `${block.x}px`,
-										top: `${(block.y + 60)}px`,
-										backgroundColor: block.color
+										top: `${(block.y + 60)}px`
 									}}
-									className={`absolute rounded-lg border border-alizarin`}>
+									className={`absolute ${block.color} rounded-lg flex items-center justify-center`}>
 
 									{block.id}
 

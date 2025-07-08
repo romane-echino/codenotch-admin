@@ -1,5 +1,22 @@
 {
   "name": "Toggle button",
   "menu": "",
-  "props": []
+  "bindable": [
+    "value"
+  ],
+  "props": [
+    {
+      "name": "Source",
+      "displayName": "Source",
+      "type": "array"
+    },
+    {
+      "name": "OnChange",
+      "displayName": "OnChange",
+      "type": "action"
+    }
+  ],
+  "snippets": {
+    "scenar.io": "<ToggleButton Source=\"${1}\" />"
+  }
 }

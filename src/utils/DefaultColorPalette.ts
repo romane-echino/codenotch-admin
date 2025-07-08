@@ -42,7 +42,7 @@ export const DefaultColorPaletteNames = [
     'Asbestos'
 ];
 
-export type ColorPalette = 'Turquoise' | 'Emerald' | 'PeterRiver' | 'Amethyst' | 'WetAsphalt' | 'GreenSea' | 'Nephritis' | 'BelizeHole' | 'Wisteria' | 'MidnightBlue' | 'SunFlower' | 'Carrot' | 'Alizarin' | 'Clouds' | 'Concrete' | 'Orange' | 'Pumpkin' | 'Pomegranate' | 'Silver' | 'Asbestos';
+export type ColorPalette = 'Turquoise' | 'Emerald' | 'PeterRiver' | 'Amethyst' | 'WetAsphalt' | 'GreenSea' | 'Nephritis' | 'BelizeHole' | 'Wisteria' | 'MidnightBlue' | 'SunFlower' | 'Carrot' | 'Alizarin' | 'Clouds' | 'Concrete' | 'Orange' | 'Pumpkin' | 'Pomegranate' | 'Silver' | 'Asbestos' | 'Gray';
 
 export const DefaultColorPalette = [
     Turquoise,
@@ -68,7 +68,7 @@ export const DefaultColorPalette = [
 ];
 
 
-export function getBackgroundColorFromName(name: string) {
+export function getBackgroundColorFromName(name: ColorPalette) {
     switch (name) {
         case 'Turquoise':
             return 'bg-turquoise';
@@ -116,7 +116,7 @@ export function getBackgroundColorFromName(name: string) {
 }
 
 
-export function getTextColorFromName(name: string) {
+export function getTextColorFromName(name: ColorPalette) {
     switch (name) {
         case 'Turquoise':
             return 'text-turquoise';
@@ -164,7 +164,7 @@ export function getTextColorFromName(name: string) {
 }
 
 
-export function getConstrastColorFromName(name: string) {
+export function getConstrastColorFromName(name: ColorPalette): string {
     switch (name) {
         case 'Turquoise':
             return 'text-white';
@@ -211,63 +211,63 @@ export function getConstrastColorFromName(name: string) {
     }
 }
 
-export function getColorFromName(name: string) {
+export function getColorFromName(name: string, opaque: boolean = false): string {
     let firstLetter = name.charAt(0).toLowerCase();
 
     switch (firstLetter) {
         case 'a':
-            return 'text-turquoise bg-turquoise/10';
+            return opaque ? `${getConstrastColorFromName('Turquoise')} ${getBackgroundColorFromName('Turquoise')}`:`${getTextColorFromName('Turquoise')} ${getBackgroundColorFromName('Turquoise')}/10`;
         case 'b':
-            return 'text-emerald bg-emerald/10';
+            return opaque ? `${getConstrastColorFromName('Emerald')} ${getBackgroundColorFromName('Emerald')}`:`${getTextColorFromName('Emerald')} ${getBackgroundColorFromName('Emerald')}/10`;
         case 'c':
-            return 'text-peter-river bg-peter-river/10';
+            return opaque ? `${getConstrastColorFromName('PeterRiver')} ${getBackgroundColorFromName('PeterRiver')}`:`${getTextColorFromName('PeterRiver')} ${getBackgroundColorFromName('PeterRiver')}/10`;
         case 'd':
-            return 'text-amethyst bg-amethyst/10';
+            return opaque ? `${getConstrastColorFromName('Amethyst')} ${getBackgroundColorFromName('Amethyst')}`:`${getTextColorFromName('Amethyst')} ${getBackgroundColorFromName('Amethyst')}/10`;
         case 'e':
-            return 'text-wet-asphalt bg-wet-asphalt/10';
+            return opaque ? `${getConstrastColorFromName('WetAsphalt')} ${getBackgroundColorFromName('WetAsphalt')}`:`${getTextColorFromName('WetAsphalt')} ${getBackgroundColorFromName('WetAsphalt')}/10`;
         case 'f':
-            return 'text-green-sea bg-green-sea/10';
+            return opaque ? `${getConstrastColorFromName('GreenSea')} ${getBackgroundColorFromName('GreenSea')}`:`${getTextColorFromName('GreenSea')} ${getBackgroundColorFromName('GreenSea')}/10`;
         case 'g':
-            return 'text-nephritis bg-nephritis/10';
+            return opaque ? `${getConstrastColorFromName('Nephritis')} ${getBackgroundColorFromName('Nephritis')}`:`${getTextColorFromName('Nephritis')} ${getBackgroundColorFromName('Nephritis')}/10`;
         case 'h':
-            return 'text-belize-hole bg-belize-hole/10';
+            return opaque ? `${getConstrastColorFromName('BelizeHole')} ${getBackgroundColorFromName('BelizeHole')}`:`${getTextColorFromName('BelizeHole')} ${getBackgroundColorFromName('BelizeHole')}/10`;
         case 'i':
-            return 'text-wisteria bg-wisteria/10';
+            return opaque ? `${getConstrastColorFromName('Wisteria')} ${getBackgroundColorFromName('Wisteria')}`:`${getTextColorFromName('Wisteria')} ${getBackgroundColorFromName('Wisteria')}/10`;
         case 'j':
-            return 'text-midnight-blue bg-midnight-blue/10';
+            return opaque ? `${getConstrastColorFromName('MidnightBlue')} ${getBackgroundColorFromName('MidnightBlue')}`:`${getTextColorFromName('MidnightBlue')} ${getBackgroundColorFromName('MidnightBlue')}/10`;
         case 'k':
-            return 'text-sun-flower bg-sun-flower/10';
+            return opaque ? `${getConstrastColorFromName('SunFlower')} ${getBackgroundColorFromName('SunFlower')}`:`${getTextColorFromName('SunFlower')} ${getBackgroundColorFromName('SunFlower')}/10`;
         case 'l':
-            return 'text-carrot bg-carrot/10';
+            return opaque ? `${getConstrastColorFromName('Carrot')} ${getBackgroundColorFromName('Carrot')}`:`${getTextColorFromName('Carrot')} ${getBackgroundColorFromName('Carrot')}/10`;
         case 'm':
-            return 'text-alizarin bg-alizarin/10';
+            return opaque ? `${getConstrastColorFromName('Alizarin')} ${getBackgroundColorFromName('Alizarin')}`:`${getTextColorFromName('Alizarin')} ${getBackgroundColorFromName('Alizarin')}/10`;
         case 'n':
-            return 'text-gray-500 bg-clouds/10';
+            return opaque ? `${getConstrastColorFromName('Clouds')} ${getBackgroundColorFromName('Clouds')}`:`${getTextColorFromName('Clouds')} ${getBackgroundColorFromName('Clouds')}/10`;
         case 'o':
-            return 'text-gray-500 bg-silver/10';
+            return opaque ? `${getConstrastColorFromName('Silver')} ${getBackgroundColorFromName('Silver')}`:`${getTextColorFromName('Silver')} ${getBackgroundColorFromName('Silver')}/10`;
         case 'p':
-            return 'text-gray-500 bg-concrete/10';
+            return opaque ? `${getConstrastColorFromName('Concrete')} ${getBackgroundColorFromName('Concrete')}`:`${getTextColorFromName('Concrete')} ${getBackgroundColorFromName('Concrete')}/10`;
         case 'q':
-            return 'text-pumpkin bg-pumpkin/10';
+            return opaque ? `${getConstrastColorFromName('Pumpkin')} ${getBackgroundColorFromName('Pumpkin')}`:`${getTextColorFromName('Pumpkin')} ${getBackgroundColorFromName('Pumpkin')}/10`;
         case 'r':
-            return 'text-pomegranate bg-pomegranate/10';
+            return opaque ? `${getConstrastColorFromName('Pomegranate')} ${getBackgroundColorFromName('Pomegranate')}`:`${getTextColorFromName('Pomegranate')} ${getBackgroundColorFromName('Pomegranate')}/10`;
         case 's':
-            return 'text-asbestos bg-asbestos/10';
+            return opaque ? `${getConstrastColorFromName('Asbestos')} ${getBackgroundColorFromName('Asbestos')}`:`${getTextColorFromName('Asbestos')} ${getBackgroundColorFromName('Asbestos')}/10`;
         case 't':
-            return 'text-turquoise bg-turquoise/10';
+            return opaque ? `${getConstrastColorFromName('Turquoise')} ${getBackgroundColorFromName('Turquoise')}`:`${getTextColorFromName('Turquoise')} ${getBackgroundColorFromName('Turquoise')}/10`;
         case 'u':
-            return 'text-emerald bg-emerald/10';
+            return opaque ? `${getConstrastColorFromName('Emerald')} ${getBackgroundColorFromName('Emerald')}`:`${getTextColorFromName('Emerald')} ${getBackgroundColorFromName('Emerald')}/10`;
         case 'v':
-            return 'text-peter-river bg-peter-river/10';
+            return opaque ? `${getConstrastColorFromName('PeterRiver')} ${getBackgroundColorFromName('PeterRiver')}`:`${getTextColorFromName('PeterRiver')} ${getBackgroundColorFromName('PeterRiver')}/10`;
         case 'w':
-            return 'text-amethyst bg-amethyst/10';
+            return opaque ? `${getConstrastColorFromName('Amethyst')} ${getBackgroundColorFromName('Amethyst')}`:`${getTextColorFromName('Amethyst')} ${getBackgroundColorFromName('Amethyst')}/10`;
         case 'x':
-            return 'text-wet-asphalt bg-wet-asphalt/10';
+            return opaque ? `${getConstrastColorFromName('WetAsphalt')} ${getBackgroundColorFromName('WetAsphalt')}`:`${getTextColorFromName('WetAsphalt')} ${getBackgroundColorFromName('WetAsphalt')}/10`;
         case 'y':
-            return 'text-green-sea bg-green-sea/10';
+            return opaque ? `${getConstrastColorFromName('GreenSea')} ${getBackgroundColorFromName('GreenSea')}`:`${getTextColorFromName('GreenSea')} ${getBackgroundColorFromName('GreenSea')}/10`;
         case 'z':
-            return 'text-nephritis bg-nephritis/10';
+            return opaque ? `${getConstrastColorFromName('Nephritis')} ${getBackgroundColorFromName('Nephritis')}`:`${getTextColorFromName('Nephritis')} ${getBackgroundColorFromName('Nephritis')}/10`;
         default:
-            return 'text-gray-500 bg-gray-200/10';
+            return opaque ? `${getConstrastColorFromName('Gray')} ${getBackgroundColorFromName('Gray')}`:`${getTextColorFromName('Gray')} ${getBackgroundColorFromName('Gray')}/10`;
     }
 }
