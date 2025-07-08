@@ -59,22 +59,24 @@ export function getArrayKey(source: any): string | undefined {
     return Object.keys(source.data).find(key => Array.isArray(source.data[key]));
 }
 
-export function getColumnsFromSource(source: any, customColumns:any[]): any[] {
-    if (customColumns && customColumns.length > 0) {
-        return customColumns;
-    }
-    
+export function getColumnsFromSource(source: any): any[] {
     if (source === null || source === undefined) {
         return [];
     }
 
     switch (getSourceType(source)) {
         case SourceType.Array:
-            return Object.keys(source[0]);
+            return Object.keys(source[0])
+                .filter(key => typeof source[0][key] !== 'object'
+                    && typeof source[0][key] !== 'function'
+                    && !Array.isArray(source[0][key]));
         case SourceType.Unknown:
             return [];
         case SourceType.API:
             return Object.keys(source.data[0])
+                .filter(key => typeof source.data[0][key] !== 'object'
+                    && typeof source.data[0][key] !== 'function'
+                    && !Array.isArray(source.data[0][key]));
         case SourceType.SIOQL:
             let arrayKey = getArrayKey(source);
             if (arrayKey && source.data[arrayKey].length > 0) {

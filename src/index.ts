@@ -10,6 +10,8 @@ for (let i = links.length - 1; i >= 0; i--) {
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import weekday from 'dayjs/plugin/weekday'
+
 import 'dayjs/locale/fr'
 import 'dayjs/locale/en'
 import 'dayjs/locale/de'
@@ -17,7 +19,8 @@ import 'dayjs/locale/it'
 import 'dayjs/locale/es'
 
 dayjs.extend(duration);
-dayjs.extend(relativeTime)
+dayjs.extend(relativeTime);
+dayjs.extend(weekday);
 
 export * from './components/KPI/KPI'
 export * from './components/Barchart/Barchart'
@@ -53,3 +56,4 @@ export * from './components/KanbanCard/KanbanCard'
 export * from './components/KanbanColumn/KanbanColumn'
 export * from './components/Tag/Tag'
 export * from './components/Inspect/Inspect'
+export * from './components/GroupCalendar/GroupCalendar'
