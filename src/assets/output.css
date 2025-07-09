@@ -824,9 +824,6 @@
     border-left-style: var(--tw-border-style);
     border-left-width: 1px;
   }
-  .border-alizarin {
-    border-color: var(--color-alizarin);
-  }
   .border-gray-100 {
     border-color: var(--color-gray-100);
   }
@@ -845,41 +842,17 @@
   .bg-alizarin {
     background-color: var(--color-alizarin);
   }
-  .bg-alizarin\/10 {
-    background-color: color-mix(in srgb, #e74c3c 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-alizarin) 10%, transparent);
-    }
-  }
   .bg-amber-100 {
     background-color: var(--color-amber-100);
   }
   .bg-amethyst {
     background-color: var(--color-amethyst);
   }
-  .bg-amethyst\/10 {
-    background-color: color-mix(in srgb, #9b59b6 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-amethyst) 10%, transparent);
-    }
-  }
   .bg-asbestos {
     background-color: var(--color-asbestos);
   }
-  .bg-asbestos\/10 {
-    background-color: color-mix(in srgb, #7f8c8d 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-asbestos) 10%, transparent);
-    }
-  }
   .bg-belize-hole {
     background-color: var(--color-belize-hole);
-  }
-  .bg-belize-hole\/10 {
-    background-color: color-mix(in srgb, #2980b9 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-belize-hole) 10%, transparent);
-    }
   }
   .bg-blue-100 {
     background-color: var(--color-blue-100);
@@ -887,41 +860,17 @@
   .bg-carrot {
     background-color: var(--color-carrot);
   }
-  .bg-carrot\/10 {
-    background-color: color-mix(in srgb, #e67e22 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-carrot) 10%, transparent);
-    }
-  }
   .bg-clouds {
     background-color: var(--color-clouds);
   }
-  .bg-clouds\/10 {
-    background-color: color-mix(in srgb, #ecf0f1 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-clouds) 10%, transparent);
-    }
-  }
   .bg-concrete {
     background-color: var(--color-concrete);
-  }
-  .bg-concrete\/10 {
-    background-color: color-mix(in srgb, #95a5a6 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-concrete) 10%, transparent);
-    }
   }
   .bg-emerald {
     background-color: var(--color-emerald);
   }
   .bg-emerald-100 {
     background-color: var(--color-emerald-100);
-  }
-  .bg-emerald\/10 {
-    background-color: color-mix(in srgb, #2ecc71 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-emerald) 10%, transparent);
-    }
   }
   .bg-error-500 {
     background-color: var(--color-error-500);
@@ -934,12 +883,6 @@
   }
   .bg-gray-200 {
     background-color: var(--color-gray-200);
-  }
-  .bg-gray-200\/10 {
-    background-color: color-mix(in srgb, oklch(92.8% 0.006 264.531) 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-gray-200) 10%, transparent);
-    }
   }
   .bg-gray-400 {
     background-color: var(--color-gray-400);
@@ -959,12 +902,6 @@
   .bg-green-sea {
     background-color: var(--color-green-sea);
   }
-  .bg-green-sea\/10 {
-    background-color: color-mix(in srgb, #16a085 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-green-sea) 10%, transparent);
-    }
-  }
   .bg-indigo-100 {
     background-color: var(--color-indigo-100);
   }
@@ -974,20 +911,8 @@
   .bg-midnight-blue {
     background-color: var(--color-midnight-blue);
   }
-  .bg-midnight-blue\/10 {
-    background-color: color-mix(in srgb, #2c3e50 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-midnight-blue) 10%, transparent);
-    }
-  }
   .bg-nephritis {
     background-color: var(--color-nephritis);
-  }
-  .bg-nephritis\/10 {
-    background-color: color-mix(in srgb, #27ae60 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-nephritis) 10%, transparent);
-    }
   }
   .bg-orange {
     background-color: var(--color-orange);
@@ -1004,23 +929,11 @@
   .bg-peter-river {
     background-color: var(--color-peter-river);
   }
-  .bg-peter-river\/10 {
-    background-color: color-mix(in srgb, #3498db 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-peter-river) 10%, transparent);
-    }
-  }
   .bg-pink-100 {
     background-color: var(--color-pink-100);
   }
   .bg-pomegranate {
     background-color: var(--color-pomegranate);
-  }
-  .bg-pomegranate\/10 {
-    background-color: color-mix(in srgb, #c0392b 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-pomegranate) 10%, transparent);
-    }
   }
   .bg-primary-500 {
     background-color: rgb(var(--primary-color-500));
@@ -1031,23 +944,11 @@
   .bg-pumpkin {
     background-color: var(--color-pumpkin);
   }
-  .bg-pumpkin\/10 {
-    background-color: color-mix(in srgb, #d35400 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-pumpkin) 10%, transparent);
-    }
-  }
   .bg-purple-100 {
     background-color: var(--color-purple-100);
   }
   .bg-silver {
     background-color: var(--color-silver);
-  }
-  .bg-silver\/10 {
-    background-color: color-mix(in srgb, #bdc3c7 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-silver) 10%, transparent);
-    }
   }
   .bg-success-50 {
     background-color: var(--color-success-50);
@@ -1061,12 +962,6 @@
   .bg-turquoise {
     background-color: var(--color-turquoise);
   }
-  .bg-turquoise\/10 {
-    background-color: color-mix(in srgb, #1abc9c 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-turquoise) 10%, transparent);
-    }
-  }
   .bg-warning-50 {
     background-color: var(--color-warning-50);
   }
@@ -1076,23 +971,11 @@
   .bg-wet-asphalt {
     background-color: var(--color-wet-asphalt);
   }
-  .bg-wet-asphalt\/10 {
-    background-color: color-mix(in srgb, #34495e 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-wet-asphalt) 10%, transparent);
-    }
-  }
   .bg-white {
     background-color: var(--color-white);
   }
   .bg-wisteria {
     background-color: var(--color-wisteria);
-  }
-  .bg-wisteria\/10 {
-    background-color: color-mix(in srgb, #8e44ad 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-wisteria) 10%, transparent);
-    }
   }
   .bg-none {
     background-image: none;

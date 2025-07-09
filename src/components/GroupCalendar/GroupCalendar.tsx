@@ -5,6 +5,7 @@ import { Box, IBoxProps } from '../Box/Box';
 import dayjs from 'dayjs';
 import { getColorFromName } from '../../utils/DefaultColorPalette';
 import { ToggleButton } from '../ToggleButton/ToggleButton';
+import { Md5 } from 'ts-md5';
 
 interface IGroupCalendarProps extends IPageInheritedProps, IBoxProps {
 	GroupBy: string;
@@ -14,62 +15,120 @@ interface IGroupCalendarProps extends IPageInheritedProps, IBoxProps {
 	EndField:string;
 	TypeField:string;
 	IdField:string;
+	
+	RowRenderer?: (as: string, data: any) => React.ReactNode;
 }
 
 
 const testData = [
 	{
 		"Id": "1",
-		"ResourceName": "Romane Donnet",
+		"User":{
+			"Id": "1",
+			"Firstname": "Romane",
+			"Lastname": "Donnet",
+			"Avatar": "https://randomuser.me/api/portraits/women/1.jpg",
+			"Email": "romane.donnet@example.com",
+			"Team": "Development",
+		},
 		"Start": "2025-01-14T09:00:00",
 		"End": "2025-01-21T17:00:00",
 		"Type": "Work"
 	},
 	{
 		"Id": "2",
-		"ResourceName": "Alice Smith",
+		"User": {
+			"Id": "2",
+			"Firstname": "Alice",
+			"Lastname": "Smith",
+			"Avatar": "https://randomuser.me/api/portraits/women/2.jpg",
+			"Email": "alice.smith@example.com",
+			"Team": "Design"
+		},
 		"Start": "2025-01-03T10:00:00",
 		"End": "2025-01-05T12:00:00",
 		"Type": "Meeting"
 	},
 	{
 		"Id": "3",
-		"ResourceName": "Bob Johnson",
+		"User": {
+			"Id": "3",
+			"Firstname": "Bob",
+			"Lastname": "Johnson",
+			"Avatar": "https://randomuser.me/api/portraits/men/3.jpg",
+			"Email": "bob.johnson@example.com",
+			"Team": "Development"
+		},
 		"Start": "2025-07-03T13:00:00",
 		"End": "2025-07-06T15:00:00",
 		"Type": "Work"
 	},
 	{
 		"Id": "4",
-		"ResourceName": "Charlie Brown",
+		"User": {
+			"Id": "4",
+			"Firstname": "Charlie",
+			"Lastname": "Brown",
+			"Avatar": "https://randomuser.me/api/portraits/men/4.jpg",
+			"Email": "charlie.brown@example.com",
+			"Team": "Development"
+		},
 		"Start": "2025-07-04T08:00:00",
 		"End": "2025-07-08T10:00:00",
 		"Type": "Break"
 	},
 	{
 		"Id": "5",
-		"ResourceName": "Diana Prince",
+		"User": {
+			"Id": "5",
+			"Firstname": "Diana",
+			"Lastname": "Prince",
+			"Avatar": "https://randomuser.me/api/portraits/women/5.jpg",
+			"Email": "diana.prince@example.com",
+			"Team": "Justice League"
+		},
 		"Start": "2025-10-05T11:00:00",
 		"End": "2025-10-10T14:00:00",
 		"Type": "Work"
 	},
 	{
 		"Id": "6",
-		"ResourceName": "Romane Donnet",
+		"User": {
+			"Id": "1",
+			"Firstname": "Romane",
+			"Lastname": "Donnet",
+			"Avatar": "https://randomuser.me/api/portraits/women/1.jpg",
+			"Email": "romane.donnet@example.com",
+			"Team": "Development",
+		},
 		"Start": "2025-10-06T09:30:00",
 		"End": "2025-10-12T11:30:00",
 		"Type": "Meeting"
 	},
 	{
 		"Id": "7",
-		"ResourceName": "Fiona Gallagher",
+		"User": {
+			"Id": "7",
+			"Firstname": "Fiona",
+			"Lastname": "Gallagher",
+			"Avatar": "https://randomuser.me/api/portraits/women/7.jpg",
+			"Email": "fiona.gallagher@example.com",
+			"Team": "Development"
+		},
 		"Start": "2025-10-07T12:00:00",
 		"End": "2025-10-20T16:00:00",
 		"Type": "Work"
 	},
 	{
 		"Id": "8",
-		"ResourceName": "George Costanza",
+		"User": {
+			"Id": "8",
+			"Firstname": "George",
+			"Lastname": "Costanza",
+			"Avatar": "https://randomuser.me/api/portraits/men/8.jpg",
+			"Email": "george.costanza@example.com",
+			"Team": "Development"
+		},
 		"Start": "2025-10-08T14:00:00",
 		"End": "2025-10-12T15:30:00",
 		"Type": "Break"
@@ -86,14 +145,14 @@ interface GroupCalendarBlock {
 
 export const GroupCalendar: React.FC<IGroupCalendarProps> = (props) => {
 	const [columns, setColumns] = React.useState<{ [month: string]: dayjs.Dayjs[]; }>({});
-	const [rows, setRows] = React.useState<string[]>([]);
+	const [rows, setRows] = React.useState<any[]>([]);
 	const [data, setData] = React.useState<GroupCalendarBlock[]>([]);
 
 	const height = 48;
 	const width = 24;
 
 	React.useEffect(() => {
-		updateSource(testData, 'ResourceName');
+		updateSource(testData, props.GroupBy);
 	}, [props.Source]);
 
 	const getBusinessDatesCount = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) => {
@@ -128,8 +187,11 @@ export const GroupCalendar: React.FC<IGroupCalendarProps> = (props) => {
 		}
 
 		source.forEach((item: any) => {
-			rows[item[groupBy]] = 0;
-			typeNames[item[groupBy]] = 0;
+			console.log('group', JSON.stringify(item[groupBy]))
+			let groupHash = Md5.hashStr(JSON.stringify(item[groupBy])).toString();
+			
+			rows[groupHash] = item[groupBy];
+			//typeNames[item[groupBy]] = 0;
 
 			let monthdiff = dayjs(item.Start).diff(dayjs().startOf('year'), 'month');
 
@@ -152,7 +214,8 @@ export const GroupCalendar: React.FC<IGroupCalendarProps> = (props) => {
 			});
 		});
 
-		setRows(Object.keys(rows));
+		console.log("rows", Object.values(rows));
+		setRows(Object.values(rows));
 		setColumns(columns);
 		setData(data);
 
@@ -176,7 +239,7 @@ export const GroupCalendar: React.FC<IGroupCalendarProps> = (props) => {
 						{rows.map((row, index) => (
 							<div key={index} style={{ height: `${height}px` }} className="pr-6 flex items-center whitespace-nowrap">
 								<p className="text-gray-500 text-theme-xs dark:text-gray-400">
-									{row}
+									{props.RowRenderer ? props.RowRenderer('row', row) : `#${index+1}`}
 								</p>
 							</div>
 						))}

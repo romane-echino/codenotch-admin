@@ -10,6 +10,11 @@
     {
       "name": "Source",
       "displayName": "Source"
+    },
+    {
+      "name": "RowRenderer",
+      "displayName": "RowRenderer",
+      "type": "renderer"
     }
   ]
 }
