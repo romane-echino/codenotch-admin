@@ -1,20 +1,17 @@
 import React from 'react';
-import './TextInput.scss';
-import { Action, IBindableComponentProps, IUserInfoProps } from '@echino/echino.ui.sdk';
-import { Sizing } from '../Sizing/Sizing';
-import { IPageInheritedProps } from '../Page/Page';
+import './ColorInput.scss';
 import { AbstractInput, IInputProps } from '../AbstractInput/AbstractInput';
+import { IBindableComponentProps } from '@echino/echino.ui.sdk';
+import { IPageInheritedProps } from '../Page/Page';
 
-interface ITextInputProps extends IInputProps, IBindableComponentProps, IPageInheritedProps, IUserInfoProps {
-
-	EditMode:(item:any) => boolean
+interface IColorInputProps extends IInputProps, IBindableComponentProps, IPageInheritedProps {
 }
 
-export const TextInput: React.FC<ITextInputProps> = (props) => {
+
+export const ColorInput: React.FC<IColorInputProps> = (props) => {
 
 	const inputRef = React.useRef<HTMLInputElement>(null);
 	const [focused, setFocused] = React.useState(false);
-
 
 	React.useEffect(() => {
 		// Handle any side effects or updates based on props or state changes
