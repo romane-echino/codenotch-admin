@@ -1,5 +1,42 @@
 {
   "name": "Color input",
-  "menu": "",
-  "props": []
+  "menu": "Input",
+  "bindable": [
+    "value"
+  ],
+  "props": [
+     {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+    {
+      "name": "Placeholder",
+      "displayName": "Placeholder",
+      "type": "string"
+    },
+    {
+      "name": "Value",
+      "displayName": "Value",
+      "type": "string"
+    },
+    {
+      "name": "OnChange",
+      "displayName": "OnChange",
+      "type": "action"
+    },
+    {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string"
+    },
+    {
+      "name": "Disabled",
+      "displayName": "Disabled",
+      "type": "boolean"
+    }
+  ],
+  "snippets": {
+    "scenar.io": "<ColorInput />"
+  }
 }

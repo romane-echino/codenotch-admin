@@ -11,8 +11,6 @@ interface ITextInputProps extends IInputProps, IBindableComponentProps, IPageInh
 }
 
 export const TextInput: React.FC<ITextInputProps> = (props) => {
-
-	const inputRef = React.useRef<HTMLInputElement>(null);
 	const [focused, setFocused] = React.useState(false);
 
 
@@ -30,7 +28,6 @@ export const TextInput: React.FC<ITextInputProps> = (props) => {
 	return (
 		<AbstractInput Focus={focused} {...props}>
 			<input type="text"
-				ref={inputRef}
 				placeholder={props.Placeholder}
 				defaultValue={props.Value}
 				disabled={props.Disabled}
