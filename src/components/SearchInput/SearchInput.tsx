@@ -15,7 +15,7 @@ interface ISearchInputProps extends IAbstractInputProps, IBindableComponentProps
 }
 
 export const SearchInput: React.FC<ISearchInputProps> = (props) => {
-	const [selected, setSelected] = React.useState<any>(null);
+	const [selected, setSelected] = React.useState<any>(props.Value || null);
 	const [query, setQuery] = React.useState('');
 	const [data, setData] = React.useState<any[]>([]);
 	const [focus, setFocus] = React.useState(false);

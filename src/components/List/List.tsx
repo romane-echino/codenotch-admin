@@ -60,7 +60,7 @@ export const List: React.FC<IListProps> = (props) => {
 		});
 
 		let data: any[] = getDataFromSource(props.Source);
-		console.log("List columns", columns, customColumns, data);
+		//console.log("List columns", columns, customColumns, data);
 		setColumns(columns);
 		setData(data);
 	}

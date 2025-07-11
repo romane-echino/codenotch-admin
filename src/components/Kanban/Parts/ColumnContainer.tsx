@@ -55,6 +55,12 @@ export const ColumnContainer: React.FC<IColumnContainer> = ({ column, cards, car
                     </div>
                 </div>
 
+                {cards.length === 0 && (
+                    <div className=" grow flex items-center justify-center min-h-32 text-gray-500 dark:text-gray-400">
+                        No cards in this column
+                    </div>
+                )}
+
                 {cards.map((card, index) =>
                     cardRenderer ?
                         cardRenderer('item', card) :

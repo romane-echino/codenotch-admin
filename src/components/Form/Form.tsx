@@ -37,7 +37,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
 	fieldChanged(field: string, value: any) {
 
-		console.log('Form field changed', field, value);
+		//console.log('Form field changed', field, value);
 		let newValue = { ...this.state.value };
 
 		// Split the field path using regex to handle both dot notation and array notation

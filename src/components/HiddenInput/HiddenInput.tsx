@@ -14,7 +14,7 @@ export const HiddenInput: React.FC<IHiddenInputProps> = (props) => {
 	React.useEffect(() => {
 		
 		if (props.Value !== undefined && props.Value !== value) {
-			console.log('UseEffect :: HiddenInput Value changed', props.Value, value);
+			//console.log('UseEffect :: HiddenInput Value changed', props.Value, value);
 			setValue(props.Value);
 			props.onPropertyChanged('Value', undefined, props.Value)
 			if (props.OnChange) {
@@ -24,7 +24,7 @@ export const HiddenInput: React.FC<IHiddenInputProps> = (props) => {
 	}, [props]);
 
 	if (props.Value !== undefined &&props.Value !== value) {
-		console.log('Render :: HiddenInput Value changed', props.Value, value);
+		//console.log('Render :: HiddenInput Value changed', props.Value, value);
 		setValue(props.Value);
 		props.onPropertyChanged('Value', undefined, props.Value)
 		if (props.OnChange) {
