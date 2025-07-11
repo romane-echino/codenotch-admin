@@ -56,7 +56,7 @@ export const ColumnContainer: React.FC<IColumnContainer> = ({ column, cards, car
                 </div>
 
                 {cards.length === 0 && (
-                    <div className=" grow flex items-center justify-center min-h-32 text-gray-500 dark:text-gray-400">
+                    <div className=" grow pointer-events-none flex items-center justify-center min-h-32 text-gray-500 dark:text-gray-400">
                         No cards in this column
                     </div>
                 )}
