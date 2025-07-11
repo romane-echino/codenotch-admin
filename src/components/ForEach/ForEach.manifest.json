@@ -1,0 +1,33 @@
+{
+  "name": "Foreach",
+  "menu": "Macro",
+  "props": [
+    {
+      "name": "In",
+      "displayName": "In",
+      "default": "1",
+      "required": true
+    },
+    {
+      "name": "As",
+      "displayName": "As",
+      "type": "string",
+      "default": "element"
+    },
+    {
+      "name": "IndexAs",
+      "displayName": "IndexAs",
+      "type": "string",
+      "default": "index"
+    },
+    {
+      "name": "KeyAs",
+      "displayName": "KeyAs",
+      "type": "string",
+      "default": "key"
+    }
+  ],
+  "snippets":{
+    "scenar.io":"<ForEach In=\"${1}\" As=\"${2}\">\n\t${0}\n</ForEach>" 
+  }
+}

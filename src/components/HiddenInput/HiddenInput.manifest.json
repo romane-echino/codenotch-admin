@@ -1,0 +1,13 @@
+{
+  "name": "Hidden input",
+  "menu": "Input",
+  "bindable": [
+    "value"
+  ],
+  "props": [
+    {
+      "name": "Value",
+      "displayName": "Value"
+    }
+  ]
+}

@@ -36,60 +36,62 @@ export class Form extends React.Component<IFormProps, IFormState> {
 	}
 
 	fieldChanged(field: string, value: any) {
-    let newValue = { ...this.state.value };
-    
-    // Split the field path using regex to handle both dot notation and array notation
-    const pathParts = field.split(/\.|\[|\]/).filter(Boolean);
-    
-    let current = newValue;
-    const lastIndex = pathParts.length - 1;
-    
-    for (let i = 0; i < lastIndex; i++) {
-        const part = pathParts[i];
-        const nextPart = pathParts[i + 1];
-        const isNextPartArrayIndex = !isNaN(Number(nextPart));
-        
-        // If current part doesn't exist in the object, create it
-        if (current[part] === undefined) {
-            // If the next part is a number, create an array
-            if (isNextPartArrayIndex) {
-                current[part] = [];
-            } else {
-                current[part] = {};
-            }
-        }
-        
-        // Move to the next level
-        current = current[part];
-        
-        // If current is an array and the next part is an array index
-        if (Array.isArray(current) && isNextPartArrayIndex) {
-            const index = parseInt(nextPart);
-            
-            // Ensure the array has enough elements
-            while (current.length <= index) {
-                current.push({});
-            }
-            
-            // Skip the next part since we've already handled it
-            if (i < lastIndex - 1) {
-                current = current[index];
-                i++;
-            }
-        }
-    }
-    
-    // Set the value at the final path
-    const lastPart = pathParts[lastIndex];
-    current[lastPart] = value;
-    
-    this.setState({ value: newValue });
-    this.props.onPropertyChanged('value', undefined, newValue);
-    
-    if (this.props.OnChange) {
-        this.props.OnChange(newValue);
-    }
-}
+
+		console.log('Form field changed', field, value);
+		let newValue = { ...this.state.value };
+
+		// Split the field path using regex to handle both dot notation and array notation
+		const pathParts = field.split(/\.|\[|\]/).filter(Boolean);
+
+		let current = newValue;
+		const lastIndex = pathParts.length - 1;
+
+		for (let i = 0; i < lastIndex; i++) {
+			const part = pathParts[i];
+			const nextPart = pathParts[i + 1];
+			const isNextPartArrayIndex = !isNaN(Number(nextPart));
+
+			// If current part doesn't exist in the object, create it
+			if (current[part] === undefined) {
+				// If the next part is a number, create an array
+				if (isNextPartArrayIndex) {
+					current[part] = [];
+				} else {
+					current[part] = {};
+				}
+			}
+
+			// Move to the next level
+			current = current[part];
+
+			// If current is an array and the next part is an array index
+			if (Array.isArray(current) && isNextPartArrayIndex) {
+				const index = parseInt(nextPart);
+
+				// Ensure the array has enough elements
+				while (current.length <= index) {
+					current.push({});
+				}
+
+				// Skip the next part since we've already handled it
+				if (i < lastIndex - 1) {
+					current = current[index];
+					i++;
+				}
+			}
+		}
+
+		// Set the value at the final path
+		const lastPart = pathParts[lastIndex];
+		current[lastPart] = value;
+
+		this.setState({ value: newValue });
+		this.props.onPropertyChanged('value', undefined, newValue);
+
+		if (this.props.OnChange) {
+			this.props.OnChange(newValue);
+		}
+	}
 
 	getChildren() {
 		let children = React.Children.map(this.props.children, (child, index) => {
