@@ -4,23 +4,27 @@
   "props": [
     {
       "name": "Source",
-      "displayName": "Source",
-      "type": "reactNode"
+      "displayName": "Source"
     },
     {
-      "name": "OptionRenderer",
-      "displayName": "OptionRenderer",
+      "name": "Renderer",
+      "displayName": "Renderer",
       "type": "renderer"
     },
     {
-      "name": "LabelRenderer",
-      "displayName": "LabelRenderer",
-      "type": "reactNode"
+      "name": "DisplayField",
+      "displayName": "DisplayField",
+      "type": "string"
     },
     {
-      "name": "DisabledRenderer",
-      "displayName": "DisabledRenderer",
-      "type": "reactNode"
+      "name": "ValueField",
+      "displayName": "ValueField",
+      "type": "string"
+    },
+    {
+      "name": "DisabledFunction",
+      "displayName": "DisabledFunction",
+      "type": "function"
     }
   ]
 }

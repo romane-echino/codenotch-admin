@@ -1,23 +1,38 @@
 import React from 'react';
 import './Dropdown.scss';
-import { AbstractInput, IInputProps } from '../AbstractInput/AbstractInput';
+import { AbstractInput, IAbstractInputProps, IInputProps } from '../AbstractInput/AbstractInput';
 import { Listbox } from '@headlessui/react';
+import { getDataFromSource } from '../../utils/SourceHandling';
+import { IBindableComponentProps } from '@echino/echino.ui.sdk';
 
-interface IDropdownProps extends IInputProps {
-	Source?: any[];
-	OptionRenderer?: (value: any, index: number) => React.ReactNode;
-	LabelRenderer?: (value: any, index: number) => string;
-	DisabledRenderer?: (value: any, index: number) => boolean;
+interface IDropdownProps  extends IAbstractInputProps, IBindableComponentProps {
+	Source?: any;
+	DisplayField: string;
+	ValueField?: string;
+
+	Renderer?: (value: any, index: number) => React.ReactNode;
+	DisabledFunction?: (value: any, index: number) => boolean;
 }
 
 export const Dropdown = (props: IDropdownProps) => {
 	const [selectedIndex, setSelected] = React.useState<number | null>(null);
-	const [focused, setFocused] = React.useState<boolean>(false);
+	const [focus, setFocus] = React.useState<boolean>(false);
+	const [data, setData] = React.useState<any[]>([]);
+
+
+	React.useEffect(() => {
+		let src = getDataFromSource(props.Source);
+		console.log('Dropdown data', src, props.Source);
+		setData(src);
+	}, [props.Source, props.Value]);
 
 	return (
-		<AbstractInput Focus={focused} {...props}>
+		<AbstractInput {...props} Focus={focus}>
 			<Listbox value={selectedIndex} onChange={(index: number) => {
+
+				
 				if (index !== undefined) {
+					alert('Dropdown selected index: ' + index);
 					let value = props.Source?.[index]
 					if (value) {
 						setSelected(index);
@@ -28,18 +43,18 @@ export const Dropdown = (props: IDropdownProps) => {
 
 				<Listbox.Button
 					className={`${props.Icon && 'pl-9'} text-left px-4 py-2.5 w-full focus:border-0 focus:outline-hidden placeholder:text-gray-400 dark:placeholder:text-white/30`}
-					onBlur={() => setFocused(false)}
-					onFocus={() => setFocused(true)}
+					onBlur={() => setFocus(false)}
+					onFocus={() => setFocus(true)}
 				>
 					{selectedIndex !== null ?
 						<span>
-							{props.LabelRenderer ?
-								props.LabelRenderer(props.Source?.[selectedIndex], selectedIndex) :
+							{props.DisplayField ?
+								props.Source?.[selectedIndex]?.[props.DisplayField] :
 								props.Source?.[selectedIndex]
 							}
 						</span>
 						:
-						<span className='opacity-50'>{props.Placeholder}</span>
+						<span className='opacity-50'>{props.Placeholder} {data.length}</span>
 					}
 
 
@@ -50,21 +65,23 @@ export const Dropdown = (props: IDropdownProps) => {
 
 				<Listbox.Options
 					className='absolute z-50 bg-white border border-gray-300 dark:border-gray-700 translate-y-0.5 rounded-lg shadow-lg overflow-hidden max-w-full'>
-					{props.Source?.map((obj, objIndex) => (
+					{data.map((obj, objIndex) => (
 						<Listbox.Option
 							key={objIndex}
 							value={objIndex}
 
-							disabled={props.DisabledRenderer ? props.DisabledRenderer(obj, objIndex) : false}
+							disabled={props.DisabledFunction ? props.DisabledFunction(obj, objIndex) : false}
 							className={({ active }) => `relative cursor-default select-none py-2 pr-10 pl-4 ${active ? 'bg-primary-500 text-white' : 'text-gray-700'}`}>
 
 							{({ selected, active }) => (
 								<>
 									<span className={`block truncate`}>
-										{props.OptionRenderer ?
-											props.OptionRenderer(obj, objIndex) :
-											obj
+										{props.Renderer ?
+											props.Renderer(obj, objIndex) :
+											obj[props.DisplayField] || obj
 										}
+
+										{objIndex}
 									</span>
 
 									{objIndex === selectedIndex &&

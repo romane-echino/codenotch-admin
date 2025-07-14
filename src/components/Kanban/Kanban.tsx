@@ -31,6 +31,9 @@ import dayjs from 'dayjs';
 import { ColumnContainer } from './Parts/ColumnContainer';
 import { getColorFromName } from '../../utils/DefaultColorPalette';
 
+import Board from '@asseinfo/react-kanban'
+import { getDataFromSource } from '../../utils/SourceHandling';
+
 interface IKanbanProps extends IPageInheritedProps, IBoxProps {
 	Source?: any[];
 	CardRenderer: (data: any, index: number) => React.ReactNode;
@@ -51,7 +54,65 @@ export type Card = {
 	columnId: Id;
 	content: any;
 }
+
+const board = {
+  columns: [
+    {
+      id: 1,
+      title: 'Backlog',
+      cards: [
+        {
+          id: 1,
+          title: 'Add card',
+          description: 'Add capability to add a card in a column'
+        },
+      ]
+    },
+    {
+      id: 2,
+      title: 'Doing',
+      cards: [
+        {
+          id: 2,
+          title: 'Drag-n-drop support',
+          description: 'Move a card between the columns'
+        },
+      ]
+    }
+  ]
+}
+
 export const Kanban: React.FC<IKanbanProps> = (props) => {
+	// Kanban implementation
+	const [data, setData] = React.useState<any[]>([]);
+
+
+	useEffect(() => {
+		updateSource();
+	}, [props.Source, props.children]);
+
+
+	function updateSource() {
+		if (!props.Source) return;
+
+		setData(getDataFromSource(props.Source));
+	}
+
+	return (
+		<Sizing {...props}>
+			<Box {...props}>
+				{data && data.length > 0 &&
+					<Board
+						initialBoard={{ columns: data }}
+
+					/>
+				}
+			</Box>
+		</Sizing>
+	)
+}
+
+export const Kanban2222: React.FC<IKanbanProps> = (props) => {
 	const [columns, setColumns] = React.useState<CardColumn[]>([]);
 	const [activeColumn, setActiveColumn] = React.useState<CardColumn | null>(null)
 	const [activeCard, setActiveCard] = React.useState<Card | null>(null)

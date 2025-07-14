@@ -26,36 +26,14 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 	renderBox(hasBorder: boolean = true) {
 		return (
 			<div className={`rounded-2xl ${(this.props.Modal === true && !this.props.Footer) ? 'relative w-full max-w-[700px]' : ' h-full grow'} ${hasBorder && 'border border-gray-200'} bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6`}>
-				{(this.props.Title !== undefined || this.props.Subtitle !== undefined || this.props.Actions !== undefined) &&
-					<div className='flex flex-col sm:flex-row gap-2 sm:justify-between mb-4 sm:items-center'>
-						<div>
-							{this.props.Title &&
-								<h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-									{this.props.Title}
-								</h3>
-
-							}
-							{this.props.Subtitle &&
-								<p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-									{this.props.Subtitle}
-								</p>
-							}
-						</div>
-
-						{this.props.Actions &&
-							<div className='flex items-center gap-3'>
-								{this.props.Actions}
-							</div>
-						}
-					</div>
-				}
+				<BoxTitle {...this.props} />
 
 				{this.props.Modal ?
-					<div className='max-h-[450px] overflow-x-hidden px-1 overflow-y-auto'>{this.props.children}</div> :
+					<div className='max-h-[450px] overflow-x-hidden px-1 overflow-y-auto'>
+						{this.props.children}
+					</div> :
 					this.props.children
 				}
-
-
 			</div>
 		)
 	}
@@ -85,4 +63,35 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 
 	}
 
+}
+
+
+export const BoxTitle: React.FC<IBoxProps> = (props) => {
+	return (
+		<>
+			{(props.Title !== undefined || props.Subtitle !== undefined || props.Actions !== undefined) &&
+				<div className='flex flex-col sm:flex-row gap-2 sm:justify-between mb-4 sm:items-center'>
+					<div>
+						{props.Title &&
+							<h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
+								{props.Title}
+							</h3>
+
+						}
+						{props.Subtitle &&
+							<p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+								{props.Subtitle}
+							</p>
+						}
+					</div>
+
+					{props.Actions &&
+						<div className='flex items-center gap-3'>
+							{props.Actions}
+						</div>
+					}
+				</div>
+			}
+		</>
+	)
 }

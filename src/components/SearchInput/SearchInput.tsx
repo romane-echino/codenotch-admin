@@ -8,6 +8,7 @@ interface ISearchInputProps extends IAbstractInputProps, IBindableComponentProps
 	Source?: any;
 	DisplayField: string;
 	ValueField?: string;
+	
 	OnAdd?: Action<string>;
 
 	Renderer?: (as: string, data: any) => React.ReactNode;
@@ -36,7 +37,7 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 			console.log('useEffect SearchInput props', props.Value);
 			setSelected(props.Value);
 		}
-	}, [props.Source]);
+	}, [props.Source, props.Value]);
 
 	React.useEffect(() => {
         const calculatePosition = () => {
@@ -72,7 +73,7 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 
 	return (
 		<AbstractInput {...props} Focus={focus}>
-			<Combobox value={selected} onChange={(item) => {
+			<Combobox value={selected} defaultValue={selected} onChange={(item) => {
 				setSelected(item);
 				props.onPropertyChanged('value', undefined, item);
 				props.OnSelect && props.OnSelect({ value: props.ValueField ? item[props.ValueField] : item, index: data.indexOf(item) });
@@ -81,7 +82,7 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 
 				<Combobox.Input
 				 ref={inputRef}
-					className={`${props.Icon && 'pl-9'} px-4 py-2.5 w-full focus:border-0 focus:outline-hidden placeholder:text-gray-400 dark:placeholder:text-white/30`}
+					className={`${props.Icon && 'pl-9'} px-4 py-2.5 w-full focus:border-0 focus:outline-hidden placeholder:text-white/50`}
 					displayValue={(item: any) => item ? item[props.DisplayField] : undefined}
 					onChange={(event) => setQuery(event.target.value)}
 					onFocus={() => setFocus(true)}

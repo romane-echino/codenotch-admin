@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, IBoxProps } from '../Box/Box';
+import { Box, BoxTitle, IBoxProps } from '../Box/Box';
 import { IPageInheritedProps } from '../Page/Page';
 import { Action, IBindableComponentProps, IChildrenInheritedProps } from '@echino/echino.ui.sdk';
 import { IAbstractListAction } from '../AbstractInput/AbstractInput';
@@ -80,7 +80,9 @@ export class FormAddList extends React.Component<IFormProps, IFormState> {
 
 		this.setState(prevState => ({
 			childrenInstances: [...prevState.childrenInstances, newInstance],
-			value: [...prevState.value, undefined] // Ajouter un objet vide pour la nouvelle instance
+			value: [...prevState.value, this.props.SortField ? {
+				[this.props.SortField]: prevState.value.length
+			} : undefined] // Ajouter un objet vide pour la nouvelle instance
 		}), () => {
 			this.props.onPropertyChanged('value', undefined, this.state.value);
 
@@ -188,11 +190,20 @@ export class FormAddList extends React.Component<IFormProps, IFormState> {
 			</button>
 		);
 
-		let Component = this.props.HasLayout ? Box : 'div';
+		let Component: any = this.props.HasLayout ? Box : 'div';
 		let customProps = {};
+
+		let actions = (
+			<>
+				{this.props.Actions}
+
+				{addButton}
+			</>
+		);
 		if (this.props.HasLayout) {
 			customProps = {
-				...this.props
+				...this.props,
+				Actions: actions,
 			};
 		} else {
 			customProps = {
@@ -202,22 +213,23 @@ export class FormAddList extends React.Component<IFormProps, IFormState> {
 
 		return (
 			<Component {...customProps}>
-				<div className="flex justify-end mb-4">
-					{addButton}
-				</div>
+				{!this.props.HasLayout &&
+					<BoxTitle {...this.props} Actions={actions} />
+				}
 
-				<div className='divide-y divide-gray-200 dark:divide-gray-700 -mx-5'>
+				<div className='@container divide-y divide-gray-200 dark:divide-gray-700 border-l border-gray-200 dark:border-gray-700'>
 					{childrenInstances.map((instanceChildren, instanceIndex) => (
-						<div className='flex items-center gap-2 py-2' key={`instance-${instanceIndex}`}>
+						<div className='flex items-center gap-4 py-4' key={`instance-${instanceIndex}`}>
 							{this.props.SortField &&
 								<div className='h-11 w-6 flex ml-2 items-center justify-center text-gray-800 dark:text-white/90'>
 									<i className="fa-solid fa-grip-dots"></i>
 								</div>
 							}
 
-							<div className={`grow ${classAttributes} ${this.props.SortField ? '' : 'ml-5'}`}>
+							<div className={`grow ${classAttributes} ${this.props.SortField ? '' : 'ml-4'}`}>
 								{instanceChildren}
 							</div>
+
 							<div className='h-11 w-6 flex items-center justify-center mr-2'>
 								<div
 									onClick={() => this.removeInstance(instanceIndex)}
