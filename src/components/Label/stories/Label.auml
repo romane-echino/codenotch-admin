@@ -1,0 +1,17 @@
+<Application>
+	<Application.Imports>
+		<Import Namespace="e" Source="/static/" />
+	</Application.Imports>
+
+    <e:Label Value="2025-07-25T13:15:00.000Z" Type="Date" Title="Date" />
+    <e:Label Value="2025-07-25T13:15:00.000Z" Type="Time" />
+    <e:Label Value="2025-07-25T13:15:00.000Z" Type="DateTime" />
+    <e:Label Value="2025-07-14T13:24:56+00:00" Type="Duration" />
+
+    <e:Label Value="1502" Type="Currency" />
+    <e:Label Value="0.2" Type="Percentage" />
+    <e:Label Value="079 834 13 98" Type="Phone" Icon="fas fa-phone" IconColor="Primary" />
+    <e:Label Value="romane@echino.com" Type="Email" Icon="fas fa-envelope" IconPlacement="Right" />
+    <e:Label Value="http://www.echino.com" Type="Url" Icon="fas fa-link" />
+
+</Application>

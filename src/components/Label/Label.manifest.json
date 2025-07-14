@@ -40,6 +40,18 @@
       "displayName": "TextColor",
       "type": "string",
       "enum": ["Normal", "Inherit"]
+    },
+    {
+      "name": "IconPlacement",
+      "displayName": "IconPlacement",
+      "type": "string",
+      "enum": ["Left", "Right"]
+    },
+    {
+      "name": "Type",
+      "displayName": "Type",
+      "type": "string",
+      "enum": ["Date", "Time", "DateTime", "Text", "Duration", "Currency", "Percentage", "Phone", "Email", "Url"]
     }
   ],
   "snippets": {
