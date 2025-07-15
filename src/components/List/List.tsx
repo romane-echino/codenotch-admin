@@ -4,10 +4,12 @@ import { Sizing } from '../Sizing/Sizing';
 import { Box, IBoxProps } from '../Box/Box';
 import { IPageInheritedProps } from '../Page/Page';
 import { getColumnsFromSource, getDataFromSource } from '../../utils/SourceHandling';
+import { MenuButton } from '../MenuButton/MenuButton';
 
 interface IListProps extends IPageInheritedProps, IBoxProps {
 	Source?: any;
 	Take?: number;
+	ItemActions?: (as: string, data: any) => React.ReactNode;
 }
 
 export interface IListColumn {
@@ -67,45 +69,44 @@ export const List: React.FC<IListProps> = (props) => {
 
 	return (
 		<Box {...props}>
+			<div className='flex flex-row '>
+				<div className='grow grid overflow-x-auto' style={{ gridTemplateColumns: `repeat(${columns.filter(c => c.Visible === true).length}, minmax(auto, 1fr))` }}>
+					{columns.filter(c => c.Visible === true).map((column, index) => (
+						<div key={index} className={`px-6 py-3 border-b border-gray-100 dark:border-gray-800 whitespace-nowrap first:pl-0`}>
+							<p className="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+								{column.DisplayName || column.Field}
+							</p>
+						</div>
+					))}
 
-			<div className="max-w-full overflow-x-auto">
-				<table className="min-w-full">
+					{data.slice(0, props.Take ?? data.length).map((item, itemIndex) => {
+						return columns.filter(c => c.Visible === true).map((column, colIndex) => {
+							return (
+								<div className={`px-6 py-3 border-b border-gray-100 dark:border-gray-800 whitespace-nowrap ${colIndex === 0 ? 'pl-0' : ''}`} key={colIndex + itemIndex}>
 
-					<thead className="border-gray-100 border-y dark:border-gray-800">
-						<tr>
-							{columns.filter(c => c.Visible === true).map((column, index) => (
-								<th key={index} className={`px-6 py-3 whitespace-nowrap first:pl-0`}>
-									<div className="flex items-center">
-										<p className="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-											{column.DisplayName || column.Field}
-										</p>
-									</div>
-								</th>
-							))}
-						</tr>
-					</thead>
+									<p className="text-gray-500 text-theme-sm dark:text-gray-400">
+										{column.Renderer ? column.Renderer('item', item[column.Field]) : item[column.Field] || ''}
+									</p>
+								</div>
+							)
+						})
+					})}
+				</div>
 
-
-					<tbody className="py-3 divide-y divide-gray-100 dark:divide-gray-800">
+				{props.ItemActions &&
+					<div className=''>
+						<div className='h-[49px]  border-b border-gray-100 dark:border-gray-800'>&nbsp;</div>
 						{data.slice(0, props.Take ?? data.length).map((item, index) => {
 							return (
-								<tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-									{columns.filter(c => c.Visible === true).map((column, index) => {
-										return (
-											<td className="px-6 py-3 whitespace-nowrap first:pl-0">
-												<div className="flex items-center">
-													<p className="text-gray-500 text-theme-sm dark:text-gray-400">
-														{column.Renderer ? column.Renderer('item', item[column.Field]) : item[column.Field] || ''}
-													</p>
-												</div>
-											</td>
-										)
-									})}
-								</tr>
+								<div className='h-[49px] pl-2 border-b border-gray-100 dark:border-gray-800 flex items-center' key={index}>
+									<MenuButton>
+										{props.ItemActions!('item', item)}
+									</MenuButton>
+								</div>
 							)
 						})}
-					</tbody>
-				</table>
+					</div>
+				}
 			</div>
 		</Box>
 	)

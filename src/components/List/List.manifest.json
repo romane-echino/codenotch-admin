@@ -30,6 +30,11 @@
       "name": "Take",
       "displayName": "Take",
       "type": "number"
+    },
+    {
+      "name": "ItemActions",
+      "displayName": "ItemActions",
+      "type": "renderer"
     }
   ],
   "children": {

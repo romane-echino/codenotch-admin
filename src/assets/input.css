@@ -74,3 +74,12 @@ html {
   --color-primary-950: rgb(var(--primary-color-950));
   --color-primary: rgb(var(--primary-color));
 }
+
+
+.react-kanban-board{
+  @apply border-t border-gray-200 dark:border-gray-800;
+}
+
+.react-kanban-column{
+  @apply border-r border-gray-200 dark:border-gray-800 min-w-[250px] p-4;
+}

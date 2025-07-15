@@ -25,7 +25,8 @@
         "Success",
         "Warning",
         "Error",
-        "Info"
+        "Info",
+        "MenuItem"
       ],
       "default": "Secondary"
     },

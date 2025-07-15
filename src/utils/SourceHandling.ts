@@ -85,3 +85,18 @@ export function getColumnsFromSource(source: any): any[] {
             return [];
     }
 }
+
+
+export function getIndexFromSource(source: any[], value: any, valueField?: string): number {
+    let defaultIndex: number = -1;
+    if (value !== undefined && value !== null) {
+        if (valueField) {
+            defaultIndex = source.findIndex((item) => item[valueField!] === value);
+
+        } else {
+            defaultIndex = source.findIndex((item) => item === value);
+        }
+    }
+
+    return defaultIndex;
+}

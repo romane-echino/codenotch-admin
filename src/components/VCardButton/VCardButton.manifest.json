@@ -1,0 +1,68 @@
+{
+  "name": "VCard button",
+  "menu": "",
+  "props": [
+     {
+      "name": "Label",
+      "displayName": "Label",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string"
+    },
+     {
+      "name": "Firstname",
+      "displayName": "Firstname",
+      "type": "string"
+    },
+    {
+      "name": "Lastname",
+      "displayName": "Lastname",
+      "type": "string"
+    },
+    {
+      "name": "Email",
+      "displayName": "Email",
+      "type": "string"
+    },
+    {
+      "name": "Phone",
+      "displayName": "Phone",
+      "type": "string"
+    },
+    {
+      "name": "Organization",
+      "displayName": "Organization",
+      "type": "string"
+    },
+    {
+      "name": "JobTitle",
+      "displayName": "JobTitle",
+      "type": "string"
+    },
+    {
+      "name": "Type",
+      "displayName": "Type",
+      "type": "string",
+      "required": true,
+      
+      "enum": [
+        "Primary",
+        "Secondary",
+        "Success",
+        "Warning",
+        "Error",
+        "Info",
+        "MenuItem"
+      ],
+      "default": "Secondary"
+    }
+  ],
+  "snippets": {
+    "scenar.io": "<VCardButton Label=\"${1:Label}\" />"
+  }
+  
+}
