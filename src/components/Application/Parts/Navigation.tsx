@@ -133,9 +133,9 @@ const NavigationItem: React.FC<{ item: IAppMenuItem, sideBarToggle: boolean }> =
     }
 
     return (
-        <Component {...props} className="flex items-center rounded-lg gap-3 text-sm font-medium p-2 grow cursor-pointer" >
+        <Component {...props} className="flex h-10 hover:bg-gray-100 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 items-center rounded-lg gap-3 text-sm font-medium p-2 grow cursor-pointer" >
             {item.Icon &&
-                <div className="size-8 flex items-center justify-center">
+                <div className="w-8 flex items-center justify-center">
                     <i className={`${item.Icon} text-xl`}></i>
                 </div>
             }

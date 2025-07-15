@@ -11,8 +11,8 @@ import { Action } from '@echino/echino.ui.sdk';
 
 interface IKanbanProps extends IPageInheritedProps, IBoxProps {
 	Source?: any[];
-	CardRenderer: (data: any, index: number) => React.ReactNode;
-	ColumnRenderer: (data: any, index: number) => React.ReactNode;
+	CardRenderer: (as: string, data: any) => React.ReactNode;
+	ColumnRenderer: (as: string, data: any) => React.ReactNode;
 	OnChange: Action<any>;
 	OrderField: string;
 }
@@ -74,8 +74,6 @@ export const Kanban: React.FC<IKanbanProps> = (props) => {
 							title: card[titleKey] !== undefined ? card[titleKey] : 'Name',
 							...card
 						}
-						delete c[props.OrderField];
-						delete c[titleKey];
 						return c;
 					}) : [],
 					...item
@@ -104,7 +102,7 @@ export const Kanban: React.FC<IKanbanProps> = (props) => {
 							(board: any, card: any, source: any, destination: any) => {
 								if (source.fromColumnId !== destination.toColumnId) {
 									if (props.OnChange) {
-										props.OnChange({ newColumnId: destination.toColumnId, ...card });
+										props.OnChange({ newColumnId: destination.toColumnId, ...card, column: data.find((c: any) => c.id === destination.toColumnId) });
 									}
 								}
 							}
@@ -112,10 +110,12 @@ export const Kanban: React.FC<IKanbanProps> = (props) => {
 
 						renderColumnHeader={(column, { removeColumn, renameColumn, addCard }) => (
 							<div className="flex items-center justify-between gap-5 mb-2">
-								<h3 className="flex items-center gap-3 text-base font-medium text-gray-800 dark:text-white/90">
-									{column.title}
-
-								</h3>
+								{props.ColumnRenderer ?
+									props.ColumnRenderer('column', column) :
+									<h3 className="text-gray-800 dark:text-white/90">
+										{column.title}
+									</h3>
+								}
 
 								<span className="inline-flex rounded-full bg-gray-100 px-2 py-0.5 text-theme-xs font-medium text-gray-700 dark:bg-white/[0.03] dark:text-white/80">
 									{column.cards.length}
@@ -124,15 +124,16 @@ export const Kanban: React.FC<IKanbanProps> = (props) => {
 							</div>
 						)}
 
-						renderCard={(card, { removeCard, dragging }) => (
-							<div className={`${dragging ? 'shadow-lg ring  ring-primary-500' : ''} mb-2 rounded-xl min-w-[220px] select-none cursor-grab bg-white p-5  dark:bg-gray-800`}>
-								{card.title &&
-									<h4 className="text-gray-800 dark:text-white/90">
-										{card.title}
-									</h4>
-								}
-							</div>
-						)}
+						renderCard={(card, { removeCard, dragging }) => props.CardRenderer ?
+							props.CardRenderer('card', card) : (
+								<div className={`${dragging ? 'shadow-lg ring  ring-primary-500' : ''} mb-2 rounded-xl min-w-[220px] select-none cursor-grab bg-white p-5  dark:bg-gray-800`}>
+									{card.title &&
+										<h4 className="text-gray-800 dark:text-white/90">
+											{card.title}
+										</h4>
+									}
+								</div>
+							)}
 
 					/>
 				}

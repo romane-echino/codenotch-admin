@@ -8,16 +8,6 @@
       "type": "string"
     },
     {
-      "name": "ColumnId",
-      "displayName": "ColumnId",
-      "type": "string"
-    },
-    {
-      "name": "CardId",
-      "displayName": "CardId",
-      "type": "string"
-    },
-    {
       "name": "Tags",
       "displayName": "Tags",
       "type": "string"
@@ -46,6 +36,16 @@
       "name": "UserImageUrl",
       "displayName": "UserImageUrl",
       "type": "string"
+    },
+     {
+      "name": "Actions",
+      "displayName": "Actions",
+      "type": "reactNode"
+    },
+    {
+      "name": "Footer",
+      "displayName": "Footer",
+      "type": "reactNode"
     }
   ]
 }

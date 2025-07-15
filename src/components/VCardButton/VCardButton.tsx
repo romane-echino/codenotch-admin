@@ -32,7 +32,7 @@ export const VCardButton: React.FC<IVCardButtonProps> = (props) => {
 
 		const a = document.createElement("a");
 		a.href = url;
-		a.download = "jean-dupont.vcf";
+		a.download = `${props.Firstname?.toLowerCase()}${props.Lastname?.toLowerCase()}.vcf`;
 		document.body.appendChild(a);
 		a.click();
 		document.body.removeChild(a);

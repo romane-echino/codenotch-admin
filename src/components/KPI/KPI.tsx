@@ -27,7 +27,7 @@ export class KPI extends React.Component<IKPIProps, IKPIState> {
 		return (
 			<Box {...this.props}>
 				{this.props.Icon &&
-					<div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800">
+					<div className="flex h-12 w-12 items-center text-lg justify-center rounded-xl text-gray-800 dark:text-white/90 bg-gray-100 dark:bg-gray-800">
 						<i className={`${this.props.Icon}`}></i>
 					</div>
 				}

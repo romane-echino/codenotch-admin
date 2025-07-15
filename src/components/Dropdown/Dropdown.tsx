@@ -10,7 +10,7 @@ interface IDropdownProps extends IAbstractInputProps, IBindableComponentProps {
 	DisplayField: string;
 	ValueField?: string;
 
-	Renderer?: (value: any, index: number) => React.ReactNode;
+	Renderer?: (as: string, data: any) => React.ReactNode;
 	DisabledFunction?: (value: any, index: number) => boolean;
 }
 
@@ -113,7 +113,7 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 								<>
 									<span className={`block truncate`}>
 										{props.Renderer ?
-											props.Renderer(obj, objIndex) :
+											props.Renderer('item', obj) :
 											obj[props.DisplayField] || obj
 										}
 									</span>

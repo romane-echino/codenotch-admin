@@ -147,7 +147,7 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 										<>
 											<span className={`block truncate`}>
 												{props.Renderer ?
-													props.Renderer(item, index) :
+													props.Renderer('item', item) :
 													item[props.DisplayField] || item
 												}
 
