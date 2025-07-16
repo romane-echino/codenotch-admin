@@ -45,11 +45,13 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 		if (this.props.Footer) {
 			return (
 				<Sizing {...this.props}>
-					<div className={`border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-white/[0.03] border rounded-2xl ${this.props.Modal ? 'relative w-full max-w-[700px]' : 'h-full'} flex flex-col`}>
-						{this.renderBox(false)}
+					<div className='dark:bg-gray-900 rounded-2xl shadow-2xl'>
+						<div className={`border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-white/[0.03] border rounded-2xl ${this.props.Modal ? 'relative w-full max-w-[700px]' : 'h-full'} flex flex-col`}>
+							{this.renderBox(false)}
 
-						<div className={`px-6 py-3.5 sm:py-5 flex ${this.props.Modal ? '*:grow' : ' justify-center'} items-center gap-5 sm:gap-8 `}>
-							{this.props.Footer}
+							<div className={`px-6 py-3.5 sm:py-5 flex ${this.props.Modal ? '*:grow' : ' justify-center'} items-center gap-5 sm:gap-8 `}>
+								{this.props.Footer}
+							</div>
 						</div>
 					</div>
 				</Sizing>
