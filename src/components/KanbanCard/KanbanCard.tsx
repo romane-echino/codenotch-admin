@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-import { getColorFromName } from '../../utils/DefaultColorPalette';
+import { ColorPalette, getColorFromName, getTextColorFromName } from '../../utils/DefaultColorPalette';
 
 
 export type ICardProps = {
@@ -12,12 +12,14 @@ export type ICardProps = {
 	ImageUrl?: string;
 	UserImageUrl?: string;
 	Tags?: string;
+	Icon?: string;
+	IconColor?:ColorPalette;
 
 	Actions?: React.ReactNode;
 	Footer?: React.ReactNode;
 }
 
-export const KanbanCard: React.FC<ICardProps> = ({ Title, Due, Tags, Description, CommentsCount, ImageUrl, UserImageUrl, Footer, Actions }) => {
+export const KanbanCard: React.FC<ICardProps> = ({ Title,Icon, IconColor, Due, Tags, Description, CommentsCount, ImageUrl, UserImageUrl, Footer, Actions }) => {
 
 	function getDuration() {
 		var y = dayjs()
@@ -60,12 +62,17 @@ export const KanbanCard: React.FC<ICardProps> = ({ Title, Due, Tags, Description
 		return (
 			<div className="rounded-xl min-w-2xs max-w-2xs mb-5 select-none cursor-grab shadow-sm border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/5">
 
-
-				{Title &&
+				<div className='flex items-center justify-between mb-3'>
+					{Title &&
 					<h4 className="mb-2 text-base text-gray-800 dark:text-white/90">
 						{Title}
 					</h4>
 				}
+
+					{Icon && <i className={`fa ${Icon} ${getTextColorFromName(IconColor)}`}></i>}
+				</div>
+
+				
 
 				{Description &&
 					<p className="text-sm mb-2 text-gray-500 dark:text-gray-400">

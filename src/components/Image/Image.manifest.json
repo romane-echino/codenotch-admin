@@ -1,0 +1,22 @@
+{
+  "name": "Image",
+  "menu": "",
+  "props": [
+    {
+      "name": "Source",
+      "displayName": "Source",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "AlternativeText",
+      "displayName": "AlternativeText",
+      "type": "string"
+    },
+    {
+      "name": "Rounded",
+      "displayName": "Rounded",
+      "type": "boolean"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ import { Label } from '../Label/Label';
 export interface IButtonProps {
 	Label: string;
 	Icon?: string;
-	Type: 'Primary' | 'Secondary' | 'Success' | 'Error' | 'Warning' | 'Info' | 'MenuItem';
+	Type: 'Primary' | 'Secondary' | 'Tertiary' | 'Success' | 'Error' | 'Warning' | 'Info' | 'MenuItem';
 	OnClick: Action<void>;
 
 	Confirmation:string;

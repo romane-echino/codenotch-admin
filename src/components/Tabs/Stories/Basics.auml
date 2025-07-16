@@ -1,0 +1,23 @@
+<Application>
+    <Application.Imports>
+        <Import Namespace="e" Source="/static/" />
+    </Application.Imports>
+
+    <e:Tabs Orientation="Horizontal">
+        <e:TabItem Tabs.Title="Overview" Tabs.Icon="fal fa-table">
+            <e:Label Value="Overview" Size="Large" />
+            <e:Label Size="Small" TextColor="Light" Value="Lorem ipsum dolor sit amet consectetur. Non vitae facilisis urna tortor placerat egestas donec. Faucibus diam gravida enim elit lacus a. Tincidunt fermentum condimentum quis et a et tempus. Tristique urna nisi nulla elit sit libero scelerisque ante." />
+        </e:TabItem>
+
+        <e:TabItem Tabs.Title="Customers" Tabs.Icon="far fa-users">
+            <e:Label Value="Customers" Size="Large" />
+            <e:Label Size="Small" TextColor="Light" Value="Lorem ipsum dolor sit amet consectetur. Non vitae facilisis urna tortor placerat egestas donec. Faucibus diam gravida enim elit lacus a. Tincidunt fermentum condimentum quis et a et tempus. Tristique urna nisi nulla elit sit libero scelerisque ante." />
+        </e:TabItem>
+
+        <e:TabItem Tabs.Title="Invoices" Tabs.Badge="3" Tabs.Icon="fas fa-file-invoice">
+            <e:Label Value="Invoices" Size="Large" />
+            <e:Label Size="Small" TextColor="Light" Value="Lorem ipsum dolor sit amet consectetur. Non vitae facilisis urna tortor placerat egestas donec. Faucibus diam gravida enim elit lacus a. Tincidunt fermentum condimentum quis et a et tempus. Tristique urna nisi nulla elit sit libero scelerisque ante." />
+        </e:TabItem>
+    </e:Tabs>
+
+</Application>

@@ -1,0 +1,42 @@
+{
+  "name": "RadioButton",
+  "menu": "input",
+  "props": [
+    {
+      "name":"Orientation",
+      "displayName": "Orientation",
+      "description": "Orientation of the tabs",
+      "type": "string",
+      "enum": [
+        "Horizontal",
+        "Vertical"
+      ],
+      "default": "Horizontal"
+    },
+    {
+      "name": "Value",
+      "displayName": "Value"
+    }
+  ],
+   "childrenProps":[
+    {
+      "name": "Label",
+      "description": "Radio button label",
+      "type": "string"
+    },
+    {
+      "name": "Value",
+      "description": "Radio button value"
+    },
+    {
+      "name": "Icon",
+      "description": "Radio button icon",
+      "type": "string"
+    },
+    {
+      "name": "Description",
+      "description": "Radio button description",
+      "type": "string"
+    }
+  ]
+}

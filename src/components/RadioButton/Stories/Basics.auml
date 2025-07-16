@@ -1,0 +1,12 @@
+<Application>
+    <Application.Imports>
+        <Import Namespace="e" Source="/static/" />
+    </Application.Imports>
+
+    <e:RadioButton>
+        <e:RadioItem RadioButton.Label="Daily" RadioButton.Value="day" />
+        <e:RadioItem RadioButton.Label="Monthly" RadioButton.Value="month" />
+        <e:RadioItem RadioButton.Label="Yearly" RadioButton.Value="year" />
+    </e:RadioButton>
+
+</Application>
