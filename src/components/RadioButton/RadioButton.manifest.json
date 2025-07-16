@@ -1,6 +1,6 @@
 {
   "name": "RadioButton",
-  "menu": "input",
+  "menu": "Input",
   "props": [
     {
       "name":"Orientation",

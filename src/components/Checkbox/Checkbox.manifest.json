@@ -1,6 +1,6 @@
 {
   "name": "Checkbox",
-  "menu": "input",
+  "menu": "Input",
   "props": [
     {
       "name": "Label",
