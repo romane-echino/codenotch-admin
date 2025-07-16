@@ -85,3 +85,14 @@ html {
 .react-kanban-column{
   @apply border-r border-gray-200 dark:border-gray-800 min-w-[250px] p-4;
 }
+
+
+.cn-scroll {
+  @apply [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:rounded-full
+  [&::-webkit-scrollbar-track]:bg-transparent
+  [&::-webkit-scrollbar-thumb]:rounded-full
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-transparent
+  dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500
+}
