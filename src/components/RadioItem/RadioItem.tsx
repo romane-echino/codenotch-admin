@@ -17,9 +17,7 @@ export class RadioItem extends React.Component<IRadioItemProps, IRadioItemState>
 	}
 
 	render() {
-		return (
-			<div className="radio-item">RadioItem</div>
-		)
+		return null;
 	}
 
 }

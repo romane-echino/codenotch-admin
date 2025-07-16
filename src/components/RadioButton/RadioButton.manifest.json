@@ -49,5 +49,15 @@
       "description": "Radio button description",
       "type": "string"
     }
-  ]
+  ],
+  "children": {
+    "type": "component",
+    "min": 1,
+    "include": [
+      "Page"
+    ]
+  },
+  "snippets": {
+    "scenar.io": "<RadioButton>\n\t<RadioItem RadioButton.Label=\"$1\" RadioButton.Value=\"$2\" />\n</RadioButton>"
+  }
 }
