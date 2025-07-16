@@ -48,7 +48,7 @@ export const RadioButton = (props: IRadioButtonProps) => {
 						as={React.Fragment}
 					>
 						{({ checked }) => (
-							<div className={`flex border 
+							<div className={`flex border grow basis-0
 							${checked ? 'border-primary-300 dark:border-primary-800 ring-primary-500/10 ring-3 z-10' : 'border-gray-300 dark:border-gray-700'}
 							${props.Orientation === 'Vertical' ?
 									'flex-col first:-mb-px last:-mt-px xs:flex-row first:rounded-t-lg last:rounded-b-lg' :

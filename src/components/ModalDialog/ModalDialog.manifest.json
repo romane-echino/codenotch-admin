@@ -7,6 +7,11 @@
       "displayName": "Title",
       "type": "string"
     },
+    {
+      "name": "Tint",
+      "displayName": "Tint",
+      "type": "string"
+    },
      {
       "name": "Subtitle",
       "displayName": "Subtitle",

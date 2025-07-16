@@ -9,7 +9,8 @@ export interface IButtonProps {
 	Type: 'Primary' | 'Secondary' | 'Tertiary' | 'Success' | 'Error' | 'Warning' | 'Info' | 'MenuItem';
 	OnClick: Action<void>;
 
-	Confirmation:string;
+	Confirmation?:string;
+	Disabled?: boolean;
 }
 
 export const Button: React.FC<IButtonProps> = (props) => {
@@ -45,6 +46,8 @@ export const Button: React.FC<IButtonProps> = (props) => {
 	}
 
 	const handleClick = () => {
+		if(props.Disabled) return;
+
 		if (props.Confirmation) {
 			if (window.confirm(props.Confirmation)) {
 				props.OnClick();
@@ -56,7 +59,7 @@ export const Button: React.FC<IButtonProps> = (props) => {
 	}
 
 	return (
-		<button onClick={handleClick} className={`cursor-pointer whitespace-nowrap items-center gap-2 rounded-lg    ${classes}`}>
+		<button onClick={handleClick} className={`cursor-pointer whitespace-nowrap items-center gap-2 rounded-lg ${props.Disabled ? 'opacity-50 pointer-events-none' : ''} ${classes}`}>
 			{props.Icon && <i className={`${props.Icon} text-lg flex items-center`} />}
 			<span>{props.Label}</span>
 		</button>

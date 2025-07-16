@@ -30,6 +30,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 			value: {}
 		}
 
+		
 		this.props.declareFunction('disable', (value: boolean) => {
 			this.setState({ disabled: value });
 		});

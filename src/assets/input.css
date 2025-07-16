@@ -94,5 +94,5 @@ html {
   [&::-webkit-scrollbar-thumb]:rounded-full
   [&::-webkit-scrollbar-thumb]:bg-gray-300
   dark:[&::-webkit-scrollbar-track]:bg-transparent
-  dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500
+  dark:[&::-webkit-scrollbar-thumb]:bg-white/20
 }
