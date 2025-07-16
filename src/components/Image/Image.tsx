@@ -1,5 +1,6 @@
 import React from 'react';
 import './Image.scss';
+import { Sizing } from '../Sizing/Sizing';
 
 interface IImageProps {
 	Source: string;
@@ -7,12 +8,14 @@ interface IImageProps {
 	Rounded?: boolean;
 }
 
-export const Image: React.FC<IImageProps> = ({ Source, AlternativeText, Rounded }) => {
+export const Image: React.FC<IImageProps> = (props) => {
 	return (
-		<img
-			src={Source}
-			alt={AlternativeText}
-			className={Rounded ? 'rounded-2xl' : ''}
+		<Sizing {...props}>
+			<img
+			src={props.Source}
+			alt={props.AlternativeText}
+			className={props.Rounded ? 'rounded-2xl' : ''}
 		/>
+		</Sizing>
 	);
 };

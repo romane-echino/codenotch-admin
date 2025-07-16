@@ -15,15 +15,12 @@ export const TextInput: React.FC<ITextInputProps> = (props) => {
 
 
 	React.useEffect(() => {
-		console.log('TextInput Value changed', props.Value);
 		if (props.Value !== undefined && props.Value !== null && props.Value !== '') {
-			console.log('TextInput calling updateValue', props.Value);
 			updateValue(props.Value);
 		}
 	}, [props.Value]);
 
 	const updateValue = (value: string) => {
-		console.log('TextInput updateValue', value);
 		props.onPropertyChanged('value', undefined, value)
 		if (props.OnChange) {
 			props.OnChange(value);

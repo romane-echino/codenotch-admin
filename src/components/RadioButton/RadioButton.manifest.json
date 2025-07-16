@@ -16,6 +16,17 @@
     {
       "name": "Value",
       "displayName": "Value"
+    },
+    {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+    {
+      "name": "OnChange",
+      "displayName": "On Change",
+      "type": "function",
+      "description": "Function to call when the value changes"
     }
   ],
    "childrenProps":[
