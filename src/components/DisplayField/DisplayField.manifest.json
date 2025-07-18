@@ -1,6 +1,6 @@
 {
   "name": "Display field",
-  "menu": "",
+  "menu": "Layout",
   "props": [
      {
       "name": "Field",

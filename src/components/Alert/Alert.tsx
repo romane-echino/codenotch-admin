@@ -39,9 +39,9 @@ const typeStyles: Record<AlertType, { border: string; bg: string; icon: string; 
 };
 
 export const Alert: React.FC<IAlertProps> = ({
-	Type = 'Success',
-	Title = 'Success Message',
-	Message = 'You can insert a description for the message here. The text relates to the action that has been performed.',
+	Type = 'Info',
+	Title,
+	Message,
 	LinkText,
 	LinkUrl,
 }) => {
@@ -53,12 +53,9 @@ export const Alert: React.FC<IAlertProps> = ({
 					<i className={`fa ${style.icon}`} />
 				</div>
 				<div>
-					<h4 className="mb-1 text-sm font-semibold text-gray-800 dark:text-white/90">
-						{Title}
-					</h4>
-					<p className="text-sm text-gray-500 dark:text-gray-400">
-						{Message}
-					</p>
+					{Title && <h3 className="font-semibold text-gray-800 dark:text-white">{Title}</h3>}
+					{Message && <p className="text-sm text-gray-500 dark:text-gray-400">{Message}</p>}
+
 					{LinkText && LinkUrl && (
 						<a href={LinkUrl} className="mt-3 inline-block text-sm font-medium text-gray-500 underline dark:text-gray-400">
 							{LinkText}

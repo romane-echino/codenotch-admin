@@ -1,6 +1,6 @@
 {
   "name": "List column",
-  "menu": "",
+  "menu": "Layout",
   "props": [ 
     {
       "name": "DisplayName",

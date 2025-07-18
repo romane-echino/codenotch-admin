@@ -1,0 +1,29 @@
+<Application>
+    <Application.Imports>
+        <Import Namespace="e" Source="/static/" />
+    </Application.Imports>
+
+	<!-- Basic application setup with navigation -->
+	<e:Application 
+    LogoUrl="https://colorful-cow-6efae0f56a.media.strapiapp.com/logo_light_771175a830.svg" 
+    LogoDarkUrl="https://colorful-cow-6efae0f56a.media.strapiapp.com/logo_dark_809512fdb7.svg" 
+    LogoIcon="https://colorful-cow-6efae0f56a.media.strapiapp.com/logo_icon_16b635acf7.svg" 
+    Tint="#115577">
+		<!-- Define application pages -->
+		<e:Page Application.Title="Dashboard" Application.Icon="fad fa-home" Application.Route="/" Application.Menu="Main">
+			<e:Label Value="My application dashboard" />
+		</e:Page>
+
+		<e:Page Application.Title="Analytics" Application.Icon="fa-chart-line" Application.Route="/analytics" Application.Menu="Main">
+			<e:Label Value="My application dashboard" />
+		</e:Page>
+
+		<e:Page Application.Title="User Management" Application.Icon="fa-users" Application.Route="/users" Application.Menu="Admin">
+			<e:Label Value="My application dashboard" />
+		</e:Page>
+
+		<e:Page Application.Title="Settings" Application.Icon="fa-cog" Application.Route="/settings" Application.Menu="Admin">
+			<e:Label Value="My application dashboard" />
+		</e:Page>
+	</e:Application>
+</Application>

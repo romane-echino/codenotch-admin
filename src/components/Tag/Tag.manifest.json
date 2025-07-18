@@ -13,6 +13,20 @@
       "type": "string"
     },
     {
+      "name": "IconPlacement",
+      "displayName": "Icon Placement",
+      "type": "string",
+      "enum": [
+        "Left",
+        "Right"
+      ]
+    },
+    {
+      "name": "Light",
+      "displayName": "Light Mode",
+      "type": "boolean"
+    },
+    {
       "name": "Color",
       "displayName": "Color",
       "type": "string",

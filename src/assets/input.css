@@ -4,6 +4,8 @@
 @source inline("@xl:col-span-{3,4,6,8,9}");
 @source inline("text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl}");
 @source inline("size-{4,5,6,7,8,9,10}");
+@source inline("bg-{turquoise,emerald,peter-river,amethyst,wet-asphalt,green-sea,nephritis,belize-hole,wisteria,midnight-blue,sunflower,carrot,alizarin,clouds,concrete,orange,pumpkin,pomegranate,silver,asbestos}/15");
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 *,

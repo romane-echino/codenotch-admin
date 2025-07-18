@@ -1,6 +1,6 @@
 {
   "name": "Modal dialog",
-  "menu": "",
+  "menu": "Layout",
   "props": [
     {
       "name": "Title",

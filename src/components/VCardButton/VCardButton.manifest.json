@@ -1,6 +1,6 @@
 {
   "name": "VCard button",
-  "menu": "",
+  "menu": "Input",
   "props": [
      {
       "name": "Label",

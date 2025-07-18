@@ -1,6 +1,6 @@
 {
   "name": "Linechart",
-  "menu": "",
+  "menu": "Charts",
   "props": [
     {
       "name": "Title",

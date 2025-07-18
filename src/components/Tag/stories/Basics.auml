@@ -1,34 +1,3 @@
-# Tag Component
-
-The Tag component displays compact labels that can be used to represent categories, statuses, attributes, or keywords. Tags are useful for highlighting information, filtering content, or indicating metadata in a visually distinctive way.
-
-## Description
-
-Tags provide a visual way to represent attributes, categories, or statuses with optional icons and predefined color schemes. They are compact UI elements that help users quickly identify and categorize content. Tags can contain text, icons, or both, and come in various predefined colors to represent different meanings or importance levels.
-
-Use tags to:
-- Show categories or attributes
-- Indicate status information
-- Display keywords or metadata
-- Create filterable/clickable labels
-- Highlight important information
-
-## Properties
-
-| Property | Type | Description |
-|----------|------|-------------|
-| Label | string | The text to display within the tag |
-| Icon | string | FontAwesome icon class to display alongside the label |
-| Color | enum | Predefined color scheme for the tag (see available options below) |
-| IconPlacement | enum | Position of the icon relative to the label ('left' or 'right') |
-| Light | boolean | When true, displays the tag in a lighter color variant |
-
-### Available Colors
-Turquoise, Emerald, PeterRiver, Amethyst, WetAsphalt, GreenSea, Nephritis, BelizeHole, Wisteria, MidnightBlue, SunFlower, Carrot, Alizarin, Clouds, Concrete, Orange, Pumpkin, Pomegranate, Silver, Asbestos
-
-## AUML Example
-
-```auml
 <Application>
 	<Application.Imports>
 		<Import Namespace="e" Source="/static/" />
@@ -67,4 +36,3 @@ Turquoise, Emerald, PeterRiver, Amethyst, WetAsphalt, GreenSea, Nephritis, Beliz
 	<e:Tag Label="Cloud" Icon="fas fa-cloud" Color="Silver" IconPlacement="Right" Light="true" />
 	<e:Tag Label="Admin" Icon="fas fa-user-shield" Color="Amethyst" IconPlacement="Right" Light="true" />
 </Application>
-```

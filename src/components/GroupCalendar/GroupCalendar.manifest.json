@@ -1,6 +1,6 @@
 {
   "name": "Group calendar",
-  "menu": "",
+  "menu": "Global",
   "props": [
     {
       "name": "GroupBy",

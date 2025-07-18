@@ -1,6 +1,6 @@
 {
   "name": "Kanban",
-  "menu": "",
+  "menu": "Layout",
   "props": [
     {
       "name": "Title",

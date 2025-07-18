@@ -1,6 +1,6 @@
 {
   "name": "Tabs",
-  "menu": "layout",
+  "menu": "Layout",
   "props": [
     {
       "name":"HasLayout",

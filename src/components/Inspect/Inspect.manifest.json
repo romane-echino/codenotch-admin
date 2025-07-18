@@ -1,6 +1,6 @@
 {
   "name": "Inspect",
-  "menu": "",
+  "menu": "Debug",
   "props": [
     {
       "name":"Source",

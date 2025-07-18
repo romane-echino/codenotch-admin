@@ -1,6 +1,6 @@
 {
   "name": "Label",
-  "menu": "",
+  "menu": "Layout",
   "props": [
      {
       "name": "Title",

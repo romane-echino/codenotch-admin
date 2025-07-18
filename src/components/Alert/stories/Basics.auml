@@ -1,32 +1,3 @@
-# Alert Component
-
-The Alert component displays important messages or notifications to users with visual indicators for different severity levels. Alerts provide contextual feedback about user actions or system events in a prominent yet non-intrusive way.
-
-## Description
-
-Alerts are used to communicate status information, success messages, warnings, or errors to the user. They feature distinct visual styling based on their type to help users quickly understand the nature of the message. Alerts can include a title, descriptive message, and an optional link for further action or information.
-
-Each alert type has a specific use case:
-- **Info**: General information or neutral updates
-- **Success**: Confirmation of a completed action or positive outcome
-- **Warning**: Cautionary advice or potential issues that need attention
-- **Error**: Critical problems, failures, or situations requiring immediate action
-
-Alerts are designed to be noticeable but non-modal, allowing users to continue their work while being informed of important information.
-
-## Properties
-
-| Property | Type | Description |
-|----------|------|-------------|
-| Type | enum | Determines the alert's appearance and severity (Info, Success, Warning, Error) |
-| Title | string | The main heading displayed at the top of the alert |
-| Message | string | The descriptive text explaining the alert details |
-| LinkText | string | Text to display for the optional action link |
-| LinkUrl | string | URL for the optional action link |
-
-## AUML Example
-
-```auml
 <Application>
     <Application.Imports>
         <Import Namespace="e" Source="/static/" />
@@ -89,4 +60,3 @@ Alerts are designed to be noticeable but non-modal, allowing users to continue t
         LinkUrl="/account/payment"
     />
 </Application>
-```

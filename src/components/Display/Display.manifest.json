@@ -1,6 +1,6 @@
 {
   "name": "Display",
-  "menu": "",
+  "menu": "Layout",
   "props": [
     {
       "name": "Source",

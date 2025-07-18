@@ -1,6 +1,6 @@
 {
   "name": "Radial",
-  "menu": "",
+  "menu": "Charts",
   "props": [
      {
       "name": "Title",

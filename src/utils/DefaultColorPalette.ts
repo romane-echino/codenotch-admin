@@ -91,7 +91,7 @@ export function getBackgroundColorFromName(name: ColorPalette) {
         case 'MidnightBlue':
             return 'bg-midnight-blue';
         case 'SunFlower':
-            return 'bg-sun-flower';
+            return 'bg-sunflower';
         case 'Carrot':
             return 'bg-carrot';
         case 'Alizarin':
@@ -139,7 +139,7 @@ export function getTextColorFromName(name: ColorPalette) {
         case 'MidnightBlue':
             return 'text-midnight-blue';
         case 'SunFlower':
-            return 'text-sun-flower';
+            return 'text-sunflower';
         case 'Carrot':
             return 'text-carrot';
         case 'Alizarin':

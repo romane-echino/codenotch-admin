@@ -1,0 +1,36 @@
+<Application>
+	<Application.Imports>
+		<Import Namespace="e" Source="/static/" />
+	</Application.Imports>
+
+	<!-- Basic icons with different sizes -->
+	<e:Label Value="Icon Basics" />
+
+	<e:Icon Value="fa-user" Size="ExtraSmall" />
+	<e:Icon Value="fa-user" Size="Small" />
+	<e:Icon Value="fa-user" Size="Normal" />
+	<e:Icon Value="fa-user" Size="Large" />
+	<e:Icon Value="fa-user" Size="ExtraLarge" />
+
+	<!-- Icons with different colors -->
+	<e:Label Value="Icon Colors" />
+	<e:Icon Value="fa-check-circle" Color="Primary" />
+	<e:Icon Value="fa-check-circle" Color="Success" />
+	<e:Icon Value="fa-exclamation-triangle" Color="Warning" />
+	<e:Icon Value="fa-info-circle" Color="Info" />
+	<e:Icon Value="fa-times-circle" Color="Error" />
+
+
+	<!-- Icons with animations -->
+	<e:Label Value="Icon Animations" />
+	<e:Icon Value="fa-heart" Size="Large" Color="Error" Animate="Beat" />
+	<e:Icon Value="fa-bell" Size="Large" Color="Warning" Animate="Fade" />
+	<e:Icon Value="fa-spinner" Size="Large" Color="Primary" Animate="Spin" />
+
+
+	<!-- Practical examples -->
+	<e:Label Value="Practical Icon Usage" />
+	<e:Icon Value="fa-check" Color="Success" />
+	<e:Icon Value="fa-exclamation-circle" Color="Warning" />
+	<e:Icon Value="fa-sync" Animate="Spin" Color="Info" />
+</Application>

@@ -108,6 +108,7 @@
     --color-belize-hole: #2980b9;
     --color-wisteria: #8e44ad;
     --color-midnight-blue: #2c3e50;
+    --color-sunflower: #f1c40f;
     --color-carrot: #e67e22;
     --color-alizarin: #e74c3c;
     --color-clouds: #ecf0f1;
@@ -371,6 +372,27 @@
   }
   .col-span-12 {
     grid-column: span 12 / span 12;
+  }
+  .container {
+    width: 100%;
+    @media (width >= 30rem) {
+      max-width: 30rem;
+    }
+    @media (width >= 40rem) {
+      max-width: 40rem;
+    }
+    @media (width >= 48rem) {
+      max-width: 48rem;
+    }
+    @media (width >= 64rem) {
+      max-width: 64rem;
+    }
+    @media (width >= 80rem) {
+      max-width: 80rem;
+    }
+    @media (width >= 96rem) {
+      max-width: 96rem;
+    }
   }
   .mx-auto {
     margin-inline: auto;
@@ -667,6 +689,9 @@
   .rotate-180 {
     rotate: 180deg;
   }
+  .transform {
+    transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
+  }
   .animate-ping {
     animation: var(--animate-ping);
   }
@@ -898,17 +923,41 @@
   .bg-alizarin {
     background-color: var(--color-alizarin);
   }
+  .bg-alizarin\/15 {
+    background-color: color-mix(in srgb, #e74c3c 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-alizarin) 15%, transparent);
+    }
+  }
   .bg-amber-100 {
     background-color: var(--color-amber-100);
   }
   .bg-amethyst {
     background-color: var(--color-amethyst);
   }
+  .bg-amethyst\/15 {
+    background-color: color-mix(in srgb, #9b59b6 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-amethyst) 15%, transparent);
+    }
+  }
   .bg-asbestos {
     background-color: var(--color-asbestos);
   }
+  .bg-asbestos\/15 {
+    background-color: color-mix(in srgb, #7f8c8d 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-asbestos) 15%, transparent);
+    }
+  }
   .bg-belize-hole {
     background-color: var(--color-belize-hole);
+  }
+  .bg-belize-hole\/15 {
+    background-color: color-mix(in srgb, #2980b9 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-belize-hole) 15%, transparent);
+    }
   }
   .bg-blue-100 {
     background-color: var(--color-blue-100);
@@ -916,17 +965,41 @@
   .bg-carrot {
     background-color: var(--color-carrot);
   }
+  .bg-carrot\/15 {
+    background-color: color-mix(in srgb, #e67e22 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-carrot) 15%, transparent);
+    }
+  }
   .bg-clouds {
     background-color: var(--color-clouds);
   }
+  .bg-clouds\/15 {
+    background-color: color-mix(in srgb, #ecf0f1 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-clouds) 15%, transparent);
+    }
+  }
   .bg-concrete {
     background-color: var(--color-concrete);
+  }
+  .bg-concrete\/15 {
+    background-color: color-mix(in srgb, #95a5a6 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-concrete) 15%, transparent);
+    }
   }
   .bg-emerald {
     background-color: var(--color-emerald);
   }
   .bg-emerald-100 {
     background-color: var(--color-emerald-100);
+  }
+  .bg-emerald\/15 {
+    background-color: color-mix(in srgb, #2ecc71 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-emerald) 15%, transparent);
+    }
   }
   .bg-error-50 {
     background-color: var(--color-error-50);
@@ -961,6 +1034,12 @@
   .bg-green-sea {
     background-color: var(--color-green-sea);
   }
+  .bg-green-sea\/15 {
+    background-color: color-mix(in srgb, #16a085 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-green-sea) 15%, transparent);
+    }
+  }
   .bg-indigo-100 {
     background-color: var(--color-indigo-100);
   }
@@ -973,8 +1052,20 @@
   .bg-midnight-blue {
     background-color: var(--color-midnight-blue);
   }
+  .bg-midnight-blue\/15 {
+    background-color: color-mix(in srgb, #2c3e50 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-midnight-blue) 15%, transparent);
+    }
+  }
   .bg-nephritis {
     background-color: var(--color-nephritis);
+  }
+  .bg-nephritis\/15 {
+    background-color: color-mix(in srgb, #27ae60 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-nephritis) 15%, transparent);
+    }
   }
   .bg-orange {
     background-color: var(--color-orange);
@@ -982,14 +1073,32 @@
   .bg-orange-400 {
     background-color: var(--color-orange-400);
   }
+  .bg-orange\/15 {
+    background-color: color-mix(in srgb, #f39c12 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-orange) 15%, transparent);
+    }
+  }
   .bg-peter-river {
     background-color: var(--color-peter-river);
+  }
+  .bg-peter-river\/15 {
+    background-color: color-mix(in srgb, #3498db 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-peter-river) 15%, transparent);
+    }
   }
   .bg-pink-100 {
     background-color: var(--color-pink-100);
   }
   .bg-pomegranate {
     background-color: var(--color-pomegranate);
+  }
+  .bg-pomegranate\/15 {
+    background-color: color-mix(in srgb, #c0392b 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-pomegranate) 15%, transparent);
+    }
   }
   .bg-primary-50 {
     background-color: rgb(var(--primary-color-50));
@@ -1003,11 +1112,23 @@
   .bg-pumpkin {
     background-color: var(--color-pumpkin);
   }
+  .bg-pumpkin\/15 {
+    background-color: color-mix(in srgb, #d35400 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-pumpkin) 15%, transparent);
+    }
+  }
   .bg-purple-100 {
     background-color: var(--color-purple-100);
   }
   .bg-silver {
     background-color: var(--color-silver);
+  }
+  .bg-silver\/15 {
+    background-color: color-mix(in srgb, #bdc3c7 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-silver) 15%, transparent);
+    }
   }
   .bg-success-50 {
     background-color: var(--color-success-50);
@@ -1015,11 +1136,26 @@
   .bg-success-500 {
     background-color: var(--color-success-500);
   }
+  .bg-sunflower {
+    background-color: var(--color-sunflower);
+  }
+  .bg-sunflower\/15 {
+    background-color: color-mix(in srgb, #f1c40f 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-sunflower) 15%, transparent);
+    }
+  }
   .bg-transparent {
     background-color: transparent;
   }
   .bg-turquoise {
     background-color: var(--color-turquoise);
+  }
+  .bg-turquoise\/15 {
+    background-color: color-mix(in srgb, #1abc9c 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-turquoise) 15%, transparent);
+    }
   }
   .bg-warning-50 {
     background-color: var(--color-warning-50);
@@ -1030,11 +1166,23 @@
   .bg-wet-asphalt {
     background-color: var(--color-wet-asphalt);
   }
+  .bg-wet-asphalt\/15 {
+    background-color: color-mix(in srgb, #34495e 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-wet-asphalt) 15%, transparent);
+    }
+  }
   .bg-white {
     background-color: var(--color-white);
   }
   .bg-wisteria {
     background-color: var(--color-wisteria);
+  }
+  .bg-wisteria\/15 {
+    background-color: color-mix(in srgb, #8e44ad 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-wisteria) 15%, transparent);
+    }
   }
   .bg-none {
     background-image: none;
@@ -1366,6 +1514,9 @@
   .text-success-600 {
     color: var(--color-success-600);
   }
+  .text-sunflower {
+    color: var(--color-sunflower);
+  }
   .text-turquoise {
     color: var(--color-turquoise);
   }
@@ -1430,6 +1581,9 @@
     @supports (color: color-mix(in lab, red, red)) {
       --tw-ring-color: color-mix(in oklab, rgb(var(--primary-color-500)) 10%, transparent);
     }
+  }
+  .filter {
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
   .backdrop-blur-\[32px\] {
     --tw-backdrop-blur: blur(32px);
@@ -2495,6 +2649,26 @@
   inherits: false;
   initial-value: 0;
 }
+@property --tw-rotate-x {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-y {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-z {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-skew-x {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-skew-y {
+  syntax: "*";
+  inherits: false;
+}
 @property --tw-space-y-reverse {
   syntax: "*";
   inherits: false;
@@ -2592,6 +2766,59 @@
   inherits: false;
   initial-value: 0 0 #0000;
 }
+@property --tw-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-opacity {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-drop-shadow-size {
+  syntax: "*";
+  inherits: false;
+}
 @property --tw-backdrop-blur {
   syntax: "*";
   inherits: false;
@@ -2648,6 +2875,11 @@
       --tw-translate-x: 0;
       --tw-translate-y: 0;
       --tw-translate-z: 0;
+      --tw-rotate-x: initial;
+      --tw-rotate-y: initial;
+      --tw-rotate-z: initial;
+      --tw-skew-x: initial;
+      --tw-skew-y: initial;
       --tw-space-y-reverse: 0;
       --tw-space-x-reverse: 0;
       --tw-divide-y-reverse: 0;
@@ -2669,6 +2901,19 @@
       --tw-ring-offset-width: 0px;
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-blur: initial;
+      --tw-brightness: initial;
+      --tw-contrast: initial;
+      --tw-grayscale: initial;
+      --tw-hue-rotate: initial;
+      --tw-invert: initial;
+      --tw-opacity: initial;
+      --tw-saturate: initial;
+      --tw-sepia: initial;
+      --tw-drop-shadow: initial;
+      --tw-drop-shadow-color: initial;
+      --tw-drop-shadow-alpha: 100%;
+      --tw-drop-shadow-size: initial;
       --tw-backdrop-blur: initial;
       --tw-backdrop-brightness: initial;
       --tw-backdrop-contrast: initial;

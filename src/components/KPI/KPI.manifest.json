@@ -1,6 +1,6 @@
 {
   "name": "KPI",
-  "menu": "",
+  "menu": "Charts",
   "props": [
     {
       "name": "Icon",

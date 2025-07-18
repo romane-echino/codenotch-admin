@@ -1,5 +1,37 @@
 {
   "name": "Alert",
-  "menu": "",
-  "props": []
+  "menu": "Global",
+  "props": [
+    {
+      "name": "Type",
+      "displayName": "Type",
+      "type": "string",
+      "enum": [
+        "Info",
+        "Success",
+        "Warning",
+        "Error"
+      ]
+    },
+    {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+    {
+      "name": "Message",
+      "displayName": "Message",
+      "type": "string"
+    },
+    {
+      "name": "LinkText",
+      "displayName": "Link Text",
+      "type": "string"
+    },
+    {
+      "name": "LinkUrl",
+      "displayName": "Link URL",
+      "type": "string"
+    }
+  ]
 }
