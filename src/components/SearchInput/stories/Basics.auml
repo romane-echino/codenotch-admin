@@ -1,0 +1,55 @@
+<Application>
+    <Application.Imports>
+        <Import Namespace="e" Source="/static/" />
+    </Application.Imports>
+
+<Application.Declarations>
+    <Data Id="users" >
+        [
+            {"id": 1, "name": "John Smith", "email": "john@example.com"},
+            {"id": 2, "name": "Jane Doe", "email": "jane@example.com"},
+            {"id": 3, "name": "Robert Johnson", "email": "robert@example.com"},
+            {"id": 4, "name": "Emily Davis", "email": "emily@example.com"}
+        ]
+    </Data>
+</Application.Declarations>
+    
+    <!-- Basic search input -->
+    <e:SearchInput 
+        Title="Find User" 
+        Placeholder="Type to search..." 
+        Icon="fas fa-search"
+        Source="{_auml.users}"
+        DisplayField="name"
+        ValueField="id"
+        OnSelect="{(selection) => selectedUser = selection.value}"
+    />
+    
+    <!-- Search with add functionality -->
+    <e:SearchInput 
+        Title="Find or Add User" 
+        Placeholder="Search users..."
+        Source="{_auml.users}" 
+        DisplayField="name"
+        ValueField="id"
+    >
+        <e:SearchInput.OnAdd>
+            <Script>
+                console.log('Add new user:', _action);
+            </Script>
+        </e:SearchInput.OnAdd>
+    </e:SearchInput>
+    
+    <!-- Custom rendering of dropdown items -->
+    <e:SearchInput 
+        Title="User Search with Custom Display" 
+        Source="{_auml.users}"
+        DisplayField="name"
+        ValueField="id"
+    >
+        <e:SearchInput.Renderer>
+            <e:Label Title="{_auml.item.name}" Value="{_auml.item.email}"  />
+        </e:SearchInput.Renderer>
+    </e:SearchInput>
+    
+</Application>

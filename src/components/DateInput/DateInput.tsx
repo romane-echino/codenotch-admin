@@ -1,7 +1,10 @@
 import React from 'react';
 import './DateInput.scss';
+import { IPageInheritedProps } from '../Page/Page';
+import { IBindableComponentProps, IUserInfoProps } from '@echino/echino.ui.sdk';
+import { IInputProps } from '../AbstractInput/AbstractInput';
 
-interface IDateInputProps {
+interface IDateInputProps extends IInputProps, IBindableComponentProps, IPageInheritedProps, IUserInfoProps {
 }
 
 interface IDateInputState {
