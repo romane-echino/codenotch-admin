@@ -31,6 +31,21 @@
       "name": "CardRenderer",
       "displayName": "CardRenderer",
       "type": "renderer"
+    },
+    {
+      "name": "ColumnRenderer",
+      "displayName": "ColumnRenderer",
+      "type": "renderer"
+    },
+    {
+      "name": "OrderField",
+      "displayName": "OrderField",
+      "type": "string"
+    },
+    {
+      "name": "OnChange",
+      "displayName": "OnChange",
+      "type": "action"
     }
   ]
 }

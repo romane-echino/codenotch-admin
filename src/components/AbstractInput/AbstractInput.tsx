@@ -63,7 +63,7 @@ componentDidUpdate(prevProps: Readonly<IAbstractInputProps>, prevState: Readonly
                         </span>
                     }
 
-                    <div className='relative grow'>
+                    <div className='relative grow group'>
                         {this.props.Icon &&
                             <span className="absolute pointer-events-none left-3 top-1/2 -translate-y-1/2">
                                 <i className={`${this.props.Icon} text-gray-500 dark:text-gray-400`}></i>

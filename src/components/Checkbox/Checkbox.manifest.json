@@ -1,0 +1,28 @@
+{
+  "name": "Checkbox",
+  "menu": "Input",
+  "props": [
+    {
+      "name": "Label",
+      "displayName": "Label",
+      "type": "string"
+    },
+    {
+      "name": "Description",
+      "displayName": "Description",
+      "type": "string"
+    },
+    {
+      "name": "Value",
+      "displayName": "Value",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "name": "OnChange",
+      "displayName": "On Change",
+      "type": "function",
+      "description": "Function to call when the value changes"
+    }
+  ]
+}

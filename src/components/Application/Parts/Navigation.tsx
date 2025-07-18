@@ -129,13 +129,13 @@ const NavigationItem: React.FC<{ item: IAppMenuItem, sideBarToggle: boolean }> =
         Component = NavLink;
         props.to = item.Route;
         props.exact = true;
-        props.activeClassName = "bg-gray-100 dark:bg-gray-800 text-primary-500";
+        props.activeClassName = "bg-primary-50 text-primary-500 dark:bg-primary-500/10 dark:text-primary-400";
     }
 
     return (
-        <Component {...props} className="flex items-center rounded-lg gap-1 font-medium p-1 grow cursor-pointer" >
+        <Component {...props} className="flex h-10 hover:bg-gray-100 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 items-center rounded-lg gap-3 text-sm font-medium p-2 grow cursor-pointer" >
             {item.Icon &&
-                <div className="size-8 flex items-center justify-center">
+                <div className="w-8 flex items-center justify-center">
                     <i className={`${item.Icon} text-xl`}></i>
                 </div>
             }

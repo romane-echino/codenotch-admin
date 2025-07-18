@@ -7,7 +7,7 @@ import { AbstractInput, IInputProps } from '../AbstractInput/AbstractInput';
 
 interface ITextInputProps extends IInputProps, IBindableComponentProps, IPageInheritedProps, IUserInfoProps {
 
-	EditMode:(item:any) => boolean
+	EditMode: (item: any) => boolean
 }
 
 export const TextInput: React.FC<ITextInputProps> = (props) => {
@@ -15,11 +15,13 @@ export const TextInput: React.FC<ITextInputProps> = (props) => {
 
 
 	React.useEffect(() => {
-		// Handle any side effects or updates based on props or state changes
-	}, [props, focused]);
+		if (props.Value !== undefined && props.Value !== null && props.Value !== '') {
+			updateValue(props.Value);
+		}
+	}, [props.Value]);
 
 	const updateValue = (value: string) => {
-		props.onPropertyChanged('Value', undefined, value)
+		props.onPropertyChanged('value', undefined, value)
 		if (props.OnChange) {
 			props.OnChange(value);
 		}

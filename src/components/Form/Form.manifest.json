@@ -22,6 +22,11 @@
       "description": "Form field",
       "type": "string"
     },
+    {
+      "name": "Required",
+      "description": "Required",
+      "type": "boolean"
+    },
      {
       "name": "ColSpan",
       "displayName": "ColSpan",

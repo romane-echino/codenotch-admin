@@ -25,11 +25,14 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 
 	renderBox(hasBorder: boolean = true) {
 		return (
-			<div className={`rounded-2xl ${(this.props.Modal === true && !this.props.Footer) ? 'relative w-full max-w-[700px]' : ' h-full grow'} ${hasBorder && 'border border-gray-200'} bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6`}>
+			<div className={`rounded-2xl bg-white p-5 dark:border-gray-800 md:p-6 flex flex-col gap-4 md:gap-6 
+				${(this.props.Modal === true && !this.props.Footer) ? 'relative w-full max-w-[700px]' : ' h-full grow'} 
+				${hasBorder && 'border border-gray-200'}  
+				${this.props.Footer ? 'dark:bg-gray-900' : 'dark:bg-white/[0.03]'}`}>
 				<BoxTitle {...this.props} />
 
 				{this.props.Modal ?
-					<div className='max-h-[450px] overflow-x-hidden px-1 overflow-y-auto'>
+					<div className='max-h-[550px] pb-1 overflow-x-hidden px-1 overflow-y-auto cn-scroll'>
 						{this.props.children}
 					</div> :
 					this.props.children
@@ -42,11 +45,13 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 		if (this.props.Footer) {
 			return (
 				<Sizing {...this.props}>
-					<div className={`border-gray-200 border bg-gray-100 rounded-2xl ${this.props.Modal ? 'relative w-full max-w-[700px]' : 'h-full'} flex flex-col`}>
-						{this.renderBox(false)}
+					<div className='dark:bg-gray-900 rounded-2xl shadow-2xl'>
+						<div className={`border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-white/[0.03] border rounded-2xl ${this.props.Modal ? 'relative w-full max-w-[700px]' : 'h-full'} flex flex-col`}>
+							{this.renderBox(false)}
 
-						<div className={`px-6 py-3.5 sm:py-5 flex ${this.props.Modal ? '*:grow' : ' justify-center'} items-center gap-5 sm:gap-8 `}>
-							{this.props.Footer}
+							<div className={`px-6 py-3.5 sm:py-5 flex ${this.props.Modal ? '*:grow' : ' justify-center'} items-center gap-5 sm:gap-8 `}>
+								{this.props.Footer}
+							</div>
 						</div>
 					</div>
 				</Sizing>

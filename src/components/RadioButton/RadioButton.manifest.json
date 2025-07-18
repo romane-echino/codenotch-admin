@@ -1,0 +1,63 @@
+{
+  "name": "RadioButton",
+  "menu": "Input",
+  "props": [
+    {
+      "name":"Orientation",
+      "displayName": "Orientation",
+      "description": "Orientation of the tabs",
+      "type": "string",
+      "enum": [
+        "Horizontal",
+        "Vertical"
+      ],
+      "default": "Horizontal"
+    },
+    {
+      "name": "Value",
+      "displayName": "Value"
+    },
+    {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+    {
+      "name": "OnChange",
+      "displayName": "On Change",
+      "type": "function",
+      "description": "Function to call when the value changes"
+    }
+  ],
+   "childrenProps":[
+    {
+      "name": "Label",
+      "description": "Radio button label",
+      "type": "string"
+    },
+    {
+      "name": "Value",
+      "description": "Radio button value"
+    },
+    {
+      "name": "Icon",
+      "description": "Radio button icon",
+      "type": "string"
+    },
+    {
+      "name": "Description",
+      "description": "Radio button description",
+      "type": "string"
+    }
+  ],
+  "children": {
+    "type": "component",
+    "min": 1,
+    "include": [
+      "Page"
+    ]
+  },
+  "snippets": {
+    "scenar.io": "<RadioButton>\n\t<RadioItem RadioButton.Label=\"$1\" RadioButton.Value=\"$2\" />\n</RadioButton>"
+  }
+}

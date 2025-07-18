@@ -1,15 +1,14 @@
 import React from 'react';
 import './ToggleButton.scss';
-import { Action, IBindableComponentProps } from '@echino/echino.ui.sdk';
 
-interface IToggleButtonProps extends IBindableComponentProps {
-	Source: string[];
-	onChange?: Action<{ index: number, value: string }>;
+interface IToggleButtonProps {
+
+	Label?: string;
+	Description?: string;
+	Icon?: string;
 }
 
 interface IToggleButtonState {
-	value: string;
-	selectedIndex: number;
 }
 
 export class ToggleButton extends React.Component<IToggleButtonProps, IToggleButtonState> {
@@ -18,29 +17,28 @@ export class ToggleButton extends React.Component<IToggleButtonProps, IToggleBut
 		super(props);
 
 		this.state = {
-			value: props.Source[0],
-			selectedIndex: 0
 		}
-	}
-
-	changeValue(value: string, index) {
-		this.setState({ value: value }, () => {
-			this.props.onPropertyChanged('Value', undefined, value)
-			if (this.props.onChange) {
-				this.props.onChange({ index, value });
-			}
-		});
 	}
 
 	render() {
 		return (
-			<div className="flex flex-wrap items-center gap-x-1 gap-y-2 rounded-lg bg-gray-100 p-0.5 dark:bg-gray-900">
-				{this.props.Source.map((item, index) => (
-					<button key={index} className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md h group hover:text-gray-900 dark:hover:text-white ${this.state.selectedIndex === index ? 'text-gray-900 dark:text-white bg-white dark:bg-gray-800' : 'text-gray-500 dark:text-gray-400'}`} onClick={() => this.setState({ selectedIndex: index })}>
-						{item}
-					</button>
-				))}
-			</div>
+			<label className="flex cursor-pointer items-center gap-3 select-none">
+				<div className="relative">
+					<input type="checkbox" id="toggle2" className="sr-only" />
+					<div className="block h-6 w-11 rounded-full bg-primary-500 dark:bg-primary-500" ></div>
+					<div className="shadow-theme-sm absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white duration-300 ease-linear translate-x-full"></div>
+				</div>
+
+				<div className='text-sm font-medium text-gray-700  dark:text-gray-400'>
+					{this.props.Label}
+					{this.props.Description &&
+						<p className='text-xs text-gray-500 dark:text-gray-400'>
+							{this.props.Description}
+						</p>
+					}
+				</div>
+			</label>
 		)
 	}
+
 }

@@ -12,7 +12,7 @@ interface ILabelProps extends Ii18nProps {
 	IconColor: 'Success' | 'Error' | 'Warning' | 'Info' | 'Primary';
 	Align?: 'Left' | 'Center' | 'Right';
 
-	TextColor: 'Normal' | 'Inherit';
+	TextColor: 'Normal' | 'Light' | 'Inherit';
 	IconPlacement: 'Left' | 'Right';
 
 	Type: 'Date' | 'Time' | 'DateTime' | 'Text' | 'Duration' | 'Currency' | 'Percentage' | 'Phone' | 'Email' | 'Url';
@@ -111,11 +111,13 @@ export class Label extends React.Component<ILabelProps, ILabelState> {
 			default: componentClass += ' text-base'; break;
 		}
 
-		if(this.props.TextColor === 'Normal'){
-			if(formattedComponent.type === 'a') {
-				componentClass += ` ${iconClass}`;
-			}else{
-				componentClass += ' text-gray-800 dark:text-white/90';
+		if (formattedComponent.type === 'a') {
+			componentClass += ` ${iconClass}`;
+		} else {
+			switch (this.props.TextColor) {
+				case 'Normal': componentClass += ' text-gray-800 dark:text-white/90'; break;
+				case 'Light': componentClass += ' text-gray-500 dark:text-gray-400'; break;
+				case 'Inherit': componentClass += ''; break;
 			}
 		}
 
@@ -138,7 +140,7 @@ export class Label extends React.Component<ILabelProps, ILabelState> {
 		return (
 			<Sizing {...this.props}>
 				{this.props.Title &&
-					<p className={`${titleClass} mb-1  text-xs ${this.props.TextColor === 'Normal' ? 'text-gray-500 dark:text-gray-400' : 'opacity-60'} sm:text-sm`}>
+					<p className={`${titleClass} mb-1  text-xs ${this.props.TextColor !== 'Inherit' ? 'text-gray-500 dark:text-gray-400' : 'opacity-60'} sm:text-sm`}>
 						{this.props.Title}
 					</p>
 				}

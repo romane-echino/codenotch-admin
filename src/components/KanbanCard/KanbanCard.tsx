@@ -1,17 +1,10 @@
 import React from 'react';
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-import { getColorFromName } from '../../utils/DefaultColorPalette';
-import { CSS } from "@dnd-kit/utilities";
-import { Id } from '../Kanban/Kanban';
-import { useSortable } from '@dnd-kit/sortable';
+import { ColorPalette, getColorFromName, getTextColorFromName } from '../../utils/DefaultColorPalette';
 
 
 export type ICardProps = {
-	CardId: Id;
-	ColumnId: Id;
-
-
 	Title?: string;
 	Due?: string;
 	CommentsCount?: string;
@@ -19,19 +12,14 @@ export type ICardProps = {
 	ImageUrl?: string;
 	UserImageUrl?: string;
 	Tags?: string;
+	Icon?: string;
+	IconColor?:ColorPalette;
+
+	Actions?: React.ReactNode;
+	Footer?: React.ReactNode;
 }
 
-export const KanbanCard: React.FC<ICardProps> = ({ CardId, ColumnId, Title, Due, Tags, Description, CommentsCount, ImageUrl, UserImageUrl }) => {
-	const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
-		id: CardId,
-		data: { type: "Card", card: { CardId, ColumnId, Title, Due, Tags, Description, CommentsCount, ImageUrl, UserImageUrl } },
-	});
-
-	const style = {
-		transition,
-		transform: CSS.Translate.toString(transform)
-	};
-
+export const KanbanCard: React.FC<ICardProps> = ({ Title,Icon, IconColor, Due, Tags, Description, CommentsCount, ImageUrl, UserImageUrl, Footer, Actions }) => {
 
 	function getDuration() {
 		var y = dayjs()
@@ -70,61 +58,87 @@ export const KanbanCard: React.FC<ICardProps> = ({ CardId, ColumnId, Title, Due,
 	}
 
 
-	return (
-		<div {...attributes} {...listeners}
-			ref={setNodeRef} style={style}
-			className="rounded-xl select-none cursor-grab shadow-sm border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/5">
+	const getCard = () => {
+		return (
+			<div className="rounded-xl min-w-2xs max-w-2xs mb-5 select-none cursor-grab shadow-sm border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/5">
 
-			{CardId} / {ColumnId}
+				<div className='flex items-center justify-between mb-3'>
+					{Title &&
+					<h4 className="mb-2 text-base text-gray-800 dark:text-white/90">
+						{Title}
+					</h4>
+				}
 
-			{Title &&
-				<h4 className="mb-2 text-base text-gray-800 dark:text-white/90">
-					{Title}
-				</h4>
-			}
-
-			{Description &&
-				<p className="text-sm mb-2 text-gray-500 dark:text-gray-400">
-					{Description}
-				</p>
-			}
-
-			{ImageUrl &&
-				<div className="my-4">
-					<img src={ImageUrl} alt="task" className="overflow-hidden rounded-xl border-[0.5px] border-gray-200 dark:border-gray-800 object-cover" />
-				</div>
-			}
-
-			<div className="flex items-start justify-between gap-6">
-				<div>
-					<div className="flex items-center gap-3">
-						{Due &&
-							<span className="flex cursor-pointer items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
-								<i className="far fa-calendar"></i>
-								<span>{getDuration()}</span>
-							</span>
-						}
-
-						{CommentsCount &&
-							<span className="flex cursor-pointer items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
-								<i className="far fa-comment"></i>
-								<span>{CommentsCount}</span>
-							</span>
-						}
-					</div>
-
-
+					{Icon && <i className={`fa ${Icon} ${getTextColorFromName(IconColor)}`}></i>}
 				</div>
 
-				{UserImageUrl &&
-					<div className="h-6 w-full max-w-6 overflow-hidden rounded-full border-[0.5px] border-gray-200 dark:border-gray-800">
-						<img src={UserImageUrl} alt="user" />
+				
+
+				{Description &&
+					<p className="text-sm mb-2 text-gray-500 dark:text-gray-400">
+						{Description}
+					</p>
+				}
+
+				{ImageUrl &&
+					<div className="my-4">
+						<img src={ImageUrl} alt="task" className="overflow-hidden rounded-xl border-[0.5px] border-gray-200 dark:border-gray-800 object-cover" />
 					</div>
 				}
 
-			</div>
+				<div className="flex items-start justify-between gap-6">
+					<div>
+						<div className="flex items-center gap-3">
+							{Due &&
+								<span className="flex cursor-pointer items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
+									<i className="far fa-calendar"></i>
+									<span>{getDuration()}</span>
+								</span>
+							}
 
-			{Tags && getTags()}
-		</div>
-	);
+							{CommentsCount &&
+								<span className="flex cursor-pointer items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
+									<i className="far fa-comment"></i>
+									<span>{CommentsCount}</span>
+								</span>
+							}
+						</div>
+
+
+					</div>
+
+					{UserImageUrl &&
+						<div className="h-6 w-full max-w-6 overflow-hidden rounded-full border-[0.5px] border-gray-200 dark:border-gray-800">
+							<img src={UserImageUrl} alt="user" />
+						</div>
+					}
+
+				</div>
+
+				{Tags && getTags()}
+			</div>
+		)
+	}
+
+
+
+	if (Footer) {
+		return (
+			<div className={`border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-white/[0.03] border rounded-2xl h-full flex flex-col`}>
+				{getCard()}
+
+				<div className={`px-6 py-3.5 sm:py-5 flex justify-center items-center gap-5 sm:gap-8 `}>
+					{Footer}
+				</div>
+			</div>
+		)
+
+	}
+	else {
+		return (
+			<>
+				{getCard()}
+			</>
+		)
+	}
 }

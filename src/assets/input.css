@@ -13,6 +13,8 @@ html {
 }
 
 @theme {
+  --breakpoint-xs: 30rem;
+  
   --color-success-50: #ecfdf3;
   --color-success-300: #6ce9a6;
   --color-success-500: #12b76a;
@@ -73,4 +75,24 @@ html {
   --color-primary-900: rgb(var(--primary-color-900));
   --color-primary-950: rgb(var(--primary-color-950));
   --color-primary: rgb(var(--primary-color));
+}
+
+
+.react-kanban-board{
+  @apply border-t border-gray-200 dark:border-gray-800;
+}
+
+.react-kanban-column{
+  @apply border-r border-gray-200 dark:border-gray-800 min-w-[250px] p-4;
+}
+
+
+.cn-scroll {
+  @apply [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:rounded-full
+  [&::-webkit-scrollbar-track]:bg-transparent
+  [&::-webkit-scrollbar-thumb]:rounded-full
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-transparent
+  dark:[&::-webkit-scrollbar-thumb]:bg-white/20
 }

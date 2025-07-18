@@ -1,0 +1,40 @@
+{
+  "name": "Tabs",
+  "menu": "layout",
+  "props": [
+    {
+      "name":"HasLayout",
+      "displayName": "HasLayout",
+      "description": "Whether the form has a layout",
+      "type": "boolean"
+    },
+    {
+      "name":"Orientation",
+      "displayName": "Orientation",
+      "description": "Orientation of the tabs",
+      "type": "string",
+      "enum": [
+        "Horizontal",
+        "Vertical"
+      ],
+      "default": "Horizontal"
+    }
+  ],
+  "childrenProps":[
+    {
+      "name": "Title",
+      "description": "Tab title",
+      "type": "string"
+    },
+    {
+      "name": "Icon",
+      "description": "Tab icon",
+      "type": "string"
+    },
+    {
+      "name": "Badge",
+      "description": "Tab badge",
+      "type": "string"
+    }
+  ]
+}
