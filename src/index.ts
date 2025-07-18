@@ -26,7 +26,6 @@ dayjs.extend(weekday);
 
 export * from './components/KPI/KPI'
 export * from './components/Barchart/Barchart'
-export * from './components/Target/Target'
 export * from './components/Application/Application'
 export * from './components/Linechart/Linechart'
 export * from './components/List/List'

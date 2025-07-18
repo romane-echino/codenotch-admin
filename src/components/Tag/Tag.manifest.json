@@ -1,6 +1,6 @@
 {
   "name": "Tag",
-  "menu": "",
+  "menu": "Global",
   "props": [
     {
       "name": "Label",

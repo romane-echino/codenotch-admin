@@ -25,7 +25,7 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 
 	renderBox(hasBorder: boolean = true) {
 		return (
-			<div className={`rounded-2xl bg-white p-5 dark:border-gray-800 md:p-6 flex flex-col gap-4 md:gap-6 
+			<div className={`rounded-2xl bg-white p-5 dark:border-gray-800 md:p-6  
 				${(this.props.Modal === true && !this.props.Footer) ? 'relative w-full max-w-[700px]' : ' h-full grow'} 
 				${hasBorder && 'border border-gray-200'}  
 				${this.props.Footer ? 'dark:bg-gray-900' : 'dark:bg-white/[0.03]'}`}>
@@ -45,7 +45,7 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 		if (this.props.Footer) {
 			return (
 				<Sizing {...this.props}>
-					<div className='dark:bg-gray-900 rounded-2xl shadow-2xl'>
+					<div className='dark:bg-gray-900 rounded-2xl shadow-2xl h-full'>
 						<div className={`border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-white/[0.03] border rounded-2xl ${this.props.Modal ? 'relative w-full max-w-[700px]' : 'h-full'} flex flex-col`}>
 							{this.renderBox(false)}
 

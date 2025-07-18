@@ -1,36 +1,3 @@
-# List Component
-
-The List component displays collections of data in a structured, tabular format with support for columns, sorting, and actions. It provides an efficient way to present and interact with datasets of any size.
-
-## Description
-
-The List component renders data from a source in a structured layout with configurable columns. It's designed to handle everything from simple lists to complex data tables with sorting, filtering, and row actions.
-
-Key features include:
-- Display data in customizable columns with headers
-- Support for primary and secondary actions on items
-- Custom renderers for cell content formatting
-- Header actions for bulk operations
-- Pagination to handle large datasets
-- Footer area for summary information or additional controls
-
-Each List requires ListColumn child components to define the structure and format of the displayed data.
-
-## Properties
-
-| Property | Type | Description |
-|----------|------|-------------|
-| Source | any | Data source containing items to display in the list |
-| Title | string | Main heading displayed at the top of the list |
-| Subtitle | string | Secondary text displayed below the title |
-| Actions | reactNode | Buttons or controls displayed in the list header |
-| Footer | reactNode | Content displayed at the bottom of the list |
-| Take | number | Maximum number of items to display per page |
-| ItemActions | renderer | Custom renderer function for item-specific actions |
-
-## AUML Example
-
-```auml
 <Application>
 	<Application.Imports>
 		<Import Namespace="e" Source="/static/" />
@@ -119,4 +86,3 @@ Each List requires ListColumn child components to define the structure and forma
 	</e:List>
 
 </Application>
-```

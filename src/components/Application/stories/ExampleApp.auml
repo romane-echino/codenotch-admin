@@ -11,12 +11,12 @@
 
 	<e:Application Tint="#005566" LogoUrl="https://placehold.co/150x60/000000/FFF" LogoDarkUrl="https://placehold.co/150x60/000000/FFF" LogoIcon="https://placehold.co/64x64/000000/FFF">
 
-		<e:Page Layout="Grid" Application.Route="/dashboard" Application.Title="Dashboard" Application.Icon="fa-duotone fa-light fa-chart-line">
+		<e:Page Layout="Grid" Application.Route="/" Application.Title="Dashboard" Application.Icon="fa-duotone fa-light fa-chart-line">
 
 			<e:KPI
 				Page.ColSpan="1/3"
 				Count="3782"
-				Title="Customers"
+				Label="Customers"
 				Rate="11.01"
 				Icon="fa-light fa-users">
 
@@ -26,7 +26,7 @@
 			<e:KPI
 				Page.ColSpan="1/3"
 				Count="5359"
-				Title="Customers"
+				Label="Order"
 				Rate="-9.05"
 				Icon="fal fa-cube"/>
 
@@ -105,7 +105,7 @@
 
 		</e:Page>
 
-		<e:Page Application.Icon="fa-duotone fa-light fa-diagram-subtask" Application.Route="/" Application.Title="Tasks">
+		<e:Page Application.Icon="fa-duotone fa-light fa-diagram-subtask" Application.Route="/tasks" Application.Title="Tasks">
 			<e:Page.Header>
 				<e:Button Label="Ajouter" Type="Success" Icon="far fa-plus">
 					<e:Button.OnClick>

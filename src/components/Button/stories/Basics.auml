@@ -1,34 +1,3 @@
-# Button Component
-
-The Button component provides an interactive element that triggers actions when clicked. It supports various styles, states, and can include icons to enhance visual communication.
-
-## Description
-
-Buttons are essential interactive elements that enable users to trigger actions, submit forms, or navigate between views. The Button component offers a range of visual styles to indicate different types of actions, importance levels, or states.
-
-Key features include:
-- Multiple predefined visual styles (Primary, Secondary, etc.)
-- Optional icon support for enhanced visual communication
-- Disabled state for indicating unavailable actions
-- Confirmation prompts to prevent accidental actions
-- Full customization through various properties
-
-Use buttons to provide clear, interactive controls that help users accomplish tasks and navigate your application.
-
-## Properties
-
-| Property | Type | Description | Required |
-|----------|------|-------------|----------|
-| Label | string | Text displayed on the button | Yes |
-| Icon | string | FontAwesome icon class to display alongside the label | No |
-| Disabled | boolean | When true, prevents the button from being clicked | No |
-| Confirmation | string | Message shown in a confirmation dialog before the action is executed | No |
-| Type | enum | Visual style of the button (Primary, Secondary, Tertiary, Success, Warning, Error, Info, MenuItem) | Yes |
-| OnClick | action | Function to execute when the button is clicked | No |
-
-## AUML Example
-
-```auml
 <Application>
 	<Application.Imports>
 		<Import Namespace="e" Source="/static/" />
@@ -66,4 +35,3 @@ Use buttons to provide clear, interactive controls that help users accomplish ta
 	<e:Button Label="Settings" Icon="fa-cog" Type="MenuItem" />
 	<e:Button Label="Logout" Icon="fa-sign-out-alt" Type="MenuItem" />
 </Application>
-```
