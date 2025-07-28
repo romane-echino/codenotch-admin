@@ -42,3 +42,7 @@ jobs:
           container_name: $web
           connection_string: ${{ secrets.AZURE_CONNECTION_STRING }}
           overwrite: 'true'
+          
+      # Build du DSP
+      - name: Publishing to Codenotch
+        run: npm run publish
