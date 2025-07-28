@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: '18'  # Utiliser la version de Node appropriée pour votre projet
           cache: 'npm'
-          
+
       - name: Authenticate with private NPM package
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
@@ -32,19 +32,9 @@ jobs:
 
       # Déployer vers Azure Blob Storage
       - name: Deploy to Azure Blob Storage
-        uses: azure/CLI@v1
+        uses: bacongobbler/azure-blob-storage-upload@main
         with:
-          inlineScript: |
-            # Installer l'extension Azure CLI pour le stockage si nécessaire
-            az extension add --name storage-preview
-            
-            # Se connecter à Azure
-            az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
-            
-            # Nettoyer le container existant (supprime tout le contenu)
-            echo "Cleaning existing content in storage container..."
-            az storage blob delete-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} --auth-mode key --account-key ${{ secrets.AZURE_STORAGE_KEY }} --source ${{ secrets.AZURE_CONTAINER_NAME }} --pattern "*"
-            
-            # Uploader les nouveaux fichiers (dépend de votre structure de build)
-            echo "Uploading new content to storage container..."
-            az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} --auth-mode key --account-key ${{ secrets.AZURE_STORAGE_KEY }} --destination ${{ secrets.AZURE_CONTAINER_NAME }} --source ./dist --overwrite true
+          source_dir: build
+          container_name: $web
+          connection_string: ${{ secrets.AZURE_CONNECTION_STRING }}
+          overwrite: 'true'
