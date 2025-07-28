@@ -1,0 +1,47 @@
+name: Build and Deploy to Azure Blob Storage
+
+on:
+  push:
+    branches: [ main, master ]  # Déclenche le workflow sur les push vers main/master
+  workflow_dispatch:            # Permet l'exécution manuelle depuis l'interface GitHub
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout du code source
+      - uses: actions/checkout@v3
+
+      # Configuration de Node.js
+      - name: Build & Publish to blob storage
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Utiliser la version de Node appropriée pour votre projet
+          cache: 'npm'
+
+      # Installation des dépendances
+      - name: Install dependencies
+        run: npm ci
+
+      # Build du projet
+      - name: Build project
+        run: npm run build
+
+      # Déployer vers Azure Blob Storage
+      - name: Deploy to Azure Blob Storage
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            # Installer l'extension Azure CLI pour le stockage si nécessaire
+            az extension add --name storage-preview
+            
+            # Se connecter à Azure
+            az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+            
+            # Nettoyer le container existant (supprime tout le contenu)
+            echo "Cleaning existing content in storage container..."
+            az storage blob delete-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} --auth-mode key --account-key ${{ secrets.AZURE_STORAGE_KEY }} --source ${{ secrets.AZURE_CONTAINER_NAME }} --pattern "*"
+            
+            # Uploader les nouveaux fichiers (dépend de votre structure de build)
+            echo "Uploading new content to storage container..."
+            az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} --auth-mode key --account-key ${{ secrets.AZURE_STORAGE_KEY }} --destination ${{ secrets.AZURE_CONTAINER_NAME }} --source ./dist --overwrite true
