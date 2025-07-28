@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: '18'  # Utiliser la version de Node appropriée pour votre projet
           cache: 'npm'
+          
+      - name: Authenticate with private NPM package
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
       # Installation des dépendances
       - name: Install dependencies
