@@ -30,6 +30,10 @@ jobs:
       - name: Build project
         run: npm run build
 
+      # Build du DSP
+      - name: Build project
+        run: npm run build:dsp
+
       # Déployer vers Azure Blob Storage
       - name: Deploy to Azure Blob Storage
         uses: bacongobbler/azure-blob-storage-upload@main
