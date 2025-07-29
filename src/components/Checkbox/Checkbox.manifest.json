@@ -13,6 +13,18 @@
       "type": "string"
     },
     {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string",
+      "description": "Icon to display next to the checkbox"
+    },
+    {
+      "name": "Disabled",
+      "displayName": "Disabled",
+      "type": "boolean",
+      "description": "Whether the checkbox is disabled"
+    },
+    {
       "name": "Value",
       "displayName": "Value",
       "type": "boolean",
