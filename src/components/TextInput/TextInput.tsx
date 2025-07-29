@@ -16,7 +16,7 @@ export const TextInput: React.FC<ITextInputProps> = (props) => {
 
 	React.useEffect(() => {
 		if (props.Value !== undefined && props.Value !== null && props.Value !== '') {
-			updateValue(props.Value);
+			updateValue(props.Value as string);
 		}
 	}, [props.Value]);
 

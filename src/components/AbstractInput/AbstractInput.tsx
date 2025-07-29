@@ -6,26 +6,27 @@ export interface IAbstractInputProps extends IInputProps {
     Focus: boolean;
 }
 
-export interface IAbstractListAction{
-   value:any, 
-   index: number
+export interface IAbstractListAction {
+    value: any,
+    index: number
 }
 
-export interface IInputProps{
+export interface IInputProps {
     Title?: string;
+    Subtitle?: string;
     Placeholder?: string;
-    Value?: string;
+    Value?: string | number;
     OnChange?: Action<any>;
     OnSelect?: Action<IAbstractListAction>;
     Icon?: string;
     Disabled?: boolean;
-    Helper?:string;
+    Helper?: string;
 
     Prefix?: React.ReactNode;
     Suffix?: React.ReactNode;
 }
 
-interface IAbstractInputState{
+interface IAbstractInputState {
     focused: boolean;
 }
 
@@ -39,22 +40,28 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
     }
 
 
-componentDidUpdate(prevProps: Readonly<IAbstractInputProps>, prevState: Readonly<IAbstractInputState>, snapshot?: any): void {
-    if (this.props.Focus !== prevProps.Focus) {
-        this.setState({ focused: this.props.Focus });
+    componentDidUpdate(prevProps: Readonly<IAbstractInputProps>, prevState: Readonly<IAbstractInputState>, snapshot?: any): void {
+        if (this.props.Focus !== prevProps.Focus) {
+            this.setState({ focused: this.props.Focus });
+        }
     }
-}
 
     render() {
         return (
             <Sizing {...this.props} Containered={true}>
                 {this.props.Title &&
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                    <label className={`${this.props.Subtitle ? '' : 'mb-1.5'} block text-sm font-medium text-gray-700 dark:text-gray-400`}>
                         {this.props.Title}
                     </label>
                 }
 
-                <div  className={` cursor-text flex dark:bg-dark-900 min-h-11 w-full rounded-lg border  bg-transparent  text-sm   dark:bg-gray-900 text-gray-800 dark:text-white/90 
+                {this.props.Subtitle &&
+                    <label className="mb-1.5 block text-xs font-medium text-gray-500 dark:text-gray-500">
+                        {this.props.Subtitle}
+                    </label>
+                }
+
+                <div className={` cursor-text flex dark:bg-dark-900 min-h-11 w-full rounded-lg border  bg-transparent  text-sm   dark:bg-gray-900 text-gray-800 dark:text-white/90 
                     ${this.state.focused && !this.props.Disabled ? 'border-primary-300 dark:border-primary-800 ring-primary-500/10 ring-3' : 'border-gray-300 dark:border-gray-700'}`}>
 
                     {this.props.Prefix &&

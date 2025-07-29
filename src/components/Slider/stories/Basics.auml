@@ -1,0 +1,40 @@
+<Application type="SPA">
+	<Application.Imports>
+		<Import Namespace="local" Source="/static/" />
+	</Application.Imports>
+
+
+	<local:Mock Tint="#465fff" />
+
+	<local:Slider />
+
+	<local:Form Id="form">
+
+		<local:Slider />
+		<local:Slider
+			Title="User count"
+			Min="25"
+			Max="75"
+			Step="25"
+			Form.ColSpan="1/2"
+			Form.Field="userCount"
+			Subtitle="Please specify a user count"/>
+
+		<local:Slider
+			Title="Parcel weight"
+			Min="10"
+			Max="150"
+			Step="10"
+			Form.ColSpan="1/2"
+			Form.Field="parcelWeight"
+			Subtitle="Please specify a parcel weight"
+			ShowMinMax="false"
+			ShowValue="false"
+			Unit="Kg"/>
+	</local:Form>
+
+	<local:Box>
+		<local:Inspect Source="{_auml.form.value}" />
+	</local:Box>
+
+</Application>

@@ -1,5 +1,86 @@
 {
   "name": "Slider",
-  "menu": "",
-  "props": []
+  "menu": "Input",
+  "bindable": [
+    "value"
+  ],
+  "props": [
+    {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+    {
+      "name": "Unit",
+      "displayName": "Unit",
+      "type": "string"
+    },
+    {
+      "name": "Subtitle",
+      "displayName": "Subtitle",
+      "type": "string"
+    },
+    {
+      "name": "ShowValue",
+      "displayName": "ShowValue",
+      "type": "boolean"
+    },
+    {
+      "name": "ShowMinMax",
+      "displayName": "ShowMinMax",
+      "type": "boolean"
+    },
+    {
+      "name": "Min",
+      "displayName": "Min",
+      "type": "number",
+      "defaultValue": 0
+    },
+    {
+      "name": "Max",
+      "displayName": "Max",
+      "type": "number",
+      "defaultValue": 100
+    },
+    {
+      "name": "Step",
+      "displayName": "Step",
+      "type": "number",
+      "defaultValue": 1
+    },
+    {
+      "name": "Value",
+      "displayName": "Value",
+      "type": "number"
+    },
+    {
+      "name": "OnChange",
+      "displayName": "OnChange",
+      "type": "action"
+    },
+     {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string"
+    },
+    {
+      "name": "Disabled",
+      "displayName": "Disabled",
+      "type": "boolean"
+    },
+    {
+      "name": "Prefix",
+      "displayName": "Prefix",
+      "type": "reactNode"
+    },
+    {
+      "name": "Suffix",
+      "displayName": "Suffix",
+      "type": "reactNode"
+    }
+
+  ],
+  "snippets": {
+    "scenar.io": "<Slider />"
+  }
 }

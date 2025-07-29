@@ -1,0 +1,11 @@
+{
+  "name": "Mock",
+  "menu": "Debug",
+  "props": [
+    {
+      "name": "Tint",
+      "displayName": "Tint",
+      "type": "string"
+    }
+  ]
+}
