@@ -6,8 +6,6 @@ import { IPageInheritedProps } from '../Page/Page';
 import { AbstractInput, IInputProps } from '../AbstractInput/AbstractInput';
 
 interface ITextInputProps extends IInputProps, IBindableComponentProps, IPageInheritedProps, IUserInfoProps {
-
-	EditMode: (item: any) => boolean
 }
 
 export const TextInput: React.FC<ITextInputProps> = (props) => {

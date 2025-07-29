@@ -1,5 +1,57 @@
 {
-  "name": "Mail input",
-  "menu": "",
-  "props": []
+  "name": "MailInput",
+  "menu": "Input",
+  "bindable": [
+    "value"
+  ],
+  "props": [
+    {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+    {
+      "name": "Subtitle",
+      "displayName": "Subtitle",
+      "type": "string"
+    },
+    {
+      "name": "Placeholder",
+      "displayName": "Placeholder",
+      "type": "string"
+    },
+    {
+      "name": "Value",
+      "displayName": "Value",
+      "type": "string"
+    },
+    {
+      "name": "OnChange",
+      "displayName": "OnChange",
+      "type": "action"
+    },
+    {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string"
+    },
+    {
+      "name": "Disabled",
+      "displayName": "Disabled",
+      "type": "boolean"
+    },
+    {
+      "name": "Prefix",
+      "displayName": "Prefix",
+      "type": "reactNode"
+    },
+    {
+      "name": "Suffix",
+      "displayName": "Suffix",
+      "type": "reactNode"
+    }
+  ],
+  "snippets": {
+    "scenar.io": "<MailInput />"
+  }
 }
