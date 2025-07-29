@@ -403,18 +403,6 @@
   .-mt-0\.5 {
     margin-top: calc(var(--spacing) * -0.5);
   }
-  .-mt-1\.5 {
-    margin-top: calc(var(--spacing) * -1.5);
-  }
-  .-mt-2 {
-    margin-top: calc(var(--spacing) * -2);
-  }
-  .-mt-3 {
-    margin-top: calc(var(--spacing) * -3);
-  }
-  .-mt-4 {
-    margin-top: calc(var(--spacing) * -4);
-  }
   .-mt-\[14px\] {
     margin-top: calc(14px * -1);
   }
@@ -444,9 +432,6 @@
   }
   .mr-3 {
     margin-right: calc(var(--spacing) * 3);
-  }
-  .-mb-1\.5 {
-    margin-bottom: calc(var(--spacing) * -1.5);
   }
   .-mb-px {
     margin-bottom: -1px;
@@ -603,9 +588,6 @@
   .w-2 {
     width: calc(var(--spacing) * 2);
   }
-  .w-3 {
-    width: calc(var(--spacing) * 3);
-  }
   .w-4 {
     width: calc(var(--spacing) * 4);
   }
@@ -737,9 +719,6 @@
   }
   .cursor-pointer {
     cursor: pointer;
-  }
-  .cursor-text {
-    cursor: text;
   }
   .resize {
     resize: both;
@@ -1494,9 +1473,6 @@
   .text-gray-500 {
     color: var(--color-gray-500);
   }
-  .text-gray-600 {
-    color: var(--color-gray-600);
-  }
   .text-gray-700 {
     color: var(--color-gray-700);
   }
@@ -1583,6 +1559,9 @@
   }
   .italic {
     font-style: italic;
+  }
+  .line-through {
+    text-decoration-line: line-through;
   }
   .underline {
     text-decoration-line: underline;
@@ -2638,6 +2617,9 @@
   }
 }
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&display=swap");
+textarea::-webkit-resizer {
+  display: none;
+}
 *, body, html {
   font-family: "Outfit", sans-serif;
 }
@@ -2662,6 +2644,9 @@
 .cn-scroll {
   &::-webkit-scrollbar {
     width: calc(var(--spacing) * 2);
+  }
+  &::-webkit-scrollbar-corner {
+    display: none;
   }
   &::-webkit-scrollbar-thumb {
     border-radius: calc(infinity * 1px);

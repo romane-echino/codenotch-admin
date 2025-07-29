@@ -4,7 +4,7 @@ import './Icon.scss';
 interface IIconProps {
 	Value:string;
 	Size?: 'ExtraSmall' | 'Small' | 'Normal' | 'Large' | 'ExtraLarge';
-	Color: 'Primary'| 'Success' | 'Error' | 'Warning' | 'Info';
+	Color: 'Primary'| 'Success' | 'Error' | 'Warning' | 'Info' | 'Inherit';
 	Animate?: 'None'| 'Beat' | 'Fade' | 'Spin';
 }
 
@@ -65,6 +65,9 @@ export class Icon extends React.Component<IIconProps, IIconState> {
 				break;
 			case 'Info':
 				classes += ' text-info-500';
+				break;
+			case 'Inherit':
+				classes += ' ';
 				break;
 			default:
 				classes += ' text-gray-500';

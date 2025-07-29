@@ -79,7 +79,7 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 
 				<Listbox.Button
 					ref={inputRef}
-					className={`${props.Icon && 'pl-9'} text-left px-4 py-2.5 w-full focus:border-0 focus:outline-hidden placeholder:text-gray-400 dark:placeholder:text-white/30`}
+					className={`${props.Icon && 'pl-9'} cursor-pointer text-left px-4 py-2.5 w-full focus:border-0 focus:outline-hidden placeholder:text-gray-400 dark:placeholder:text-white/30`}
 					onBlur={() => setFocus(false)}
 					onFocus={() => setFocus(true)}
 				>
@@ -101,17 +101,21 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 
 				<Listbox.Options
 					className={`absolute ${popupPosition === 'top' ? 'bottom-full mb-1' : 'top-full mt-1'} z-50 bg-white border border-gray-300 dark:border-gray-700 translate-y-0.5 rounded-lg shadow-lg overflow-hidden max-w-full`}>
-					{data.map((obj, objIndex) => (
-						<Listbox.Option
+					{data.map((obj, objIndex) => {
+
+						let disabled = props.DisabledFunction ? props.DisabledFunction(obj, objIndex) : false;
+						return(
+							<Listbox.Option
 							key={objIndex}
 							value={objIndex}
-
-							disabled={props.DisabledFunction ? props.DisabledFunction(obj, objIndex) : false}
-							className={({ active }) => `relative cursor-default select-none py-2 pr-10 pl-4 ${active ? 'bg-primary-500 text-white' : 'text-gray-700'}`}>
+							disabled={disabled}
+							className={({ active }) => `relative cursor-default select-none py-2 pr-10 pl-4 
+							${disabled ? 'opacity-50 cursor-not-allowed line-through' : ''}
+							${active ? 'bg-primary-500 text-white' : 'text-gray-700'}`}>
 
 							{({ selected, active }) => (
 								<>
-									<span className={`block truncate`}>
+									<span className={`truncate flex gap-2 items-center justify-start`}>
 										{props.Renderer ?
 											props.Renderer('item', obj) :
 											obj[props.DisplayField] || obj
@@ -119,14 +123,15 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 									</span>
 
 									{objIndex === selectedIndex &&
-										<span className={`absolute inset-y-0 right-0 flex items-center pr-3  ${active ? 'text-white ' : 'text-gray-800 dark:text-white/90'}`}>
+										<span className={`absolute inset-y-0 right-0 flex items-center pr-3  ${active ? 'text-white' : 'text-gray-800'}`}>
 											<i className="fa-regular fa-circle-check flex justify-center items-center"></i>
 										</span>
 									}
 								</>
 							)}
 						</Listbox.Option>
-					))}
+						)
+					})}
 				</Listbox.Options>
 			</Listbox>
 		</AbstractInput>

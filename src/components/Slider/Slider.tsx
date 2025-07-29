@@ -33,6 +33,7 @@ export const Slider: React.FC<SliderProps> = (props) => {
 	useEffect(() => {
 		if (PropsValue !== undefined) {
 			setInternalValue(PropsValue);
+			props.onPropertyChanged('value', undefined, PropsValue)
 		}
 	}, [PropsValue]);
 
@@ -43,12 +44,15 @@ export const Slider: React.FC<SliderProps> = (props) => {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newValue = parseFloat(e.target.value);
 		setInternalValue(newValue);
-		props.OnChange?.(newValue);
+		props.onPropertyChanged('value', undefined, newValue)
+		if (props.OnChange) {
+			props.OnChange(newValue);
+		}
 	};
 
 	return (
 		<AbstractInput Focus={focused} {...props} Title={ShowValue ? (props.Title ? props.Title + ' : ' : '') + `${Value}${Unit ? ' ' + Unit : ''}` : props.Title}>
-			<div className="w-full px-1 py-2">
+			<div className={`w-full ${props.Icon && 'pl-9'} px-4  py-2.5`}>
 
 				<div className="relative">
 					{/* Track background */}

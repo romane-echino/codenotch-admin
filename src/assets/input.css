@@ -8,6 +8,9 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+textarea::-webkit-resizer{
+display: none;
+}
 *,
 body,
 html {
@@ -91,6 +94,7 @@ html {
 
 .cn-scroll {
   @apply [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-corner]:hidden
   [&::-webkit-scrollbar-track]:rounded-full
   [&::-webkit-scrollbar-track]:bg-transparent
   [&::-webkit-scrollbar-thumb]:rounded-full
@@ -98,3 +102,4 @@ html {
   dark:[&::-webkit-scrollbar-track]:bg-transparent
   dark:[&::-webkit-scrollbar-thumb]:bg-white/20
 }
+

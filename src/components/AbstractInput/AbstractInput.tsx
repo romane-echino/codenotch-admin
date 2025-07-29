@@ -61,7 +61,7 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
                     </label>
                 }
 
-                <div className={` cursor-text flex dark:bg-dark-900 min-h-11 w-full rounded-lg border  bg-transparent  text-sm   dark:bg-gray-900 text-gray-800 dark:text-white/90 
+                <div className={`flex dark:bg-dark-900 min-h-11 w-full rounded-lg border  bg-transparent  text-sm   dark:bg-gray-900 text-gray-800 dark:text-white/90 
                     ${this.state.focused && !this.props.Disabled ? 'border-primary-300 dark:border-primary-800 ring-primary-500/10 ring-3' : 'border-gray-300 dark:border-gray-700'}`}>
 
                     {this.props.Prefix &&
@@ -70,7 +70,7 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
                         </span>
                     }
 
-                    <div className='relative grow group'>
+                    <div className='relative grow group flex items-center'>
                         {this.props.Icon &&
                             <span className="absolute pointer-events-none left-3 top-1/2 -translate-y-1/2">
                                 <i className={`${this.props.Icon} text-gray-500 dark:text-gray-400`}></i>

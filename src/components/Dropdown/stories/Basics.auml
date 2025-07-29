@@ -1,0 +1,50 @@
+<Application>
+	<Application.Imports>
+		<Import Namespace="local" Source="/static/" />
+	</Application.Imports>
+
+	<Application.Declarations>
+		<Data Id="period">
+			[{
+					"label": "Daily",
+					"value": 0,
+					"icon": "fal fa-calendar-days"
+				},
+				{
+					"label": "Weekly",
+					"value": 1,
+					"icon": "fal fa-calendar-week"
+				},
+				{
+					"label": "Monthly",
+					"value": 2,
+					"icon": "fal fa-calendar"
+				},
+				{
+					"label": "Yearly",
+					"value": 3,
+					"icon": "fal fa-calendars"
+				}
+			]
+		</Data>
+	</Application.Declarations>
+
+	<local:Mock />
+
+	<local:Dropdown Source="{['Test','Truc']}" />
+
+	<local:Dropdown 
+		Source="{_auml.period.data}" 
+		DisplayField="label" 
+		ValueField="value" 
+		Placeholder="Select periodicity..." 
+		DisabledFunction="{(v,i) => v.value === 0}" 
+		Value="{1}"
+		Title="Periodicity" 
+		Subtitle="Choose how frequently you want the emails to be sent">
+		<local:Dropdown.Renderer>
+			<local:Label IconColor="Inherit" Icon="{_auml.item.icon}" Value="{_auml.item.label}" TextColor="Inherit" />
+		</local:Dropdown.Renderer>
+		</local:Dropdown>
+
+</Application>

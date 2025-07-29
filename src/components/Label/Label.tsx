@@ -9,7 +9,7 @@ interface ILabelProps extends Ii18nProps {
 	Value: string;
 	Size: 'ExtraSmall' | 'Small' | 'Normal' | 'Large';
 	Icon: string;
-	IconColor: 'Success' | 'Error' | 'Warning' | 'Info' | 'Primary';
+	IconColor: 'Success' | 'Error' | 'Warning' | 'Info' | 'Primary' | 'Inherit';
 	Align?: 'Left' | 'Center' | 'Right';
 
 	TextColor: 'Normal' | 'Light' | 'Inherit';
@@ -99,6 +99,7 @@ export class Label extends React.Component<ILabelProps, ILabelState> {
 			case 'Warning': iconClass = 'text-yellow-500 dark:text-yellow-400'; break;
 			case 'Info': iconClass = 'text-blue-500 dark:text-blue-400'; break;
 			case 'Primary': iconClass = 'text-primary-500 dark:text-primary-400'; break;
+			case 'Inherit': iconClass = ''; break;
 			default: iconClass = 'text-gray-800 dark:text-white/90'; break;
 		}
 

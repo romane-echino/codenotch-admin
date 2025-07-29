@@ -3,13 +3,13 @@
   "menu": "Input",
   "props": [
     {
-      "name": "Label",
-      "displayName": "Label",
+      "name": "Title",
+      "displayName": "Title",
       "type": "string"
     },
     {
-      "name": "Description",
-      "displayName": "Description",
+      "name": "Subtitle",
+      "displayName": "Subtitle",
       "type": "string"
     },
     {

@@ -4,8 +4,8 @@ import { Sizing } from '../Sizing/Sizing';
 import { Action, IBindableComponentProps } from '@echino/echino.ui.sdk';
 
 interface ICheckboxProps extends IBindableComponentProps {
-	Label: string;
-	Description?: string;
+	Title: string;
+	Subtitle?: string;
 	Value?: boolean;
 	OnChange?: Action<any>;
 }
@@ -37,8 +37,8 @@ export const Checkbox: React.FC<ICheckboxProps> = (props) => {
 				</div>
 
 				<div className={`flex flex-col gap-1`}>
-					<label className={`text-sm font-medium text-gray-700 select-none dark:text-gray-400`}>{props.Label}</label>
-					{props.Description && <p className="text-xs text-gray-500">{props.Description}</p>}
+					<label className={`text-sm font-medium text-gray-700 select-none dark:text-gray-400`}>{props.Title}</label>
+					{props.Subtitle && <p className="text-xs text-gray-500">{props.Subtitle}</p>}
 				</div>
 			</div>
 		</Sizing>

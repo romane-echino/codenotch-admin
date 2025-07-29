@@ -1,0 +1,15 @@
+<Application type="SPA">
+	<Application.Imports>
+		<Import Namespace="local" Source="/static/" />
+	</Application.Imports>
+
+	<local:Mock />
+
+	<local:TextArea
+		Title="Review"
+		Subtitle="Please input a review of the lead"
+		Placeholder="A review in a few sentences"
+		Value="This is a text..."
+		Icon="fad fa-home" />
+
+</Application>

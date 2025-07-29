@@ -1,4 +1,4 @@
-<Application type="SPA">
+<Application>
 	<Application.Imports>
 		<Import Namespace="local" Source="/static/" />
 	</Application.Imports>
@@ -21,16 +21,26 @@
 			Subtitle="Please specify a user count"/>
 
 		<local:Slider
-			Title="Parcel weight"
+			Id="mySlider"
+			Title="User count"
 			Min="10"
 			Max="150"
 			Step="10"
 			Form.ColSpan="1/2"
-			Form.Field="parcelWeight"
-			Subtitle="Please specify a parcel weight"
+			Form.Field="userCount"
+			Subtitle="Salut!"
 			ShowMinMax="false"
 			ShowValue="false"
-			Unit="Kg"/>
+			Icon="fad fa-home"
+			Unit="Kg">
+			<local:Slider.Prefix>
+				<local:Label Value="PRE" />
+			</local:Slider.Prefix>
+
+			<local:Slider.Suffix>
+				<local:Label Value="SUF" />
+			</local:Slider.Suffix>
+		</local:Slider>
 	</local:Form>
 
 	<local:Box>

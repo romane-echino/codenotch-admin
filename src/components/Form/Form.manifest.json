@@ -6,8 +6,28 @@
   ],
   "props": [
     {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+     {
+      "name": "Subtitle",
+      "displayName": "Subtitle",
+      "type": "string"
+    },
+     {
+      "name": "Actions",
+      "displayName": "Actions",
+      "type": "reactNode"
+    },
+    {
+      "name": "Footer",
+      "displayName": "Footer",
+      "type": "reactNode"
+    },
+    {
       "name":"HasLayout",
-      "description": "Whether the form has a layout",
+      "description": "Whether the form has a layout it will disable title, subtitle, footer and actions",
       "type": "boolean"
     },
     {

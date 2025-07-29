@@ -1,0 +1,28 @@
+<Application type="SPA">
+	<Application.Imports>
+		<Import Namespace="local" Source="/static/" />
+	</Application.Imports>
+
+	<local:Mock />
+
+	<local:TextInput
+		Id="myTextInput"
+		Icon="fad fa-home"
+		Placeholder="Ex: John"
+		Title="Firstname"
+		Subtitle="Please input a firstname">
+
+		<local:TextInput.Prefix>
+			<local:Label Value="PRE" />
+		</local:TextInput.Prefix>
+        
+		<local:TextInput.Suffix>
+			<local:Label Value="SUF" />
+		</local:TextInput.Suffix>
+	</local:TextInput>
+
+	<local:Box>
+		<local:Inspect Source="{_auml.myTextInput.value}" />
+	</local:Box>
+
+</Application>
