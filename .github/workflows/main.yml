@@ -26,13 +26,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Build du projet
-      - name: Build project
-        run: npm run build
-
       # Build du DSP
-      - name: Build project
-        run: npm run build:dsp
+      - name: Build & Publishing to Codenotch
+        run: npm run publish
 
       # Déployer vers Azure Blob Storage
       - name: Deploy to Azure Blob Storage
@@ -42,7 +38,4 @@ jobs:
           container_name: $web
           connection_string: ${{ secrets.AZURE_CONNECTION_STRING }}
           overwrite: 'true'
-          
-      # Build du DSP
-      - name: Publishing to Codenotch
-        run: npm run publish
+        
