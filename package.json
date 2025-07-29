@@ -11,6 +11,7 @@
     "login": "echino login",
     "build": "echino build",
     "build:dsp": "echino dsp",
+    "build:stories": "echino story",
     "publish": "echino publish",
     "tw": "npx @tailwindcss/cli -i ./src/assets/input.css -o ./src/assets/output.css --watch"
   },

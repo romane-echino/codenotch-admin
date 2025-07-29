@@ -30,6 +30,10 @@ jobs:
       - name: Build & Publishing to Codenotch
         run: npm run publish
 
+      # Build du DSP
+      - name: Building stories
+        run: npm run build:stories
+
       # Déployer vers Azure Blob Storage
       - name: Deploy to Azure Blob Storage
         uses: bacongobbler/azure-blob-storage-upload@main
