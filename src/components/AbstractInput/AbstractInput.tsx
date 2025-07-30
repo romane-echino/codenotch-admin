@@ -49,17 +49,27 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
     render() {
         return (
             <Sizing {...this.props} Containered={true}>
-                {this.props.Title &&
-                    <label className={`${this.props.Subtitle ? '' : 'mb-1.5'} block text-sm font-medium text-gray-700 dark:text-gray-400`}>
-                        {this.props.Title}
-                    </label>
-                }
+                <div className='flex justify-between'>
+                    <div>
+                        {this.props.Title &&
+                            <label className={`${this.props.Subtitle ? '' : 'mb-1.5'} block text-sm font-medium text-gray-700 dark:text-gray-400`}>
+                                {this.props.Title}
+                            </label>
+                        }
 
-                {this.props.Subtitle &&
-                    <label className="mb-1.5 block text-xs font-medium text-gray-500 dark:text-gray-500">
-                        {this.props.Subtitle}
-                    </label>
-                }
+                        {this.props.Subtitle &&
+                            <label className="mb-1.5 block text-xs font-medium text-gray-500 dark:text-gray-500">
+                                {this.props.Subtitle}
+                            </label>
+                        }
+                    </div>
+
+                    {this.props.Helper &&
+                        <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
+                            {this.props.Helper}
+                        </span>
+                    }
+                </div>
 
                 <div className={`flex dark:bg-dark-900 min-h-11 w-full rounded-lg border  bg-transparent  text-sm   dark:bg-gray-900 text-gray-800 dark:text-white/90 
                     ${this.state.focused && !this.props.Disabled ? 'border-primary-300 dark:border-primary-800 ring-primary-500/10 ring-3' : 'border-gray-300 dark:border-gray-700'}`}>

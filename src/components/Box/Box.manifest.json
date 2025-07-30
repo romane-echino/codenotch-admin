@@ -22,5 +22,8 @@
       "displayName": "Footer",
       "type": "reactNode"
     }
-  ]
+  ],
+  "snippets": {
+    "scenar.io": "<Box>\n\t$0\n</Box>"
+  }
 }

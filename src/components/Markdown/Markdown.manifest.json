@@ -1,5 +1,8 @@
 {
   "name": "Markdown",
-  "menu": "",
-  "props": []
+  "menu": "Global",
+  "props": [],
+  "snippets": {
+    "scenar.io": "<Markdown>\n\t$0\n</Markdown>"
+  }
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import './Markdown.scss';
 import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 
 interface IMarkdownProps {
 }
@@ -19,15 +18,16 @@ export class Markdown extends React.Component<IMarkdownProps, IMarkdownState> {
 	}
 
 	render() {
-		let value =(this.props.children as string).trim();
-		value = value.replace(/\t/g, '')
-		//value = value.replace('\n', '');
-		//value = value.replace(/^\s+|\s+$/g, ''); // Trim
-		console.log(`Markdown "${value}"`);
+		let value = ' ';
+		if (this.props.children && typeof this.props.children === 'string') {
+			value = (this.props.children as string).trim();
+			value = value.replace(/\t/g, '')
+		}
+
 		return (
-			<ReactMarkdown 
-			className='mdblock text-gray-800 dark:text-white/90' 
-			children={value} />
+			<ReactMarkdown
+				className='mdblock text-gray-800 dark:text-white/90'
+				children={value} />
 		)
 	}
 
