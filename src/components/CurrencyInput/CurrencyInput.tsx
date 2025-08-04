@@ -33,7 +33,7 @@ export const CurrencyInput: React.FC<ICurrencyInputProps> = (props) => {
 				defaultValue={props.Value}
 				disabled={props.Disabled}
 				step=".01"
-				onChange={(e) => updateValue(e.target.value)}
+				onChange={(e) => updateValue(parseFloat(e.target.value) || 0)}
 				className={`${Icon && 'pl-9'} px-4 py-2.5 w-full focus:border-0 focus:outline-hidden placeholder:text-gray-400 dark:placeholder:text-white/30`}
 				onBlur={() => setFocused(false)}
 				onFocus={() => setFocused(true)} />

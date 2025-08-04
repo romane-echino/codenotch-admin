@@ -59,7 +59,7 @@ export class Tabs extends React.Component<ITabsProps, ITabsState> {
 
 				<Tab.Panels className={`${this.props.Orientation === 'Vertical' ? '' : 'pt-4'}`}>
 					{React.Children.map(this.props.children, (child, index) => (
-						<Tab.Panel key={index}>
+						<Tab.Panel key={index} className="grid grid-cols-12 gap-4 md:gap-6 @container">
 							{child}
 						</Tab.Panel>
 					))}

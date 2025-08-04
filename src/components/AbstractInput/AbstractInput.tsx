@@ -1,6 +1,7 @@
 import React from 'react';
 import { Action } from '@echino/echino.ui.sdk';
 import { Sizing } from '../Sizing/Sizing';
+import { Helper } from './Helper';
 
 export interface IAbstractInputProps extends IInputProps {
     Focus: boolean;
@@ -65,9 +66,9 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
                     </div>
 
                     {this.props.Helper &&
-                        <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
+                       <Helper>
                             {this.props.Helper}
-                        </span>
+                       </Helper>
                     }
                 </div>
 

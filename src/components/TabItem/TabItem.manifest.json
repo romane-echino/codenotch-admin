@@ -1,5 +1,20 @@
 {
   "name": "Tab item",
   "menu": "Layout",
-  "props": []
+  "props": [],
+   "childrenProps":[
+     {
+      "name": "ColSpan",
+      "displayName": "ColSpan",
+      "type": "string",
+      "enum": [
+        "1/2",
+        "1/3",
+        "1/4",
+        "3/4",
+        "2/3",
+        "full"
+      ]
+    }
+  ]
 }

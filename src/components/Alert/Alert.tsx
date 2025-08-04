@@ -1,5 +1,6 @@
 import React from 'react';
 import './Alert.scss';
+import { Sizing } from '../Sizing/Sizing';
 
 type AlertType = 'Success' | 'Warning' | 'Error' | 'Info';
 
@@ -38,31 +39,36 @@ const typeStyles: Record<AlertType, { border: string; bg: string; icon: string; 
 	},
 };
 
-export const Alert: React.FC<IAlertProps> = ({
-	Type = 'Info',
-	Title,
-	Message,
-	LinkText,
-	LinkUrl,
-}) => {
+export const Alert: React.FC<IAlertProps> = (props) => {
+
+	const {
+		Type = 'Info',
+		Title,
+		Message,
+		LinkText,
+		LinkUrl,
+	} = props;
+
 	const style = typeStyles[Type];
 	return (
-		<div className={`rounded-xl border ${style.border} ${style.bg} p-4`.trim()}>
-			<div className="flex items-start gap-3">
-				<div className={`-mt-0.5 ${style.iconClass}`}>
-					<i className={`fa ${style.icon}`} />
-				</div>
-				<div>
-					{Title && <h3 className="font-semibold text-gray-800 dark:text-white">{Title}</h3>}
-					{Message && <p className="text-sm text-gray-500 dark:text-gray-400">{Message}</p>}
+		<Sizing {...props}>
+			<div className={`rounded-xl border ${style.border} ${style.bg} p-4`.trim()}>
+				<div className="flex items-start gap-3">
+					<div className={`-mt-0.5 ${style.iconClass}`}>
+						<i className={`fa ${style.icon}`} />
+					</div>
+					<div>
+						{Title && <h3 className="font-semibold text-gray-800 dark:text-white">{Title}</h3>}
+						{Message && <p className="text-sm text-gray-500 dark:text-gray-400">{Message}</p>}
 
-					{LinkText && LinkUrl && (
-						<a href={LinkUrl} className="mt-3 inline-block text-sm font-medium text-gray-500 underline dark:text-gray-400">
-							{LinkText}
-						</a>
-					)}
+						{LinkText && LinkUrl && (
+							<a href={LinkUrl} className="mt-3 inline-block text-sm font-medium text-gray-500 underline dark:text-gray-400">
+								{LinkText}
+							</a>
+						)}
+					</div>
 				</div>
 			</div>
-		</div>
+		</Sizing>
 	);
 };

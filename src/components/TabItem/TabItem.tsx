@@ -18,9 +18,9 @@ export class TabItem extends React.Component<ITabItemProps, ITabItemState> {
 
 	render() {
 		return (
-			<div>
+			<>
 				{this.props.children}
-			</div>
+			</>
 		)
 	}
 
