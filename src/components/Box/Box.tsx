@@ -6,20 +6,30 @@ export interface IBoxProps {
 
 	Title?: string;
 	Subtitle?: string;
+	Icon?: string;
+
 	Actions?: React.ReactNode;
 	Footer?: React.ReactNode;
+
+	HasLayout?: boolean;
+	GridLayout?: boolean;
 
 	/**
 	 * If true, the box will be displayed as a modal.
 	 * @hidden
 	 */
 	Modal?: boolean;
+	Clickable?: boolean;
 }
 
 interface IBoxState {
 }
 
 export class Box extends React.Component<IBoxProps, IBoxState> {
+
+	static defaultProps = {
+		HasLayout: true
+	};
 
 	constructor(props: IBoxProps) {
 		super(props);
@@ -28,22 +38,53 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 		}
 	}
 
+
+	renderChildren() {
+		if (this.props.GridLayout) {
+			return (
+				<div className='grid grid-cols-12 gap-4 md:gap-6'>
+					{this.props.children}
+				</div>
+			)
+		}
+		else {
+			return this.props.children;
+		}
+	}
+
 	renderBox(hasBorder: boolean = true) {
-		return (
-			<div className={`rounded-2xl bg-white p-5 dark:border-gray-800 md:p-6  
+		if (this.props.HasLayout) {
+			return (
+				<div className={`group @container rounded-2xl bg-white p-5 dark:border-gray-800 md:p-6
+			${this.props.Clickable ? 'cursor-pointer hover:shadow-lg hover:border-primary hover:ring-3 hover:ring-primary/10' : ''}  
 				${(this.props.Modal === true && !this.props.Footer) ? 'relative w-full max-w-[700px]' : ' h-full grow'} 
 				${hasBorder && 'border border-gray-200'}  
 				${this.props.Footer ? 'dark:bg-gray-900' : 'dark:bg-white/[0.03]'}`}>
-				<BoxTitle {...this.props} />
+					<BoxTitle {...this.props} />
 
-				{this.props.Modal ?
-					<div className='max-h-[550px] pb-1 overflow-x-hidden px-1 overflow-y-auto cn-scroll'>
-						{this.props.children}
-					</div> :
-					this.props.children
-				}
-			</div>
-		)
+					{this.props.Modal ?
+						<div className='max-h-[550px] pb-1 overflow-x-hidden px-1 overflow-y-auto cn-scroll'>
+							{this.renderChildren()}
+						</div> :
+						this.renderChildren()
+					}
+				</div>
+			)
+		}
+		else {
+			return (
+				<div className={`group @container`}>
+					<BoxTitle {...this.props} />
+
+					{this.props.Modal ?
+						<div className='max-h-[550px] pb-1 overflow-x-hidden px-1 overflow-y-auto cn-scroll'>
+							{this.renderChildren()}
+						</div> :
+						this.renderChildren()
+					}
+				</div>
+			)
+		}
 	}
 
 	render() {
@@ -75,32 +116,49 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 
 }
 
+
+interface IBoxTitleProps extends IBoxProps {
+	Title?: string;
+	Subtitle?: string;
+	Actions?: React.ReactNode;
+	DisableMargins?: boolean;
+	Icon?: string;
+}
+
 /**
  * BoxTitle component displays the title and subtitle of a box.
  * @hidden
  */
-export const BoxTitle: React.FC<IBoxProps> = (props) => {
+export const BoxTitle: React.FC<IBoxTitleProps> = (props) => {
+
+	const { Title, Subtitle, Actions, Icon, DisableMargins } = props;
 	return (
 		<>
-			{(props.Title !== undefined || props.Subtitle !== undefined || props.Actions !== undefined) &&
-				<div className='flex flex-col sm:flex-row gap-2 sm:justify-between mb-4 sm:items-center'>
+			{(Title !== undefined || Subtitle !== undefined || Actions !== undefined) &&
+				<div className={`flex items-center gap-2 ${DisableMargins ? '' : 'mb-4'}`}>
+					{Icon &&
+						<div className="flex h-12 w-12 items-center text-lg justify-center rounded-xl text-gray-800 dark:text-white/90 bg-gray-100 dark:bg-gray-800">
+							<i className={`${Icon}`}></i>
+						</div>
+					}
+
 					<div>
-						{props.Title &&
+						{Title &&
 							<h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-								{props.Title}
+								{Title}
 							</h3>
 
 						}
-						{props.Subtitle &&
-							<p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-								{props.Subtitle}
+						{Subtitle &&
+							<p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+								{Subtitle}
 							</p>
 						}
 					</div>
 
-					{props.Actions &&
+					{Actions &&
 						<div className='flex items-center gap-3'>
-							{props.Actions}
+							{Actions}
 						</div>
 					}
 				</div>

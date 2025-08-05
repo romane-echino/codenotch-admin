@@ -5,6 +5,9 @@ import { Helper } from './Helper';
 
 export interface IAbstractInputProps extends IInputProps {
     Focus: boolean;
+    Error?: boolean;
+    ErrorText?: string;
+    DisabledSizing?: boolean;
 }
 
 export interface IAbstractListAction {
@@ -29,6 +32,7 @@ export interface IInputProps {
 
 interface IAbstractInputState {
     focused: boolean;
+    error: boolean;
 }
 
 export class AbstractInput extends React.Component<IAbstractInputProps, IAbstractInputState> {
@@ -36,7 +40,8 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
     constructor(props: IAbstractInputProps) {
         super(props);
         this.state = {
-            focused: false
+            focused: false,
+            error: false
         };
     }
 
@@ -45,11 +50,15 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
         if (this.props.Focus !== prevProps.Focus) {
             this.setState({ focused: this.props.Focus });
         }
+        else if (this.props.Error !== prevProps.Error) {
+            this.setState({ error: this.props.Error || false });
+        }
     }
 
-    render() {
+
+    getComponent() {
         return (
-            <Sizing {...this.props} Containered={true}>
+            <>
                 <div className='flex justify-between'>
                     <div>
                         {this.props.Title &&
@@ -66,22 +75,24 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
                     </div>
 
                     {this.props.Helper &&
-                       <Helper>
+                        <Helper>
                             {this.props.Helper}
-                       </Helper>
+                        </Helper>
                     }
                 </div>
 
-                <div className={`flex dark:bg-dark-900 min-h-11 w-full rounded-lg border  bg-transparent  text-sm   dark:bg-gray-900 text-gray-800 dark:text-white/90 
-                    ${this.state.focused && !this.props.Disabled ? 'border-primary-300 dark:border-primary-800 ring-primary-500/10 ring-3' : 'border-gray-300 dark:border-gray-700'}`}>
+                <div className={`flex dark:bg-dark-900 min-h-11 w-full rounded-lg border  bg-transparent text-sm dark:bg-gray-900 text-gray-800 dark:text-white/90 
+                    ${this.state.error ? 'border-alizarin dark:border-alizarin ring-alizarin/10 ring-3' :
+                        (this.state.focused ? 'border-primary-300 dark:border-primary-800 ring-primary-500/10 ring-3' :
+                            'border-gray-300 dark:border-gray-700')}`}>
 
                     {this.props.Prefix &&
-                        <span className="pointer-events-none flex items-center justify-center border-r border-gray-200 py-3 pr-3 pl-3.5  dark:border-gray-800">
+                        <span className="flex items-center justify-center pointer-events-none select-none border-r border-gray-200 pr-3 pl-3.5  dark:border-gray-800">
                             {this.props.Prefix}
                         </span>
                     }
 
-                    <div className='relative grow group flex items-center'>
+                    <div className='relative grow group flex items-center '>
                         {this.props.Icon &&
                             <span className="absolute min-w-4 flex items-center justify-center pointer-events-none left-3 top-1/2 -translate-y-1/2">
                                 <i className={`${this.props.Icon} text-gray-500 dark:text-gray-400`}></i>
@@ -92,11 +103,33 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
                     </div>
 
                     {this.props.Suffix &&
-                        <span className="pointer-events-none flex items-center justify-center border-l border-gray-200 py-3 pl-3 pr-3.5  dark:border-gray-800">
+                        <span className="flex items-center justify-center pointer-events-none select-none border-l border-gray-200 pl-3 pr-3.5  dark:border-gray-800">
                             {this.props.Suffix}
                         </span>
                     }
                 </div>
+
+
+                {this.state.error && this.props.ErrorText &&
+                    <div className='mt-1 text-xs text-alizarin dark:text-alizarin'>
+                        {this.props.ErrorText}
+                    </div>
+                }
+            </>
+        )
+    }
+
+    render() {
+        if (this.props.DisabledSizing) {
+            return (
+                <div>
+                    {this.getComponent()}
+                </div>
+            )
+        }
+        return (
+            <Sizing {...this.props} Containered={true}>
+                {this.getComponent()}
             </Sizing>
         )
     }

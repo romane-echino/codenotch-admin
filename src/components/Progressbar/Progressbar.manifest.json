@@ -1,0 +1,58 @@
+{
+  "name": "Progressbar",
+  "menu": "Charts",
+  "props": [
+    {
+      "name": "Max",
+      "type": "number",
+      "description": "The maximum value of the progress bar.",
+      "required": true
+    },
+    {
+      "name": "Current",
+      "type": "number",
+      "description": "The current value of the progress bar.",
+      "required": true
+    },
+    {
+      "name": "Icon",
+      "type": "string",
+      "description": "Optional icon to display in the progress bar."
+    },
+    {
+      "name": "Title",
+      "type": "string",
+      "description": "Optional title to display alongside the progress bar."
+    },
+    {
+      "name": "Subtitle",
+      "type": "string",
+      "description": "Optional subtitle to display below the progress bar."
+    },
+    {
+      "name": "Percentage",
+      "type": "boolean",
+      "description": "Optional flag to display percentage instead of absolute values."
+    },
+    {
+      "name": "Actions",
+      "displayName": "Actions",
+      "type": "reactNode"
+    },
+    {
+      "name": "Footer",
+      "displayName": "Footer",
+      "type": "reactNode"
+    },
+    {
+      "name": "OnClick",
+      "type": "action",
+      "description": "Action to perform when the progress bar is clicked."
+    },
+    {
+      "name": "HasLayout",
+      "type": "boolean",
+      "description": "Optional flag to enable layout styling."
+    }
+  ]
+}

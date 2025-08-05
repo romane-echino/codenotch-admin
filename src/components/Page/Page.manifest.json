@@ -18,6 +18,15 @@
       "name": "Header",
       "displayName": "Header",
       "type": "reactNode"
+    },
+    {
+      "name":"Size",
+      "displayName": "Size",
+      "type": "string",
+      "enum": [
+        "Large",
+        "Medium"
+      ]
     }
   ],
   "childrenProps": [

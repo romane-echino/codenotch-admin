@@ -1,0 +1,157 @@
+<Application>
+	<Application.Imports>
+		<Import Namespace="e" Source="/static/" />
+	</Application.Imports>
+
+
+	<e:Application>
+		<e:Page Size="Medium" Application.Title="My Page" Application.Route="/savon">
+
+
+			<e:TextInput Title="Test" Subtitle="Test" Regex="/fo+/" ErrorText="Veuillez tralalalla...">
+				<e:TextInput.Helper>
+					Lorem ipsum dolor sit **amet**, consectetur *adipiscing* elit. Vivamus aliquet sapien non mi condimentum aliquet. Morbi congue lobortis ultrices.
+
+					Suspendisse [link text](http://dev.nodeca.com) diam ac massa rhoncus ultricies. Etiam convallis risus a rhoncus rutrum. Aliquam neque orci, elementum in tellus ut, ultricies fermentum nibh.
+				</e:TextInput.Helper>
+			</e:TextInput>
+
+			<e:Progressbar
+				Icon="fad fa-home"
+				Title="Salut"
+				Subtitle="Jambon"
+				Max="5"
+				Current="3"
+				Percentage="true">
+				<e:Progressbar.OnClick>
+					<Script>
+
+					</Script>
+				</e:Progressbar.OnClick>
+			</e:Progressbar>
+
+
+			<e:Progressbar Max="5" Current="5">
+				<e:Progressbar.Footer>
+					<e:Markdown>
+						# Title!
+						Paragraph
+
+						Lorem ipsum dolor sit **amet**, consectetur *adipiscing* elit. Vivamus aliquet sapien non mi condimentum aliquet. Morbi congue lobortis ultrices.
+					</e:Markdown>
+				</e:Progressbar.Footer>
+			</e:Progressbar>
+
+
+			<e:KPI Page.ColSpan="1/2" />
+
+			<e:KPI Page.ColSpan="1/2" />
+
+			<e:Markdown>
+				# h1 Heading
+				## h2 Heading
+				### h3 Heading
+				#### h4 Heading
+				##### h5 Heading
+				###### h6 Heading
+				___
+				---
+				***
+
+				**This is bold text**
+				*This is italic text*
+				~~Strikethrough~~
+
+
+
+				+ Create a list by starting a line with `+`, `-`, or `*`
+				+ Sub-lists are made by indenting 2 spaces:
+				- Marker character change forces new list start:
+				* Ac tristique libero volutpat at
+				+ Facilisis in pretium nisl aliquet
+				- Nulla volutpat aliquam velit
+				+ Very easy!
+
+				[link text](http://dev.nodeca.com)
+
+				[link with title](http://nodeca.github.io/pica/demo/ "title text!")
+
+				Autoconverted link https://github.com/nodeca/pica (enable linkify to see)
+			</e:Markdown>
+
+
+			<e:Markdown>
+				- [-] FileInput
+				- [-] TimeInput
+				- [-] TimeRangeInput
+				- [x] ProgressBar
+				- [ ] TextInputRegExp
+				- [x] PageSize (Half)
+				- [x] Info highlight
+				- [ ] Checkbox not very pretty
+				- [ ] Sous-page
+				- [ ] phone input
+				- [ ] ColorInput click bug
+				- [x] Markdown linereturn / bold / italic / link
+				- [ ] ImageInput
+				- [ ] Table component finish
+				- [ ] Schedule + Copy/Paste
+			</e:Markdown>
+
+
+			<e:KPI />
+
+			<e:FileInput Icon="fas fa-file" />
+
+			<e:TimeInput />
+			<e:TimeRangeInput />
+
+
+
+			<e:TextInput>
+				<e:TextInput.Helper>Salut</e:TextInput.Helper>
+			</e:TextInput>
+
+			<e:TextInput Title="Salut">
+				<e:TextInput.Helper>Salut</e:TextInput.Helper>
+			</e:TextInput>
+
+
+
+
+
+
+			<e:Form>
+				<e:TextInput Form.ColSpan="1/2" />
+				<e:TextInput Form.ColSpan="1/2" />
+			</e:Form>
+
+
+		</e:Page>
+
+
+		<e:Page Application.Title="My Page2" Application.Route="/truite" Application.ParentPage="/savon">
+			<e:Image Source="https://placehold.co/600x400/000000/FFF" Rounded="true" Page.ColSpan="1/2" />
+			<e:Box Page.ColSpan="1/2" Page.RowSpan="2" HasLayout="{false}" GridLayout="{true}">
+				<e:Progressbar Title="Information client" Icon="fad fa-home" Subtitle="Nullam viverra lectus sit amet elit egestas pellentesque. Donec id elit libero.">
+					<e:Progressbar.OnClick>
+						<NaviguateTo To="/" />
+					</e:Progressbar.OnClick>
+				</e:Progressbar>
+				<e:Progressbar Title="Salut"  />
+				<e:Progressbar Title="Salut"/>
+				<e:Progressbar Title="Salut"  />
+			</e:Box>
+
+			<e:Markdown Page.ColSpan="1/2">
+				# Welcome to Echino!
+
+				Lorem ipsum dolor sit amet, **consectetur** adipiscing elit. Fusce *tincidunt* congue risus nec finibus. Sed congue mauris nunc, sit amet fringilla felis tristique id. Sed sit amet augue justo. Nam lacinia elit vulputate lorem porttitor, non pretium tortor placerat.
+				Nullam viverra lectus sit amet elit egestas pellentesque. Donec id elit libero. Suspendisse sit amet **fermentum** turpis. Ut pharetra, neque a eleifend interdum, nunc nunc blandit sem, eu volutpat magna tellus ut enim. Donec eget dui ut erat dapibus lacinia. Nullam consequat nibh ac turpis tristique, sed imperdiet nunc lobortis.
+			</e:Markdown>
+		</e:Page>
+	</e:Application>
+
+
+
+</Application>

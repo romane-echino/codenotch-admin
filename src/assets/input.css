@@ -11,10 +11,17 @@
 textarea::-webkit-resizer{
 display: none;
 }
+
 *,
 body,
 html {
   font-family: "Outfit", sans-serif;
+}
+
+body,
+html {
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 @theme {
@@ -123,6 +130,10 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+input[type="time"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
 .mdblock h1{
   @apply text-2xl font-bold mb-4;
 }
@@ -136,7 +147,17 @@ input[type=number] {
   @apply text-base font-bold mb-1;
 }
 .mdblock p{
-  @apply mb-2;
+  @apply mb-2 text-white/80;
+}
+
+.mdblock em {
+  @apply text-white/70 italic;
+}
+
+.mdblock strong,
+.mdblock b
+{
+  @apply font-bold text-white;
 }
 .mdblock ul{
   @apply list-disc pl-5 mb-2;

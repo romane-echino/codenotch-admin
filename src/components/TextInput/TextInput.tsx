@@ -6,11 +6,13 @@ import { IPageInheritedProps } from '../Page/Page';
 import { AbstractInput, IInputProps } from '../AbstractInput/AbstractInput';
 
 interface ITextInputProps extends IInputProps, IBindableComponentProps, IPageInheritedProps, IUserInfoProps {
+	Regex?: string;
+	ErrorText?: string;
 }
 
 export const TextInput: React.FC<ITextInputProps> = (props) => {
 	const [focused, setFocused] = React.useState(false);
-
+	const [error, setError] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
 		if (props.Value !== undefined && props.Value !== null && props.Value !== '') {
@@ -19,14 +21,27 @@ export const TextInput: React.FC<ITextInputProps> = (props) => {
 	}, [props.Value]);
 
 	const updateValue = (value: string) => {
-		props.onPropertyChanged('value', undefined, value)
-		if (props.OnChange) {
-			props.OnChange(value);
+		if (props.Regex) {
+			const regexp = new RegExp(props.Regex);
+			console.log('Regex:', props.Regex, 'Value:', value, 'Matches:', regexp.test(value));
+			if( value && regexp.test(value) === false) {
+				setError(true);
+			}
+			else{
+				setError(false);
+				props.onPropertyChanged('value', undefined, value);
+				props.OnChange?.(value);
+			}
 		}
+		else {
+			props.onPropertyChanged('value', undefined, value)
+			props.OnChange?.(value);
+		}
+
 	}
 
 	return (
-		<AbstractInput Focus={focused} {...props}>
+		<AbstractInput Focus={focused} Error={error} ErrorText={props.ErrorText} {...props}>
 			<input type="text"
 				placeholder={props.Placeholder}
 				defaultValue={props.Value}

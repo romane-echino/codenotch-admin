@@ -75,15 +75,22 @@ export const Navigation: React.FC<INavigationProps> = (props) => {
                                             if (item.Children && item.Children.length > 0) {
                                                 return (
                                                     <li>
+
+                                                      
                                                         <Disclosure>
                                                             {({ open }) => (
                                                                 <>
-                                                                    <Disclosure.Button className={`w-full flex items-center rounded-lg ${open && 'bg-gray-100 dark:bg-gray-800 text-primary-500'}`}>
-                                                                        <NavigationItem key={itemIndex} item={item} sideBarToggle={sideBarToggle} />
+
+                                                              <div className="flex gap-1">
+                                                                  <NavigationItem key={itemIndex} item={item} sideBarToggle={sideBarToggle} />
+
+                                                                    <Disclosure.Button className={`flex items-center rounded-lg ${open ? 'bg-gray-100 dark:bg-gray-800 text-primary-500':'text-gray-400 dark:text-gray-400'}`}>
+                                                                        
                                                                         <div className="size-8 flex items-center justify-center">
                                                                             <i className="fa-duotone fa-light fa-angle-down text-xl"></i>
                                                                         </div>
                                                                     </Disclosure.Button>
+                                                              </div>
 
                                                                     <Disclosure.Panel className="flex flex-col gap-1 pl-9 mt-2">
                                                                         {item.Children?.map((childItem, childIndex) => {
@@ -125,7 +132,7 @@ const NavigationItem: React.FC<{ item: IAppMenuItem, sideBarToggle: boolean }> =
 
     let Component = 'div';
     let props: any = {};
-    if (item.Route && !item.Children) {
+    if (item.Route) {
         Component = NavLink;
         props.to = item.Route;
         props.exact = true;

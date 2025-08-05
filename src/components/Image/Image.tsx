@@ -14,8 +14,8 @@ export const Image: React.FC<IImageProps> = (props) => {
 			<img
 			src={props.Source}
 			alt={props.AlternativeText}
-			className={props.Rounded ? 'rounded-2xl' : ''}
+			className={`${props.Rounded ? 'rounded-2xl' : ''} w-full`}
 		/>
 		</Sizing>
 	);
-};
+};	

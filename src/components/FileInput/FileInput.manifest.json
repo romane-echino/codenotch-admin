@@ -1,10 +1,25 @@
 {
-  "name": "Text input",
+  "name": "File input",
   "menu": "Input",
   "bindable": [
     "value"
   ],
   "props": [
+    {
+      "name": "Endpoint",
+      "displayName": "Endpoint",
+      "type": "string"
+    },
+    {
+      "name": "Filename",
+      "displayName": "Filename",
+      "type": "string"
+    },
+    {
+      "name": "OnUploaded",
+      "displayName": "OnUploaded",
+      "type": "action"
+    },
     {
       "name": "Title",
       "displayName": "Title",
@@ -46,27 +61,9 @@
       "type": "boolean"
     },
     {
-      "name": "Prefix",
-      "displayName": "Prefix",
-      "type": "reactNode"
-    },
-    {
       "name": "Suffix",
       "displayName": "Suffix",
       "type": "reactNode"
-    },
-    {
-      "name": "Regex",
-      "displayName": "Regex",
-      "type": "string"
-    },
-    {
-      "name": "ErrorText",
-      "displayName": "ErrorText",
-      "type": "string"
     }
-  ],
-  "snippets": {
-    "scenar.io": "<TextInput />"
-  }
+  ]
 }

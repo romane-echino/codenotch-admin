@@ -6,6 +6,7 @@ import { Header } from './Parts/Header';
 export interface IPageProps extends IChildrenInheritedProps<IPageInheritedProps> {
 
 	Layout: 'Grid' | 'Flow' | 'Full'
+	Size:'Large'|'Medium';
 	Header?:React.ReactNode;
 
 	Title?:string;
@@ -27,6 +28,7 @@ export class Page extends React.Component<IPageProps, IPageState> {
 
 	static defaultProps: IPageProps = {
 		Layout: 'Grid',
+		Size: 'Large',
 		childrenProps: [],
 	}
 
@@ -64,11 +66,13 @@ export class Page extends React.Component<IPageProps, IPageState> {
 		if (!this.props.children)
 			return <div>no child</div>;
 
+
+		const classes = `p-4 mx-auto ${this.props.Size === 'Large' ? 'max-w-[1536px]' : 'max-w-[768px]'} md:p-6`;
 		switch (this.props.Layout) {
 			case 'Grid':
 
 				return (
-					<div className="p-4 mx-auto max-w-[1536px] md:p-6">
+					<div className={classes}>
 						<Header CustomHeader={this.props.Header} {...this.props}/>
 
 						<div className="grid grid-cols-12 gap-4 md:gap-6">
@@ -78,7 +82,7 @@ export class Page extends React.Component<IPageProps, IPageState> {
 				)
 			case 'Flow':
 				return (
-					<div className="p-4 mx-auto max-w-[1536px] md:p-6">
+					<div className={classes}>
 						<Header CustomHeader={this.props.Header} {...this.props}/>
 
 						<div className="flex flex-col gap-4 md:gap-6">

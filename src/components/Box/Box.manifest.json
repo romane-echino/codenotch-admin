@@ -2,17 +2,22 @@
   "name": "Box",
   "menu": "Layout",
   "props": [
-     {
+    {
       "name": "Title",
       "displayName": "Title",
       "type": "string"
     },
-     {
+    {
       "name": "Subtitle",
       "displayName": "Subtitle",
       "type": "string"
     },
-     {
+    {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string"
+    },
+    {
       "name": "Actions",
       "displayName": "Actions",
       "type": "reactNode"
