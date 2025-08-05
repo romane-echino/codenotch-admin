@@ -1,0 +1,27 @@
+{
+  "name": "If",
+  "menu": "Macro",
+  "props": [
+    {
+      "name": "Condition",
+      "displayName": "Condition",
+      "type": "boolean",
+      "default": "true",
+      "required": true
+    },
+    {
+      "name": "Then",
+      "displayName": "Then"
+    },
+    {
+      "name": "Else",
+      "displayName": "Else"
+    }
+  ],
+  "snippets": {
+    "scenar.io": {
+      "If": "<If Condition=\"{${1}}\">\n\t${0}\n</If>",
+      "If-Else": "<If Condition=\"{${1}}\">\n\t<If.Then>\n\t\t${2}\n\t</If.Then>\n\t<If.Else>\n\t\t${3}\n\t</If.Else>\n</If>"
+    }
+  }
+}

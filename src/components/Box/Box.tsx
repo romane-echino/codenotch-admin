@@ -8,6 +8,11 @@ export interface IBoxProps {
 	Subtitle?: string;
 	Actions?: React.ReactNode;
 	Footer?: React.ReactNode;
+
+	/**
+	 * If true, the box will be displayed as a modal.
+	 * @hidden
+	 */
 	Modal?: boolean;
 }
 
@@ -70,7 +75,10 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 
 }
 
-
+/**
+ * BoxTitle component displays the title and subtitle of a box.
+ * @hidden
+ */
 export const BoxTitle: React.FC<IBoxProps> = (props) => {
 	return (
 		<>

@@ -2,13 +2,13 @@ import React from 'react';
 import './Form.scss';
 import { Box, IBoxProps } from '../Box/Box';
 import { IPageInheritedProps } from '../Page/Page';
-import { Sizing } from '../Sizing/Sizing';
 import { Action, IBindableComponentProps, IChildrenInheritedProps } from '@echino/echino.ui.sdk';
 import { IAbstractListAction } from '../AbstractInput/AbstractInput';
 
 interface IFormProps extends IBoxProps, IPageInheritedProps, IBindableComponentProps, IChildrenInheritedProps<{ Field: string }> {
 	HasLayout?: boolean;
 	OnChange?: Action<any>;
+	Lazy?: boolean;
 }
 
 interface IFormState {
@@ -23,6 +23,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
 		childrenProps: [],
 	};
 
+	changeTimer:any = null;
+
 	constructor(props: IFormProps) {
 		super(props);
 
@@ -30,7 +32,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 			value: {}
 		}
 
-		
+
 		this.props.declareFunction('disable', (value: boolean) => {
 			this.setState({ disabled: value });
 		});
@@ -39,6 +41,11 @@ export class Form extends React.Component<IFormProps, IFormState> {
 	fieldChanged(field: string, value: any) {
 		this.setState((prevState) => {
 			let newValue = { ...prevState.value };
+
+			if (this.props.Lazy && this.changeTimer !== null) {
+				clearTimeout(this.changeTimer);
+				this.changeTimer = null;
+			}
 
 			// Split the field path using regex to handle both dot notation and array notation
 			const pathParts = field.split(/\.|\[|\]/).filter(Boolean);
@@ -85,16 +92,27 @@ export class Form extends React.Component<IFormProps, IFormState> {
 			const lastPart = pathParts[lastIndex];
 			current[lastPart] = value;
 
-			console.log('Form field changed', JSON.stringify(newValue, null, 2));
 			this.props.onPropertyChanged('value', undefined, newValue);
 
-			if (this.props.OnChange) {
-				this.props.OnChange(newValue);
+			if (this.props.Lazy) {
+				this.changeTimer = setTimeout(() => {
+					if (this.props.OnChange) {
+						this.props.OnChange(newValue);
+					}
+				}, 750);
+			}
+			else {
+				if (this.props.OnChange) {
+					this.props.OnChange(newValue);
+				}
 			}
 
 			return { value: newValue };
 		});
 	}
+
+
+
 
 	getChildren() {
 		let children = React.Children.map(this.props.children, (child, index) => {

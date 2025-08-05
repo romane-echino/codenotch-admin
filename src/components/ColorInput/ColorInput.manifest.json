@@ -21,6 +21,11 @@
       "type": "string"
     },
     {
+      "name": "Helper",
+      "displayName": "Helper",
+      "type": "string"
+    },
+    {
       "name": "OnChange",
       "displayName": "OnChange",
       "type": "action"
