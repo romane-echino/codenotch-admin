@@ -4,7 +4,22 @@
 	</Application.Imports>
 
 
+<Application.Declarations>
+	<Data Id="">
+		{
+			"centers":[]
+		}
+	</Data>
+</Application.Declarations>
+
 	<e:Application>
+
+		<e:Page Application.Title="My Page" Application.Route="/">
+		<e:List>
+
+		</e:List>
+		</e:Page>
+
 		<e:Page Size="Medium" Application.Title="My Page" Application.Route="/savon">
 
 
@@ -81,21 +96,22 @@
 
 
 			<e:Markdown>
-- [-] FileInput
-- [-] TimeInput
-- [-] TimeRangeInput
-- [x] ProgressBar
-- [-] TextInputRegExp
-- [x] PageSize (Half)
-- [x] Info highlight
-- [ ] Checkbox not very pretty
-- [-] Sous-page
-- [ ] phone input
-- [ ] ColorInput click bug
-- [x] Markdown linereturn / bold / italic / link
-- [ ] ImageInput
-- [ ] Table component finish
-- [ ] Schedule + Copy/Paste
+				- [-] FileInput
+				- [-] TimeInput
+				- [-] TimeRangeInput
+				- [x] ProgressBar
+				- [ ] TextInputRegExp
+				- [x] PageSize (Half)
+				- [x] Info highlight
+				- [ ] Checkbox not very pretty
+				- [ ] Sous-page
+				- [ ] phone input
+				- [ ] ColorInput click bug
+				- [x] Markdown linereturn / bold / italic / link
+				- [ ] ImageInput
+				- [ ] Table component finish
+				- [ ] Schedule + Copy/Paste
+				- [ ] Empty list
 			</e:Markdown>
 
 

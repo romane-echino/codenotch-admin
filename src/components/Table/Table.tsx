@@ -5,7 +5,7 @@ import { IAbstractListAction, IInputProps } from '../AbstractInput/AbstractInput
 import { Helper } from '../AbstractInput/Helper';
 import { IChildrenInheritedProps } from '@echino/echino.ui.sdk';
 
-interface ITableProps extends IInputProps, IChildrenInheritedProps<{ Field: string }> {
+interface ITableProps extends IInputProps, IChildrenInheritedProps<{ DisplayName:string, Field: string }> {
 
 }
 
@@ -33,6 +33,7 @@ export const Table: React.FC<ITableProps> = (props) => {
 				...props.childrenProps[index],
 				...effectiveProps?.children?.props,
 				Containered:true,
+				Value: data[rowIndex] ? data[rowIndex][field] : undefined,
 				OnChange: field ? (value: any) => handleUpdate(rowIndex, field, value) : undefined,
 				OnSelect: field ? (value: IAbstractListAction) => handleUpdate(rowIndex, field, value.value) : undefined,
 			}
@@ -73,7 +74,7 @@ export const Table: React.FC<ITableProps> = (props) => {
 			<div className='grid h-10 border-t border-l border-r border-gray-300 dark:border-gray-700 rounded-t-lg' style={{ gridTemplateColumns: `repeat(${props.childrenProps.length}, minmax(0, 1fr)) auto` }}>
 				{props.childrenProps.map((col, index) => (
 					<div key={index} className={`flex items-center justify-between px-4 py-2 border-r border-gray-200 dark:border-gray-800 ${index === props.childrenProps.length - 1 ? '' : 'border-r'}`}>
-						<span className="text-sm font-medium text-gray-800 dark:text-white">{col.Field}</span>
+						<span className="text-sm font-medium text-gray-800 dark:text-white">{col.DisplayName ?? col.Field}</span>
 					</div>
 				))}
 

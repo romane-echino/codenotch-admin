@@ -142,7 +142,7 @@ export const BoxTitle: React.FC<IBoxTitleProps> = (props) => {
 						</div>
 					}
 
-					<div>
+					<div className='grow'>
 						{Title &&
 							<h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
 								{Title}

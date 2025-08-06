@@ -35,6 +35,11 @@
       "name": "ItemActions",
       "displayName": "ItemActions",
       "type": "renderer"
+    },
+    {
+      "name": "OnClick",
+      "displayName": "OnClick",
+      "type": "action"
     }
   ],
   "children": {
