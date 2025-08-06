@@ -23,6 +23,11 @@
       "name": "Field",
       "description": "Field",
       "type": "string"
+    },
+    {
+      "name": "DisplayName",
+      "description": "DisplayName",
+      "type": "string"
     }
   ]
 }
