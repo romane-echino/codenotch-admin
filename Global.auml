@@ -100,18 +100,18 @@
 				- [-] TimeInput
 				- [-] TimeRangeInput
 				- [x] ProgressBar
-				- [ ] TextInputRegExp
+				- [-] TextInputRegExp
 				- [x] PageSize (Half)
 				- [x] Info highlight
 				- [ ] Checkbox not very pretty
-				- [ ] Sous-page
+				- [-] Sous-page
 				- [ ] phone input
 				- [ ] ColorInput click bug
 				- [x] Markdown linereturn / bold / italic / link
-				- [ ] ImageInput
+				- [ ] ImageInput rly needed?
 				- [ ] Table component finish
 				- [ ] Schedule + Copy/Paste
-				- [ ] Empty list
+				- [x] Empty list
 			</e:Markdown>
 
 
