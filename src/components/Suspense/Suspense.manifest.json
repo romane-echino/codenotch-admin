@@ -1,0 +1,34 @@
+{
+    "name": "Suspense",
+    "menu": "Common",
+    "props": [
+      {
+        "name": "On",
+        "displayName": "On",
+        "type": "string"
+      },
+      {
+        "name": "Gap",
+        "displayName": "Gap",
+        "type": "string"
+      },
+      {
+        "name": "NoGap",
+        "displayName": "NoGap",
+        "type": "boolean"
+      },
+      {
+        "name": "IsScrollable",
+        "displayName": "IsScrollable",
+        "type": "boolean"
+      },
+      {
+          "name": "Overflow",
+          "displayName": "Overflow",
+          "type": "string"
+      }
+    ],
+    "snippets":{
+      "scenar.io":"<Suspense On=\"${1}\">\n\t$0\n</Suspense>" 
+    }
+  }
