@@ -1,5 +1,11 @@
 {
-  "name": "Radio item",
+  "name": "RadioItem",
   "menu": "Input",
-  "props": []
+  "props": [
+    {
+      "name": "Helper",
+      "displayName": "Helper",
+      "type": "string"
+    }
+  ]
 }

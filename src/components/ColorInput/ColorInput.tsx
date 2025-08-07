@@ -24,11 +24,10 @@ export const ColorInput: React.FC<IColorInputProps> = (props) => {
 		// Handle any side effects or updates based on props or state changes
 	}, [props, focused]);
 
-	const updateValue = (value: string) => {
+	const updateValue = (value: string, name:string) => {
+		setColor({ value, name });
 		props.onPropertyChanged('Value', undefined, value)
-		if (props.OnChange) {
-			props.OnChange(value);
-		}
+		props.OnChange?.(value);
 	}
 
 	return (
@@ -56,13 +55,12 @@ export const ColorInput: React.FC<IColorInputProps> = (props) => {
 				</Popover.Button>
 
 				<Popover.Panel
-				className='absolute z-50 max-h-[320px] overflow-y-auto flex flex-wrap bg-white border border-gray-300 dark:border-gray-700 translate-y-0.5 rounded-lg shadow-lg overflow-hidden max-w-full'>
+				className='absolute z-50 bg-white border border-gray-300 dark:border-gray-700 translate-y-0.5 rounded-lg shadow-lg overflow-hidden max-w-full'>
 
 					{DefaultColorPalette.map((o,i) => (
 						<div key={i} className="p-2 text-gray-700 flex items-center gap-2 cursor-pointer"
 						onClick={() => {
-							setColor({ value: o, name: DefaultColorPaletteNames[i] });
-							updateValue(o);
+							updateValue( o, DefaultColorPaletteNames[i]);
 						}}>
 							<div className="size-4" style={{ backgroundColor: o }}>&nbsp;</div> {DefaultColorPaletteNames[i]}
 						</div>

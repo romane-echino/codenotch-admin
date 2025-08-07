@@ -27,6 +27,16 @@
       "name": "Renderer",
       "displayName": "Renderer",
       "type": "renderer"
+    },
+    {
+      "name": "Align",
+      "displayName": "Align",
+      "type": "string",
+      "enum": [
+        "Left",
+        "Right",
+        "Center"
+      ]
     }
   ]
 }

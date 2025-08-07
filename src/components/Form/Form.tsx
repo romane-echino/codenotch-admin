@@ -10,6 +10,8 @@ interface IFormProps extends IBoxProps, IPageInheritedProps, IBindableComponentP
 	HasLayout?: boolean;
 	OnChange?: Action<any>;
 	Lazy?: boolean;
+	AwaitProps?: boolean;
+	Value?: any;
 }
 
 interface IFormState {
@@ -30,7 +32,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
 		super(props);
 
 		this.state = {
-			value: {}
+			value: {},
+			disabled: props.AwaitProps? true : false
 		}
 
 
@@ -39,7 +42,37 @@ export class Form extends React.Component<IFormProps, IFormState> {
 		});
 	}
 
+
+	componentDidMount(): void {
+		if (this.props.Value !== undefined && this.props.Value !== null) {
+			console.log("Setting initial value from props", this.props.Value);
+			this.setState({ value: this.props.Value }, () => {
+				this.props.onPropertyChanged('value', undefined, this.state.value);
+				if (this.props.AwaitProps) {
+					this.setState({ disabled: false });
+				}
+			});
+		}
+	}
+
+	componentDidUpdate(prevProps: Readonly<IFormProps>, prevState: Readonly<IFormState>, snapshot?: any): void {
+		if (this.props.Value !== undefined && this.props.Value !== null && JSON.stringify(this.props.Value) !== JSON.stringify(prevProps.Value)) {
+			console.log("Updated value from props", this.props.Value);
+			this.setState({ value: this.props.Value }, () => {
+				this.props.onPropertyChanged('value', undefined, this.state.value);
+				if (this.props.AwaitProps) {
+					this.setState({ disabled: false });
+				}
+			});
+		}
+	}
+
+	shouldComponentUpdate(nextProps: Readonly<IFormProps>, nextState: Readonly<IFormState>, nextContext: any): boolean {
+		return JSON.stringify(this.props.Value) !== JSON.stringify(nextProps.Value) || JSON.stringify(this.state) !== JSON.stringify(nextState);
+	}
+
 	fieldChanged(field: string, value: any) {
+		console.log("Field changed", field, value, this.state.value[field]);
 		this.setState((prevState) => {
 			let newValue = { ...prevState.value };
 
@@ -51,7 +84,10 @@ export class Form extends React.Component<IFormProps, IFormState> {
 			// Split the field path using regex to handle both dot notation and array notation
 			const pathParts = field.split(/\.|\[|\]/).filter(Boolean);
 
-			let current = newValue;
+			console.log("Path parts", pathParts);
+
+			let current = {...newValue};
+			console.log("-> current", JSON.stringify(current));
 			const lastIndex = pathParts.length - 1;
 
 			for (let i = 0; i < lastIndex; i++) {
@@ -68,7 +104,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
 						current[part] = {};
 					}
 				}
-
+console.log("-> current", JSON.stringify(current));
+				console.log("Current part", part, "Next part", nextPart, "Is next part array index?", isNextPartArrayIndex);
 				// Move to the next level
 				current = current[part];
 
@@ -93,22 +130,34 @@ export class Form extends React.Component<IFormProps, IFormState> {
 			const lastPart = pathParts[lastIndex];
 			current[lastPart] = value;
 
-			this.props.onPropertyChanged('value', undefined, newValue);
+			console.log("-> current", JSON.stringify(current));
+
+			console.log("Updated value", JSON.stringify(prevState.value), JSON.stringify(current));
+			this.props.onPropertyChanged('value', undefined, current);
+			if (JSON.stringify(prevState.value) === JSON.stringify(current)) {
+				return { value: current };
+			}
+
+			if (this.state.disabled) {
+				return { value: current };
+			}
+
+
 
 			if (this.props.Lazy) {
 				this.changeTimer = setTimeout(() => {
 					if (this.props.OnChange) {
-						this.props.OnChange(newValue);
+						this.props.OnChange(current);
 					}
 				}, 750);
 			}
 			else {
 				if (this.props.OnChange) {
-					this.props.OnChange(newValue);
+					this.props.OnChange(current);
 				}
 			}
 
-			return { value: newValue };
+			return { value: current };
 		});
 	}
 

@@ -28,10 +28,10 @@ export const Navigation: React.FC<INavigationProps> = (props) => {
                         <span className={`logo ${sideBarToggle ? 'hidden' : ''}`}>
                             <img src="https://placehold.co/32x32/cccccc/000" alt="Logo" className="lg:hidden size-8" />
                             {props.LogoUrl &&
-                                <img className="dark:hidden" src={props.LogoUrl} alt="Logo" />
+                                <img className="dark:hidden h-8" src={props.LogoUrl} alt="Logo" />
                             }
                             {props.LogoDarkUrl &&
-                                <img className="hidden dark:block" src={props.LogoDarkUrl} alt="Logo" />
+                                <img className="hidden dark:block h-8" src={props.LogoDarkUrl} alt="Logo" />
                             }
 
                             {props.LogoIcon &&

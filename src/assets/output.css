@@ -552,6 +552,9 @@
   .h-6 {
     height: calc(var(--spacing) * 6);
   }
+  .h-8 {
+    height: calc(var(--spacing) * 8);
+  }
   .h-10 {
     height: calc(var(--spacing) * 10);
   }
@@ -2806,6 +2809,10 @@ textarea::-webkit-resizer {
   font-family: "Outfit", sans-serif;
 }
 body, html {
+  background-color: var(--color-gray-50);
+  &:where(.dark, .dark *) {
+    background-color: var(--color-gray-900);
+  }
   overflow-y: hidden;
   overflow-x: hidden;
 }

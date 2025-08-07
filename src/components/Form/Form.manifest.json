@@ -39,6 +39,26 @@
       "name": "Lazy",
       "description": "Whether the form should send onChange events with slowdown",
       "type": "boolean"
+    },
+    {
+      "name": "AwaitProps",
+      "displayName": "AwaitProps",
+      "description": "Whether the form should wait for props to be set before enabling",
+      "type": "boolean"
+    },
+    {
+      "name": "Value",
+      "displayName": "Value",
+      "type": "any"
+    },
+    {
+      "name": "Disabled",
+      "displayName": "Disabled",
+      "type": "boolean"
+    },
+    {
+      "name": "Value",
+      "displayName": "Value"
     }
   ],
   "childrenProps":[

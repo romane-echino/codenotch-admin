@@ -49,7 +49,7 @@ export class Label extends React.Component<ILabelProps, ILabelState> {
 			case 'Duration':
 				return dayjs.duration(dayjs(this.props.Value).diff(dayjs())).locale(this.props.language).humanize(true);
 			case 'Currency':
-				return new Intl.NumberFormat(this.props.language, { style: 'currency', currency: 'CHF' }).format(Number(this.props.Value));
+				return new Intl.NumberFormat(this.props.language, { style: 'currency', currency: 'CHF' }).format(parseInt(this.props.Value)/100);
 			case 'Percentage':
 				let percentageValue = parseFloat(this.props.Value);
 				if (isNaN(percentageValue)) {

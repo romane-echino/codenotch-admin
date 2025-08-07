@@ -2,7 +2,7 @@ import { DeclarationState, IDeclarationListenerProps } from '@echino/echino.ui.s
 import React from 'react';
 import { AnimatePresence, motion, Reorder } from "framer-motion";
 
-interface ISuspenseStackProps extends IDeclarationListenerProps {
+interface ISSuspenseProps extends IDeclarationListenerProps {
     On?:any;
     NoGap?:boolean;
     Gap?:string;
@@ -10,12 +10,12 @@ interface ISuspenseStackProps extends IDeclarationListenerProps {
     IsScrollable?:boolean;
 }
 
-interface ISuspenseStackState{
+interface ISuspenseState{
     suspenseResolved:boolean;
     showLoading:boolean;
 }
 
-export class SuspenseStack extends React.Component<ISuspenseStackProps, ISuspenseStackState> {
+export class Suspense extends React.Component<ISSuspenseProps, ISuspenseState> {
     mountedAt?:number;
     timeoutRef:any;
     timeoutAfter:number = 300;
@@ -23,7 +23,7 @@ export class SuspenseStack extends React.Component<ISuspenseStackProps, ISuspens
 	constructor(props: any) {
 		super(props);
         this.state = {
-            suspenseResolved : SuspenseStack.shouldRender(this.props),
+            suspenseResolved : Suspense.shouldRender(this.props),
             showLoading : false
         }
     }
@@ -53,10 +53,10 @@ export class SuspenseStack extends React.Component<ISuspenseStackProps, ISuspens
         }
     }
 
-    componentWillUpdate(nextProps: Readonly<ISuspenseStackProps>, nextState: Readonly<{}>, nextContext: any): void {
+    componentWillUpdate(nextProps: Readonly<ISSuspenseProps>, nextState: Readonly<{}>, nextContext: any): void {
         if(this.state.suspenseResolved === true){
             // When suspense is resolved it can restart (auml refresh call on declaration)
-            if(SuspenseStack.shouldRender(nextProps) === false){
+            if(Suspense.shouldRender(nextProps) === false){
                 clearTimeout(this.timeoutRef);
                 this.mountedAt = performance.now();
                 this.setState({
@@ -67,7 +67,7 @@ export class SuspenseStack extends React.Component<ISuspenseStackProps, ISuspens
             return;
         }
         else{
-            let suspenseIsResolved = SuspenseStack.shouldRender(nextProps);
+            let suspenseIsResolved = Suspense.shouldRender(nextProps);
             if(suspenseIsResolved){
                 clearTimeout(this.timeoutRef);
                 console.log("Suspense Resolved");
@@ -82,7 +82,7 @@ export class SuspenseStack extends React.Component<ISuspenseStackProps, ISuspens
     // The suspense will show content on some conditions :
     // 1 : 'true' if you pass a boolean
     // 2 : declarations states that are not "loading"
-    static shouldRender(props:ISuspenseStackProps){
+    static shouldRender(props:ISSuspenseProps){
         let children = (props as any).children as any[];
         if(children.length === 0)
             return false;
@@ -125,37 +125,12 @@ export class SuspenseStack extends React.Component<ISuspenseStackProps, ISuspens
 
 	render() {
         if(this.state.showLoading){
-            return <AnimatePresence>
-            <motion.div  
-                initial={{opacity:0}}
-                animate={{opacity:1}}>
-                    <div className='flex flex-col items-center my-4'><i className='text-xl fad fa-spinner-third fa-spin text-tint dark:text-tint'/></div>
-                </motion.div>
-            </AnimatePresence>
+            return null;
         }
 
         if(this.state.suspenseResolved === false)
             return null;
 
-        let children = this.props.children as any[];
-		return <div style={{
-            overflow : this.props.Overflow,
-            gap : this.props.Gap
-        }} className={`grow flex flex-col ${this.props.NoGap === true ? '' : 'gap-2 @3xl:pt-1'} pt-0 h-full`}>
-            {children.map((child, index) =>{
-                return <AnimatePresence>
-                    <motion.div key={index} 
-                    initial={{opacity:0, translateX:-10}}
-                    animate={{opacity:1, translateX:0}}
-                    className={`${index === children.length -1 ? "grow flex flex-col" : 'flex flex-col'} ${this.props.IsScrollable === true ? 'scrollUI' : ''}`}
-                    style={{
-                        overflow : this.props.Overflow
-                    }}
-                    transition={{delay:(0.05* index)}}>
-                        {child}
-                    </motion.div>
-                </AnimatePresence>
-            })}
-        </div>
+        return this.props.children
 	}
 }

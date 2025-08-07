@@ -19,6 +19,7 @@ export interface IListColumn {
 	Field: string;
 	Output?: boolean;
 	Visible?: boolean;
+	Align?: 'Left' | 'Right' | 'Center';
 	Renderer?: (as: string, data: any) => React.ReactNode;
 }
 
@@ -80,6 +81,8 @@ export const List: React.FC<IListProps> = (props) => {
 		if (props.OnClick === undefined) return;
 
 		if (outputFields.length > 0) {
+
+			console.log("Handling click for item", index, "with output fields", outputFields);
 			if (outputFields.length === 1) {
 				props.OnClick?.({ index, item: data[index][outputFields[0]] });
 			}
@@ -101,6 +104,7 @@ export const List: React.FC<IListProps> = (props) => {
 		}
 	}
 
+
 	return (
 		<Box {...props}>
 
@@ -109,11 +113,14 @@ export const List: React.FC<IListProps> = (props) => {
 				<table className='w-full'>
 					<thead>
 						<tr className='border-b border-gray-100 dark:border-gray-800'>
-							{columns.filter(c => c.Visible === true).map((column, index) => (
-								<td key={index} className={`px-6 py-3  whitespace-nowrap first:pl-0 font-medium text-gray-500 dark:text-gray-400`}>
+							{columns.filter(c => c.Visible === true).map((column, index) => {
+								const columnAlign = column.Align === 'Left' ? 'text-left' : column.Align === 'Right' ? 'text-right' : 'text-center';
+								return(
+									<td key={index} className={`px-6 py-3  whitespace-nowrap first:pl-0 font-medium text-gray-500 dark:text-gray-400 ${columnAlign}`}>
 									{column.DisplayName || column.Field}
 								</td>
-							))}
+								)
+							})}
 
 							{props.ItemActions &&
 								<td className='size-12'>&nbsp;</td>
