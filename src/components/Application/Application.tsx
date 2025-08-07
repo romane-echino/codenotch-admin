@@ -71,6 +71,13 @@ export class Application extends React.Component<IApplicationProps, IApplication
     this.processNavigation(this.props);
   }
 
+  componentDidUpdate(prevProps: IApplicationProps): void {
+    console.log('Application component updated');
+    if(JSON.stringify(prevProps.childrenProps) !== JSON.stringify(this.props.childrenProps)) {
+      this.processNavigation(this.props);
+    }
+  }
+
 
   processNavigation(props: IApplicationProps) {
     let menu: IAppMenu[] = [];

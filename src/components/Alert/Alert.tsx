@@ -1,6 +1,7 @@
 import React from 'react';
 import './Alert.scss';
 import { Sizing } from '../Sizing/Sizing';
+import { Markdown } from '../Markdown/Markdown';
 
 type AlertType = 'Success' | 'Warning' | 'Error' | 'Info';
 
@@ -59,7 +60,9 @@ export const Alert: React.FC<IAlertProps> = (props) => {
 					</div>
 					<div>
 						{Title && <h3 className="font-semibold text-gray-800 dark:text-white">{Title}</h3>}
-						{Message && <p className="text-sm text-gray-500 dark:text-gray-400">{Message}</p>}
+						<p className="text-sm text-gray-500 dark:text-gray-400">
+							<Markdown>{Message ?? props.children}</Markdown>
+						</p>
 
 						{LinkText && LinkUrl && (
 							<a href={LinkUrl} className="mt-3 inline-block text-sm font-medium text-gray-500 underline dark:text-gray-400">

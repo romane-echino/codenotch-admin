@@ -4,6 +4,7 @@ import { Box, IBoxProps } from '../Box/Box';
 import { IPageInheritedProps } from '../Page/Page';
 import { Action, IBindableComponentProps, IChildrenInheritedProps } from '@echino/echino.ui.sdk';
 import { IAbstractListAction } from '../AbstractInput/AbstractInput';
+import { Sizing } from '../Sizing/Sizing';
 
 interface IFormProps extends IBoxProps, IPageInheritedProps, IBindableComponentProps, IChildrenInheritedProps<{ Field: string }> {
 	HasLayout?: boolean;
@@ -23,7 +24,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 		childrenProps: [],
 	};
 
-	changeTimer:any = null;
+	changeTimer: any = null;
 
 	constructor(props: IFormProps) {
 		super(props);
@@ -152,9 +153,11 @@ export class Form extends React.Component<IFormProps, IFormState> {
 		}
 		else {
 			return (
-				<div className={classAttributes}>
-					{this.getChildren()}
-				</div>
+				<Sizing {...this.props} Containered={true}>
+					<div className={classAttributes}>
+						{this.getChildren()}
+					</div>
+				</Sizing>
 			)
 		}
 

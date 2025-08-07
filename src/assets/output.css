@@ -372,14 +372,8 @@
   .z-99999 {
     z-index: 99999;
   }
-  .col-span-3 {
-    grid-column: span 3 / span 3;
-  }
   .col-span-4 {
     grid-column: span 4 / span 4;
-  }
-  .col-span-6 {
-    grid-column: span 6 / span 6;
   }
   .col-span-12 {
     grid-column: span 12 / span 12;
@@ -566,9 +560,6 @@
   }
   .h-12 {
     height: calc(var(--spacing) * 12);
-  }
-  .h-\[49px\] {
-    height: 49px;
   }
   .h-\[480px\] {
     height: 480px;
@@ -855,9 +846,6 @@
     :where(& > :not(:last-child)) {
       border-color: var(--color-gray-200);
     }
-  }
-  .self-end {
-    align-self: flex-end;
   }
   .self-stretch {
     align-self: stretch;
@@ -2156,13 +2144,6 @@
       padding: calc(var(--spacing) * 6);
     }
   }
-  .md\:\*\:flex-auto {
-    @media (width >= 48rem) {
-      :is(& > *) {
-        flex: auto;
-      }
-    }
-  }
   .md\:\*\:grow-0 {
     @media (width >= 48rem) {
       :is(& > *) {
@@ -2390,16 +2371,6 @@
       @supports (color: color-mix(in lab, red, red)) {
         border-color: color-mix(in oklab, var(--color-error-500) 30%, transparent);
       }
-    }
-  }
-  .dark\:border-gray-300 {
-    &:where(.dark, .dark *) {
-      border-color: var(--color-gray-300);
-    }
-  }
-  .dark\:border-gray-600 {
-    &:where(.dark, .dark *) {
-      border-color: var(--color-gray-600);
     }
   }
   .dark\:border-gray-700 {
@@ -2904,6 +2875,9 @@ input[type=number] {
 }
 input[type="time"]::-webkit-calendar-picker-indicator {
   opacity: 0;
+}
+.mdblock *:last-child {
+  margin-bottom: calc(var(--spacing) * 0);
 }
 .mdblock h1 {
   margin-bottom: calc(var(--spacing) * 4);

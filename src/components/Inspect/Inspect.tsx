@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Sizing } from '../Sizing/Sizing';
 
 interface InspectProps {
   Source: any;
@@ -12,12 +13,8 @@ type ValueType = 'string' | 'number' | 'boolean' | 'undefined' | 'null' | 'array
 /**
  * Inspecteur - Un composant pour visualiser des structures de données de façon interactive
  */
-export const Inspect: React.FC<InspectProps> = ({ 
-  Source, 
-  Expand = false,
-  Depth = 0,
-  MaxDepth = 10
-}) => {
+export const Inspect: React.FC<InspectProps> = (props) => {
+  const { Source, Expand = true, Depth = 0, MaxDepth = 5 } = props;
   const [isExpanded, setIsExpanded] = useState(Expand && Depth < 2);
   const [source, setSource] = useState<any>(Source);
   
@@ -88,7 +85,7 @@ export const Inspect: React.FC<InspectProps> = ({
       : Object.entries(value);
     
     return (
-      <div className="w-full">
+      <div className='w-full' >
         <div 
           className="flex items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors px-2" 
           onClick={() => setIsExpanded(!isExpanded)}
@@ -136,8 +133,10 @@ export const Inspect: React.FC<InspectProps> = ({
   const isPrimitive = ['string', 'number', 'boolean', 'null', 'undefined', 'function', 'symbol', 'bigint'].includes(type);
   
   return (
+    <Sizing {...props} >
     <div className={`rounded-lg bg-white dark:bg-gray-900 px-2 py-1 overflow-x-auto`}> 
         {isPrimitive ? renderPrimitive(source, type) : renderComplex(source, type)}
     </div>
+    </Sizing>
   );
 };

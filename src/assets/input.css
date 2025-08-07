@@ -134,6 +134,10 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   opacity: 0;
 }
 
+.mdblock *:last-child {
+  @apply mb-0;
+}
+
 .mdblock h1{
   @apply text-2xl font-bold mb-4;
 }
