@@ -2876,6 +2876,9 @@ input[type=number] {
 input[type="time"]::-webkit-calendar-picker-indicator {
   opacity: 0;
 }
+.mdblock.md-error * {
+  color: var(--color-alizarin);
+}
 .mdblock *:last-child {
   margin-bottom: calc(var(--spacing) * 0);
 }

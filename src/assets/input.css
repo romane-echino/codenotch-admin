@@ -134,6 +134,10 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   opacity: 0;
 }
 
+.mdblock.md-error *{
+  @apply text-alizarin;
+}
+
 .mdblock *:last-child {
   @apply mb-0;
 }

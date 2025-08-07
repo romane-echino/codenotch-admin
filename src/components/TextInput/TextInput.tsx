@@ -23,7 +23,6 @@ export const TextInput: React.FC<ITextInputProps> = (props) => {
 	const updateValue = (value: string) => {
 		if (props.Regex) {
 			const regexp = new RegExp(props.Regex);
-			console.log('Regex:', props.Regex, 'Value:', value, 'Matches:', regexp.test(value));
 			if( value && regexp.test(value) === false) {
 				setError(true);
 			}

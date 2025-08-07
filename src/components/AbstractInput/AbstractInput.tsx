@@ -2,6 +2,7 @@ import React from 'react';
 import { Action } from '@echino/echino.ui.sdk';
 import { Sizing } from '../Sizing/Sizing';
 import { Helper } from './Helper';
+import { Markdown } from '../Markdown/Markdown';
 
 export interface IAbstractInputProps extends IInputProps {
     Focus: boolean;
@@ -112,7 +113,7 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
 
                 {this.state.error && this.props.ErrorText &&
                     <div className='mt-1 text-xs text-alizarin dark:text-alizarin'>
-                        {this.props.ErrorText}
+                        <Markdown Type='Error'>{this.props.ErrorText}</Markdown>
                     </div>
                 }
             </>
