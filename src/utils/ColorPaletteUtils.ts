@@ -63,8 +63,6 @@ export function appyTint(accent: string): void {
     let isTintSet = document.body.style.getPropertyValue('--primary-color') === '';
     if (isTintSet) {
         document.body.style.cssText += getTint(accent);
-    } else {
-        console.warn('Tint is already set, skipping.');
     }
 }
 

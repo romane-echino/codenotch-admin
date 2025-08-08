@@ -576,9 +576,6 @@
   .h-screen {
     height: 100vh;
   }
-  .max-h-\[320px\] {
-    max-height: 320px;
-  }
   .max-h-\[550px\] {
     max-height: 550px;
   }

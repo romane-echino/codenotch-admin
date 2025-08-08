@@ -15,7 +15,7 @@ type ValueType = 'string' | 'number' | 'boolean' | 'undefined' | 'null' | 'array
  */
 export const Inspect: React.FC<InspectProps> = (props) => {
   const { Source, Expand = true, Depth = 0, MaxDepth = 5 } = props;
-  const [isExpanded, setIsExpanded] = useState(Expand && Depth < 2);
+  const [isExpanded, setIsExpanded] = useState(Expand && Depth < 3);
   const [source, setSource] = useState<any>(Source);
   
   // Mettre à jour les données quand la source change

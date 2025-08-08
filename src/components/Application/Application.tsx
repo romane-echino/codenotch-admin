@@ -72,7 +72,7 @@ export class Application extends React.Component<IApplicationProps, IApplication
   }
 
   componentDidUpdate(prevProps: IApplicationProps): void {
-    console.log('Application component updated');
+    //console.log('Application component updated');
     if(JSON.stringify(prevProps.childrenProps) !== JSON.stringify(this.props.childrenProps)) {
       this.processNavigation(this.props);
     }

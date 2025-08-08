@@ -33,7 +33,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
 		this.state = {
 			value: {},
-			disabled: props.AwaitProps? true : false
+			disabled: props.AwaitProps ? true : false
 		}
 
 
@@ -71,93 +71,96 @@ export class Form extends React.Component<IFormProps, IFormState> {
 		return JSON.stringify(this.props.Value) !== JSON.stringify(nextProps.Value) || JSON.stringify(this.state) !== JSON.stringify(nextState);
 	}
 
+	setValueAtPath(obj: any, parts: (string | number)[], val: any): any {
+		//console.log("Setting value at path", parts, "Value", val);
+		// Cas de base: on a atteint la fin du chemin
+		if (parts.length === 0) {
+			return val;
+		}
+
+		const currentPart = parts[0];
+		const remainingParts = parts.slice(1);
+
+		//console.log("Setting value at path", currentPart, "Remaining parts", remainingParts, "Value", val);
+
+		// Déterminer si l'objet actuel doit être un tableau ou un objet
+		const isArrayIndex = typeof currentPart === 'number' ||(typeof currentPart === 'string' && !isNaN(Number(currentPart)));
+		const nextIsArrayIndex = parts.length > 1 &&
+			(typeof parts[1] === 'number' ||
+				(typeof parts[1] === 'string' && !isNaN(Number(parts[1]))));
+
+		// Créer un objet vide ou un tableau si nécessaire
+		if (obj === undefined || obj === null) {
+			obj = isArrayIndex ? [] : {};
+		}
+
+		// Clone l'objet ou le tableau pour éviter de modifier directement l'état précédent
+		const clone = Array.isArray(obj) ? [...obj] : { ...obj };
+
+		// Préparer le sous-objet pour la prochaine partie du chemin
+		let nextObj = clone[currentPart];
+		if (nextObj === undefined) {
+			nextObj = nextIsArrayIndex ? [] : {};
+		}
+
+		// Définir la valeur récursivement
+		clone[currentPart] = this.setValueAtPath(nextObj, remainingParts, val);
+
+		return clone;
+	}
+
 	fieldChanged(field: string, value: any) {
-		console.log("Field changed", field, value, this.state.value[field]);
+		//console.log("Field changed", field, value, this.state.value[field]);
 		this.setState((prevState) => {
-			let newValue = { ...prevState.value };
+			let result = { ...prevState.value };
+
+			//console.log("Current value", JSON.stringify(result));
 
 			if (this.props.Lazy && this.changeTimer !== null) {
 				clearTimeout(this.changeTimer);
 				this.changeTimer = null;
 			}
 
-			// Split the field path using regex to handle both dot notation and array notation
 			const pathParts = field.split(/\.|\[|\]/).filter(Boolean);
 
-			console.log("Path parts", pathParts);
+			//console.log("Path parts", pathParts);
 
-			let current = {...newValue};
-			console.log("-> current", JSON.stringify(current));
-			const lastIndex = pathParts.length - 1;
+			// Convertir les index numériques de string vers number
+			const normalizedParts = pathParts.map(part => {
+				const num = parseInt(part);
+				return isNaN(num) ? part : num;
+			});
 
-			for (let i = 0; i < lastIndex; i++) {
-				const part = pathParts[i];
-				const nextPart = pathParts[i + 1];
-				const isNextPartArrayIndex = !isNaN(Number(nextPart));
 
-				// If current part doesn't exist in the object, create it
-				if (current[part] === undefined) {
-					// If the next part is a number, create an array
-					if (isNextPartArrayIndex) {
-						current[part] = [];
-					} else {
-						current[part] = {};
-					}
-				}
-console.log("-> current", JSON.stringify(current));
-				console.log("Current part", part, "Next part", nextPart, "Is next part array index?", isNextPartArrayIndex);
-				// Move to the next level
-				current = current[part];
+			//console.log("Normalized parts", normalizedParts);
 
-				// If current is an array and the next part is an array index
-				if (Array.isArray(current) && isNextPartArrayIndex) {
-					const index = parseInt(nextPart);
 
-					// Ensure the array has enough elements
-					while (current.length <= index) {
-						current.push({});
-					}
+			result = this.setValueAtPath(result, normalizedParts, value);
 
-					// Skip the next part since we've already handled it
-					if (i < lastIndex - 1) {
-						current = current[index];
-						i++;
-					}
-				}
+
+			//console.log("-> current", JSON.stringify(result));
+
+			//console.log("Updated value", JSON.stringify(prevState.value), JSON.stringify(result));
+			this.props.onPropertyChanged('value', undefined, result);
+			if (JSON.stringify(prevState.value) === JSON.stringify(result) || this.state.disabled) {
+				return { value: result };
 			}
-
-			// Set the value at the final path
-			const lastPart = pathParts[lastIndex];
-			current[lastPart] = value;
-
-			console.log("-> current", JSON.stringify(current));
-
-			console.log("Updated value", JSON.stringify(prevState.value), JSON.stringify(current));
-			this.props.onPropertyChanged('value', undefined, current);
-			if (JSON.stringify(prevState.value) === JSON.stringify(current)) {
-				return { value: current };
-			}
-
-			if (this.state.disabled) {
-				return { value: current };
-			}
-
 
 
 			if (this.props.Lazy) {
 				this.changeTimer = setTimeout(() => {
 					if (this.props.OnChange) {
-						this.props.OnChange(current);
+						this.props.OnChange(result);
 					}
 				}, 750);
 			}
 			else {
 				if (this.props.OnChange) {
-					this.props.OnChange(current);
+					this.props.OnChange(result);
 				}
 			}
 
-			return { value: current };
+			return { value: result };
 		});
 	}
 
