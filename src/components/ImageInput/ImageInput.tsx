@@ -1,23 +1,24 @@
 import React from 'react';
-import './FileInput.scss';
+import './ImageInput.scss';
 import { AbstractInput, IInputProps } from '../AbstractInput/AbstractInput';
 import { Action, IBindableComponentProps, IProjectInfoProps } from '@echino/echino.ui.sdk';
+import { Markdown } from '../Markdown/Markdown';
 
-interface IFileInputProps extends IInputProps, IProjectInfoProps, IBindableComponentProps {
-	Accept?: string;
+interface IImageInputProps extends IInputProps, IProjectInfoProps, IBindableComponentProps {
 	OnUploaded?: Action<{ url: string; name: string }>;
 	OnChange?: Action<string>;
 }
 
-export const FileInput: React.FC<IFileInputProps> = (props) => {
+
+export const ImageInput: React.FC<IImageInputProps> = (props) => {
+
+	const Icon = props.Icon || 'far fa-upload';
 	const [focused, setFocused] = React.useState(false);
 	const [fileName, setFileName] = React.useState<string | undefined>(props.Value as string);
-	const [showDropZone, setShowDropZone] = React.useState(false);
 	const [isUploading, setIsUploading] = React.useState(false);
 	const refFileInput = React.useRef<HTMLInputElement | null>(null);
 
-
-	const Endpoint = props._projectInfo.clusterUrl + '/portal/api/upload';
+	const Endpoint = props._projectInfo.clusterUrl + '/portal/api/upload-image';
 
 	const onDrop = async (e: React.DragEvent<HTMLInputElement>) => {
 		e.preventDefault();
@@ -44,6 +45,7 @@ export const FileInput: React.FC<IFileInputProps> = (props) => {
 		let file = e.target.files[0];
 		await uploadFile(file);
 	}
+
 
 	const uploadFile = async (file: File) => {
 		setIsUploading(true);
@@ -84,44 +86,53 @@ export const FileInput: React.FC<IFileInputProps> = (props) => {
 	}
 
 
-	const prefix = (
-		<div className='self-stretch flex items-center'>Choose a file</div>
-	)
-
-	return (
-		<AbstractInput Focus={focused} {...props} Prefix={prefix}>
-			<input style={{ display: 'none' }} accept={props.Accept} onChange={(e) => onInputFileChange(e)} ref={refFileInput} type="file" />
-
-			<input
-				onDrop={onDrop.bind(this)}
-				disabled={props.Disabled}
-				onBlur={() => setFocused(false)}
-				onFocus={() => { setFocused(true) }}
-				onClick={() => refFileInput.current?.click()}
-
-				onDragEnter={onDragEnter.bind(this)}
-				onDragLeave={onDragLeave.bind(this)}
-				onDragOver={(e) => e.preventDefault()}
-				readOnly={true}
-				spellCheck={false}
-				value={fileName}
-				placeholder={props.Placeholder}
-				className={`${props.Icon && 'pl-9'} cursor-pointer px-4 py-2.5 w-full focus:border-0 focus:outline-hidden placeholder:text-gray-400 dark:placeholder:text-white/30`}
-				type="text" />
-
-
-			{isUploading && (
+	const getChild = () => {
+		if (isUploading) {
+			return (
 				<div className='absolute inset-y-0 right-0 w-10 flex items-center justify-center'>
 					<i className="fa-solid fa-spinner fa-spin text-primary"></i>
 				</div>
-			)}
-
-			{showDropZone && (
-				<div className='absolute rounded-md inset-0 text-white/50 gap-1 border-2 border-dashed flex items-center justify-center border-white/30 pointer-events-none'>
-					<i className="fa-regular fa-file"></i>
-					<span>Drop zone</span>
+			)
+		}
+		else if (fileName) {
+			return (
+				<div className='absolute inset-y-0 right-0 w-10 flex items-center justify-center'>
+					<i className="fa-solid fa-check text-success-500"></i>
 				</div>
-			)}
+			)
+		}
+		else {
+			return (
+				<div className="flex max-w-[260px] flex-col items-center gap-4">
+					<div className={`inline-flex h-13 w-13 items-center justify-center rounded-full border transition-all 
+						${focused ? 'text-primary border-primary -translate-y-2' : 'border-gray-200 dark:border-gray-800 text-gray-700  dark:text-gray-400'}`}>
+
+						<i className={`${Icon} text-xl`}></i>
+					</div>
+					<p className="text-center text-sm text-gray-500 dark:text-gray-400">
+						<Markdown Type='Normal'>{props.Helper}</Markdown>
+					</p>
+				</div>
+			)
+		}
+	}
+
+
+	return (
+		<AbstractInput Dashed={true} Focus={focused} {...props} Prefix={undefined} Suffix={undefined} Helper={undefined} Icon={undefined} Placeholder={undefined}>
+			<input style={{ display: 'none' }} accept={'image/*'} onChange={(e) => onInputFileChange(e)} ref={refFileInput} type="file" />
+
+			<div className="grow flex justify-center p-10 cursor-pointer"
+				onClick={() => refFileInput.current?.click()}
+				onDrop={onDrop.bind(this)}
+				onDragEnter={onDragEnter.bind(this)}
+				onDragLeave={onDragLeave.bind(this)}
+				onDragOver={(e) => e.preventDefault()}
+			>
+				{getChild()}
+			</div>
 		</AbstractInput>
+
+
 	)
 }

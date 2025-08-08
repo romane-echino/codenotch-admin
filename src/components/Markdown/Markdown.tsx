@@ -4,7 +4,7 @@ import { Sizing } from '../Sizing/Sizing';
 interface IMarkdownProps extends PropsWithChildren<{}> {
 	Type: 'Normal' | 'Error'
 }
-export const Markdown = (props: IMarkdownProps) => {
+export const Markdown = (props: IMarkdownProps ) => {
 
 	const { Type = 'Normal' } = props;
 
@@ -52,7 +52,7 @@ export const Markdown = (props: IMarkdownProps) => {
 	return (
 		<Sizing {...props}>
 			<div
-				className={`mdblock ${props.Type === 'Error' ? 'md-error' : ''} text-gray-800 dark:text-white/90`}
+				className={`mdblock ${Type === 'Error' ? 'md-error' : ''} text-gray-800 dark:text-white/90`}
 				dangerouslySetInnerHTML={{ __html: getContent() }}>
 
 			</div>

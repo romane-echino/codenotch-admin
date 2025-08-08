@@ -1,15 +1,15 @@
 {
-  "name": "File input",
+  "name": "Image input",
   "menu": "Input",
   "bindable": [
     "value"
   ],
   "props": [
     {
-      "name": "Accept",
-      "displayName": "Accept",
-      "type": "string",
-      "description": "File types accepted by the input, e.g., 'image/*' for all images, '.pdf' for PDF files."
+      "name": "OnChange",
+      "displayName": "OnChange",
+      "type": "action",
+      "description": "Action triggered when the file input changes."
     },
     {
       "name": "OnUploaded",
@@ -32,11 +32,6 @@
       "type": "string"
     },
     {
-      "name": "Placeholder",
-      "displayName": "Placeholder",
-      "type": "string"
-    },
-    {
       "name": "Value",
       "displayName": "Value",
       "type": "string"
@@ -55,11 +50,6 @@
       "name": "Disabled",
       "displayName": "Disabled",
       "type": "boolean"
-    },
-    {
-      "name": "Suffix",
-      "displayName": "Suffix",
-      "type": "reactNode"
     }
   ]
 }

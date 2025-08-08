@@ -68,7 +68,21 @@ export class Form extends React.Component<IFormProps, IFormState> {
 	}
 
 	shouldComponentUpdate(nextProps: Readonly<IFormProps>, nextState: Readonly<IFormState>, nextContext: any): boolean {
-		return JSON.stringify(this.props.Value) !== JSON.stringify(nextProps.Value) || JSON.stringify(this.state) !== JSON.stringify(nextState);
+		if(JSON.stringify(this.props.Value) !== JSON.stringify(nextProps.Value) )
+			return true;
+		if (JSON.stringify(this.state) !== JSON.stringify(nextState)) {
+			return true;
+		}
+
+		if (JSON.stringify(this.props.childrenProps) !== JSON.stringify(nextProps.childrenProps)) {
+			return true;
+		}
+		//@ts-ignore
+		if( this.props.children !== nextProps.children) {
+			return true;
+		}
+
+		return false;
 	}
 
 	setValueAtPath(obj: any, parts: (string | number)[], val: any): any {
