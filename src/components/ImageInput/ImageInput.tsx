@@ -5,16 +5,20 @@ import { Action, IBindableComponentProps, IProjectInfoProps } from '@echino/echi
 import { Markdown } from '../Markdown/Markdown';
 
 interface IImageInputProps extends IInputProps, IProjectInfoProps, IBindableComponentProps {
-	OnUploaded?: Action<{ url: string; name: string }>;
-	OnChange?: Action<string>;
+	OnChange?: Action<UploadedFile>;
 }
 
+export interface UploadedFile {
+	url: string;
+	name: string;
+}
 
 export const ImageInput: React.FC<IImageInputProps> = (props) => {
 
 	const Icon = props.Icon || 'far fa-upload';
 	const [focused, setFocused] = React.useState(false);
-	const [fileName, setFileName] = React.useState<string | undefined>(props.Value as string);
+	//@ts-ignore
+	const [file, setFile] = React.useState<UploadedFile | undefined>(props.Value ?? undefined);
 	const [isUploading, setIsUploading] = React.useState(false);
 	const refFileInput = React.useRef<HTMLInputElement | null>(null);
 
@@ -71,17 +75,21 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 
 			let jobject = await response.json();
 			setIsUploading(false);
-			props.OnUploaded?.({ url: jobject.DownloadUrl, name: file.name });
-			props.OnChange?.(jobject.DownloadUrl);
-			props.onPropertyChanged('value', undefined, jobject.DownloadUrl);
 
+			const result: UploadedFile = {
+				url: jobject.DownloadUrl,
+				name: file.name
+			};
+			props.OnChange?.(result);
+			props.onPropertyChanged('value', undefined, result);
+			setFile(result);
 		}
 		catch (e) {
 			setIsUploading(false);
 			console.error("upload", e);
 		}
 		finally {
-			setFileName(file.name);
+
 		}
 	}
 
@@ -89,15 +97,17 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 	const getChild = () => {
 		if (isUploading) {
 			return (
-				<div className='absolute inset-y-0 right-0 w-10 flex items-center justify-center'>
-					<i className="fa-solid fa-spinner fa-spin text-primary"></i>
-				</div>
+
+				<i className="fa-solid fa-spinner fa-spin text-primary"></i>
 			)
 		}
-		else if (fileName) {
+		else if (file) {
 			return (
-				<div className='absolute inset-y-0 right-0 w-10 flex items-center justify-center'>
-					<i className="fa-solid fa-check text-success-500"></i>
+				<div className='absolute inset-1'>
+					<img className='w-full h-full object-cover rounded-lg' src={file.url} alt={file.name} />
+					<div className='absolute inset-0 bg-black/30 flex items-center justify-center'>
+						<p className='text-white text-sm'>{file.name}</p>
+					</div>
 				</div>
 			)
 		}
@@ -109,9 +119,12 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 
 						<i className={`${Icon} text-xl`}></i>
 					</div>
-					<p className="text-center text-sm text-gray-500 dark:text-gray-400">
-						<Markdown Type='Normal'>{props.Helper}</Markdown>
-					</p>
+
+					{props.Placeholder &&
+						<p className="text-center text-sm text-gray-500 dark:text-gray-400">
+							<Markdown Type='Normal'>{props.Placeholder}</Markdown>
+						</p>
+					}
 				</div>
 			)
 		}
@@ -119,10 +132,10 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 
 
 	return (
-		<AbstractInput Dashed={true} Focus={focused} {...props} Prefix={undefined} Suffix={undefined} Helper={undefined} Icon={undefined} Placeholder={undefined}>
+		<AbstractInput Dashed={true} Focus={focused} {...props} Prefix={undefined} Suffix={undefined} Icon={undefined} Placeholder={undefined}>
 			<input style={{ display: 'none' }} accept={'image/*'} onChange={(e) => onInputFileChange(e)} ref={refFileInput} type="file" />
 
-			<div className="grow flex justify-center p-10 cursor-pointer"
+			<div className="grow flex justify-center items-center p-10 cursor-pointer"
 				onClick={() => refFileInput.current?.click()}
 				onDrop={onDrop.bind(this)}
 				onDragEnter={onDragEnter.bind(this)}
