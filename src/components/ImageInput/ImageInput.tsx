@@ -122,7 +122,7 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 		<AbstractInput Dashed={true} Focus={focused} {...props} Prefix={undefined} Suffix={undefined} Helper={undefined} Icon={undefined} Placeholder={undefined}>
 			<input style={{ display: 'none' }} accept={'image/*'} onChange={(e) => onInputFileChange(e)} ref={refFileInput} type="file" />
 
-			<div className="grow flex justify-center p-10 cursor-pointer"
+			<div className="grow flex justify-center p-10 cursor-pointer min-h-40"
 				onClick={() => refFileInput.current?.click()}
 				onDrop={onDrop.bind(this)}
 				onDragEnter={onDragEnter.bind(this)}
