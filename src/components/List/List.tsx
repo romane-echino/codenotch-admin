@@ -5,9 +5,9 @@ import { Box, IBoxProps } from '../Box/Box';
 import { IPageInheritedProps } from '../Page/Page';
 import { getColumnsFromSource, getDataFromSource } from '../../utils/SourceHandling';
 import { MenuButton } from '../MenuButton/MenuButton';
-import { Action } from '@echino/echino.ui.sdk';
+import { Action, IChildrenInheritedProps } from '@echino/echino.ui.sdk';
 
-interface IListProps extends IPageInheritedProps, IBoxProps {
+interface IListProps extends IPageInheritedProps, IBoxProps, IChildrenInheritedProps<IListColumn> {
 	Source?: any;
 	Take?: number;
 	ItemActions?: (as: string, data: any) => React.ReactNode;

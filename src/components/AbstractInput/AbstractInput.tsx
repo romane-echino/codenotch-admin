@@ -86,7 +86,7 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
                 <div className={`flex dark:bg-dark-900 min-h-11 w-full rounded-lg border  bg-transparent text-sm dark:bg-gray-900 text-gray-800 dark:text-white/90 
                     ${this.props.Dashed ? 'border-dashed' : 'border-solid'}
                     ${this.state.error ? 'border-alizarin dark:border-alizarin ring-alizarin/10 ring-3' :
-                        (this.state.focused ? 'border-primary-300 dark:border-primary-800 ring-primary-500/10 ring-3' :
+                        (this.state.focused ? 'border-primary ring-primary/10 ring-3' :
                             'border-gray-300 dark:border-gray-700')}`}>
 
                     {this.props.Prefix &&

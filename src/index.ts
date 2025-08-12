@@ -12,6 +12,7 @@ import duration from 'dayjs/plugin/duration'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import weekday from 'dayjs/plugin/weekday'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 
 import 'dayjs/locale/fr'
 import 'dayjs/locale/en'
@@ -23,6 +24,7 @@ dayjs.extend(localizedFormat)
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 dayjs.extend(weekday);
+dayjs.extend(customParseFormat);
 
 export * from './components/KPI/KPI'
 export * from './components/Barchart/Barchart'

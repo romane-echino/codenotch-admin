@@ -14,6 +14,16 @@
       "type": "string"
     },
     {
+      "name": "Required",
+      "displayName": "Required",
+      "type": "boolean"
+    },
+    {
+      "name": "Helper",
+      "displayName": "Helper",
+      "type": "string"
+    },
+    {
       "name": "Type",
       "displayName": "Type",
       "type": "string",

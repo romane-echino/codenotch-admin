@@ -18,6 +18,7 @@ export const FileInput: React.FC<IFileInputProps> = (props) => {
 
 
 	const Endpoint = props._projectInfo.clusterUrl + '/portal/api/upload';
+	const ContentTypeEndpoint = props._projectInfo.clusterUrl + '/portal/api/update-content-type';
 
 	const onDrop = async (e: React.DragEvent<HTMLInputElement>) => {
 		e.preventDefault();
@@ -68,6 +69,21 @@ export const FileInput: React.FC<IFileInputProps> = (props) => {
 			}
 
 			let jobject = await response.json();
+			let contentTypeResponse = await fetch(ContentTypeEndpoint, {
+				method: 'POST',
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					"filename": jobject.FileName,
+					"contentType": file.type
+				})
+			});
+
+			if (contentTypeResponse.ok === false) {
+				throw new Error(`${contentTypeResponse.status} ${await contentTypeResponse.text()}`);
+			}
+
 			setIsUploading(false);
 			props.OnUploaded?.({ url: jobject.DownloadUrl, name: file.name });
 			props.OnChange?.(jobject.DownloadUrl);

@@ -1,38 +1,44 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import Papa from 'papaparse';
 import { Sizing } from '../Sizing/Sizing';
-import { IChildrenInheritedProps } from '@echino/echino.ui.sdk';
+import { Action, IBindableComponentProps, IChildrenInheritedProps, IProjectInfoProps } from '@echino/echino.ui.sdk';
 import { AbstractInput } from '../AbstractInput/AbstractInput';
 import { Box, BoxTitle, IBoxProps } from '../Box/Box';
 import { Dropdown } from '../Dropdown/Dropdown';
 import { Button } from '../Button/Button';
-import { transformCSV } from './CSVTransform';
+import { isColumnEmpty, transformCSV } from './CSVTransform';
+import { sendCSV } from './CSVSend';
+import { UploadedFile } from '../ImageInput/ImageInput';
+import { TableFromJson } from '../Table/TableFromJson';
 
 // Types
-interface ICSVImportProps extends IChildrenInheritedProps<ICSVMapping>, IBoxProps {
-  onComplete?: (mappings: Record<string, string>, data: any[]) => void;
-  maxPreviewRecords?: number;
+interface ICSVImportProps extends IChildrenInheritedProps<ICSVMapping>, IBoxProps, IProjectInfoProps, IBindableComponentProps {
+  Value?: UploadedFile;
+  OnChange: Action<UploadedFile>;
+  PreviewRecords?: number;
 }
 
-interface ICSVMapping {
+export interface ICSVMapping {
   Field: string;
   DisplayName: string;
   Type: TransformType;
+  Helper?: string;
+  Required?: boolean;
 }
 
 interface ICSVColumn {
   [key: number]: ICSVColumnData;
 }
 
-interface ICSVColumnData {
+export interface ICSVColumnData {
   Id: number;
   Name: string;
   Mapping?: ICSVMapping;
 }
 
 export type TransformType = 'text' | 'gender' | 'date' | 'phone' | 'email' | 'street' | 'number';
-
-interface ICSVRecord {
+export type CSVState = 'awaitFile' | 'process' | 'map' | 'upload' | 'preview';
+export interface ICSVRecord {
   [key: string]: string;
 }
 
@@ -41,16 +47,44 @@ const CSVColumnCard: React.FC<{
   data: ICSVColumnData;
   previewValues?: string[];
   availableFields?: ICSVMapping[];
-  onMappingChange?: (mapping: ICSVMapping) => void;
+  onMappingChange?: (mapping: ICSVMapping | undefined) => void;
 }> = ({ data, previewValues, availableFields, onMappingChange }) => {
   const actions = data.Mapping ? <i className='fas fa-circle-check text-success-500'></i> : null;
 
+  const getValue = (value: string) => {
+    if (data.Mapping) {
+      const transform = transformCSV(value, data.Mapping.Type);
+      if (transform === undefined) {
+        return <i className="fa-solid fa-empty-set text-alizarin"></i>;
+      }
+      if (data.Mapping.Type === 'date') {
+        return <span className='bg-primary text-white px-1.5 rounded-full'>{transform?.format('L')}</span>;
+      }
+      if (typeof (transform) === 'object') {
+        return Object.values(transform).map((v, i) => <span className='bg-primary text-white py-0.5 px-1 rounded-full' key={i}>{v}</span>);
+      } else if (data.Mapping.Type === 'gender') {
+        if (transform === 0) {
+          return <i className="fa-solid fa-mars text-peter-river"></i>;
+        } else if (transform === 1) {
+          return <i className="fa-solid fa-venus text-amethyst"></i>;
+        } else {
+          return <i className="fa-solid fa-mars-and-venus text-emerald"></i>;
+        }
+      }
+      else {
+        return <span className='bg-primary text-white py-0.5 px-1 rounded-full'>{transform.toString()}</span>;
+      }
+    }
+    return '-';
+  }
   return (
     <>
       {/* @ts-ignore */}
       <Box Title={data.Name} ColSpan="1/4" Actions={actions}>
         {data.Mapping ?
-          <div className='px-4 py-2.5 h-10 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 text-sm flex gap-2'>
+          <div
+            onClick={() => onMappingChange?.(undefined)}
+            className=' cursor-pointer group hover:border-primary hover:ring-primary/10 hover:ring-3 px-4 py-2.5 h-11 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 text-sm flex gap-2'>
             <span className='grow'>{data.Mapping.DisplayName}</span>
             <i className='fas fa-circle-xmark text-md'></i>
           </div>
@@ -86,14 +120,14 @@ const CSVColumnCard: React.FC<{
 
           {previewValues?.map((value, idx) => (
             <React.Fragment key={idx}>
-              <div className='text-sm  py-1 px-2 border-r border-gray-300 dark:border-gray-700 text-gray-500 dark:text-gray-400'>
+              <div className='text-sm  py-1 px-2 border-r border-gray-300 dark:border-gray-700 text-gray-500 dark:text-gray-400 h-8 flex items-center '>
                 {idx + 1}
               </div>
-              <div className='text-sm  py-1 px-2 whitespace-nowrap text-gray-500 dark:text-gray-400 truncate'>
+              <div className='text-sm  py-1 px-2 whitespace-nowrap text-gray-500 dark:text-gray-400 truncate h-8 flex items-center '>
                 {value || <i className="fa-solid fa-empty-set text-sm opacity-80"></i>}
               </div>
-              <div className='text-sm  py-1 px-2 whitespace-nowrap text-gray-500 dark:text-gray-400 truncate'>
-                {data.Mapping ? transformCSV(value, data.Mapping.Type) : '-'}
+              <div className='text-sm  py-1 px-2 whitespace-nowrap text-gray-500 dark:text-gray-400 truncate h-8 flex gap-1 items-center '>
+                {getValue(value)}
               </div>
             </React.Fragment>
           ))}
@@ -105,19 +139,30 @@ const CSVColumnCard: React.FC<{
 
 // Main component
 export const CSV: React.FC<ICSVImportProps> = (props) => {
-  const { childrenProps, maxPreviewRecords = 5, onComplete } = props;
+  const { childrenProps, PreviewRecords = 5, OnChange, _projectInfo, Value } = props;
   const fields: ICSVMapping[] = childrenProps;
+
+  const [state, setState] = useState<CSVState>(Value ? 'preview' : 'awaitFile');
+  const [value, setValue] = useState<UploadedFile | null>(Value ?? null);
 
   const [file, setFile] = useState<File | null>(null);
   const [columns, setColumns] = useState<ICSVColumn>({});
   const [data, setData] = useState<ICSVRecord[]>([]);
+  const [progress, setProgress] = useState<{ count?: number, text: string } | null>(null);
 
-  const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [focused, setFocused] = React.useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const recordsRef = useRef<ICSVRecord[]>([]);
+
+
+  useEffect(() => {
+    if (Value !== undefined) {
+      setValue(Value);
+      setState('preview');
+    }
+  }, [Value]);
 
   // Handle drag events
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
@@ -131,20 +176,11 @@ export const CSV: React.FC<ICSVImportProps> = (props) => {
   }, []);
 
   // Check if a column is empty (all values are empty, null, or undefined)
-  const isColumnEmpty = useCallback((data: ICSVRecord[], header: string): boolean => {
-    if (!data.length) return true;
 
-    // Consider a column empty if more than 90% of values are empty
-    const emptyCount = data.filter(record =>
-      !record[header] || record[header].trim() === ''
-    ).length;
-
-    return (emptyCount / data.length) > 0.9;
-  }, []);
 
   // Process the CSV file in chunks to avoid memory issues
   const processCSV = useCallback((file: File) => {
-    setIsProcessing(true);
+    setState('process')
     setError(null);
     setColumns([]);
     setData([]);
@@ -155,7 +191,7 @@ export const CSV: React.FC<ICSVImportProps> = (props) => {
       header: true,
       encoding: "ISO-8859-1",
       skipEmptyLines: true,
-      preview: maxPreviewRecords, // Only load a limited number for preview
+      preview: PreviewRecords, // Only load a limited number for preview
       chunk: (results) => {
         if (results.data && results.data.length > 0) {
           const newRecords = results.data as ICSVRecord[];
@@ -178,15 +214,14 @@ export const CSV: React.FC<ICSVImportProps> = (props) => {
           setColumns(columnResult);
           setData(allRecords);
         }
-
-        setIsProcessing(false);
+        setState('map');
       },
       error: (err) => {
         setError(`Error parsing CSV: ${err.message}`);
-        setIsProcessing(false);
+        setState('awaitFile');
       }
     });
-  }, [maxPreviewRecords, isColumnEmpty]);
+  }, [PreviewRecords, isColumnEmpty]);
 
   // Handle file drop
   const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
@@ -211,6 +246,7 @@ export const CSV: React.FC<ICSVImportProps> = (props) => {
       if (file.type === 'text/csv' || file.name.endsWith('.csv')) {
         setFile(file);
         processCSV(file);
+        setState('map');
       } else {
         setError('Please upload a CSV file');
       }
@@ -218,8 +254,7 @@ export const CSV: React.FC<ICSVImportProps> = (props) => {
   }, [processCSV]);
 
   // Handle mapping changes
-  const handleMappingChange = useCallback((columnIndex: number, mappedField: ICSVMapping) => {
-    console.log('Mapping change', columnIndex, mappedField);
+  const handleMappingChange = useCallback((columnIndex: number, mappedField: ICSVMapping | undefined) => {
     setColumns(prev => {
       const next = { ...prev };
       const column = next[columnIndex];
@@ -230,116 +265,157 @@ export const CSV: React.FC<ICSVImportProps> = (props) => {
     });
   }, []);
 
-  // Complete import button handler
-  /*const handleComplete = useCallback(() => {
-    if (onComplete && records.length > 0) {
-      // Only include mapped columns in the final data
-      const finalData = records.map(record => {
-        const mappedRecord: Record<string, ICSVColumn> = {};
-        Object.entries(mappings).forEach(([csvField, targetMapping]) => {
-          mappedRecord[targetMapping.Field] = record[csvField] || '';
-        });
-        return mappedRecord;
-      });
+  const getMissingFields = useCallback(() => {
+    const missing: string[] = [];
+    fields.filter(field => field.Required === true).forEach(field => {
+      if (Object.values(columns).every(c => c.Mapping?.Field !== field.Field)) {
+        missing.push(field.DisplayName);
+      }
+    });
+    return missing;
+  }, [columns]);
 
-      onComplete(mappings, finalData);
+  // Complete import button handler
+  const handleComplete = useCallback(() => {
+    if (file) {
+      setState('upload');
+      sendCSV(
+        _projectInfo.clusterUrl,
+        file,
+        Object.values(columns).filter(c => c.Mapping !== undefined),
+        setProgress,
+        (data) => {
+
+          console.log('CSV upload complete', data);
+          props.onPropertyChanged('value', undefined, data);
+          props.OnChange?.(data);
+          setValue(data);
+          setState('preview');
+        }
+      );
     }
-  }, [mappings, onComplete, records]);*/
+
+  }, [data, OnChange, columns]);
 
   // Get preview values for each column
   const getColumnPreviewValues = (header: string): string[] => {
-    return data.slice(0, maxPreviewRecords).map(record => record[header] || '');
+    return data.slice(0, PreviewRecords).map(record => record[header] || '');
   };
 
   // Get remaining fields that are not already mapped
   const getAvailableFields = (currentHeader: string): ICSVMapping[] => {
     const usedFields = new Set(Object.values(columns).map(c => c.Mapping?.Field).filter(Boolean));
-    // Always include the currently mapped field for this header
-    /*if (mappings[currentHeader]) {
-      usedFields.delete(mappings[currentHeader]);
-    }*/
-
     return fields.filter(f => !usedFields.has(f.Field));
   };
 
-  if (!file) {
-    return (
-      <Box {...props}>
-        <AbstractInput Dashed={true} Focus={focused} Prefix={undefined} Suffix={undefined} Icon={undefined} Placeholder={undefined}>
-          <input
-            type="file"
-            ref={fileInputRef}
-            className="hidden"
-            accept=".csv"
-            style={{ display: 'none' }}
-            onChange={handleFileChange}
+
+  switch (state) {
+    case 'awaitFile':
+      return (
+        <Box {...props}>
+          <AbstractInput Dashed={true} Focus={focused} Prefix={undefined} Suffix={undefined} Icon={undefined} Placeholder={undefined}>
+            <input
+              type="file"
+              ref={fileInputRef}
+              className="hidden"
+              accept=".csv"
+              style={{ display: 'none' }}
+              onChange={handleFileChange}
+            />
+
+            <div className="grow flex justify-center items-center p-10 cursor-pointer min-h-40 flex-col"
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current?.click()}
+            >
+
+              <i className="fas fa-file-csv text-4xl mb-4 text-gray-400"></i>
+              <p className="text-lg mb-2">Drag & drop a CSV file here</p>
+              <p className="text-sm text-gray-500">or click to browse files</p>
+              {error && <p className="text-red-500 mt-4">{error}</p>}
+
+            </div>
+          </AbstractInput >
+        </Box >
+      )
+    case 'process':
+      return (
+        <Box {...props}>
+          <AbstractInput Dashed={true} Focus={false} Prefix={undefined} Suffix={undefined} Icon={undefined} Placeholder={undefined}>
+            <div className="grow flex justify-center items-center p-10 cursor-pointer min-h-40 flex-col">
+              <i className="fas fa-spinner fa-spin text-3xl mb-4"></i>
+              <p className="text-lg mb-2">Processing CSV file...</p>
+            </div>
+          </AbstractInput>
+        </Box>
+      )
+    case 'map':
+      const columnArray = Object.values(columns);
+      const missingFields = getMissingFields();
+      return (
+        <Sizing>
+          <BoxTitle {...props}
+            Actions={<>
+
+              <Button
+                Label='Upload'
+                Type='Success'
+                Disabled={missingFields.length > 0}
+                OnClick={() => handleComplete()}
+                Confirmation='Are you sure data your data mapping is complete and that you want to upload?' />
+
+            </>}
           />
 
-          <div className="grow flex justify-center items-center p-10 cursor-pointer min-h-40 flex-col"
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()}
-          >
-            {isProcessing ? (
-              <>
-                <i className="fas fa-spinner fa-spin text-3xl mb-4"></i>
-                <p>Processing CSV file...</p>
-              </>
-            ) : (
-              <>
-                <i className="fas fa-file-csv text-4xl mb-4 text-gray-400"></i>
-                <p className="text-lg mb-2">Drag & drop a CSV file here</p>
-                <p className="text-sm text-gray-500">or click to browse files</p>
-                {error && <p className="text-red-500 mt-4">{error}</p>}
-              </>
-            )}
-          </div>
 
-        </AbstractInput >
-      </Box >
-    )
+          {missingFields.length > 0 &&
+            <div className='flex flex-row gap-1 flex-wrap mb-2'>
+              <h4 className='text-gray-500 dark:text-gray-400'>Missing fields : </h4>
+              {missingFields.map((field, index) => (
+                <div key={index} className='bg-alizarin text-white px-1.5 rounded-full'>{field}</div>
+              ))}
+            </div>
+          }
+
+          {columnArray.length > 0 && (
+            <>
+              <div className="grid grid-cols-12 gap-4 md:gap-6">
+                {columnArray.map(column => (
+                  <CSVColumnCard
+                    key={column.Id}
+                    data={column}
+                    previewValues={getColumnPreviewValues(column.Name)}
+                    availableFields={getAvailableFields(column)}
+                    onMappingChange={(field) => handleMappingChange(column.Id, field)}
+                  />
+                ))}
+              </div>
+
+              <pre className='text-sm text-white'>
+                {JSON.stringify(columns, null, 2)}
+              </pre>
+            </>
+          )}
+        </Sizing>
+      )
+    case 'upload':
+      return (
+        <Box {...props}>
+          <AbstractInput Dashed={true} Focus={false} Prefix={undefined} Suffix={undefined} Icon={undefined} Placeholder={undefined}>
+            <div className="grow flex justify-center items-center p-10 cursor-pointer min-h-40 flex-col">
+              <i className="fas fa-spinner fa-spin text-3xl mb-4"></i>
+              <p className="text-lg mb-2">{progress!.text}</p>
+              <p className="text-sm text-gray-500">{progress!.count} %</p>
+            </div>
+          </AbstractInput>
+        </Box>
+      )
+    case 'preview':
+      return (
+        <TableFromJson url={value!.url} {...props} />
+      )
+    default:
+      return null;
   }
-
-  //
-
-  const columnArray = Object.values(columns);
-  return (
-    <Sizing>
-      <BoxTitle {...props}
-        Subtitle={props.Subtitle + `\n${columnArray.filter(c => c.Mapping === undefined).length} of ${columnArray.length} columns mapped`}
-        Actions={<>
-
-          <Button
-            Label='Upload'
-            Type='Success'
-            Disabled={columnArray.filter(c => c.Mapping === undefined).length > 0}
-            OnClick={() => //handleComplete()
-            { }}
-            Confirmation='Are you sure data your data mapping is complete and that you want to upload?' />
-
-        </>}
-      />
-
-      {columnArray.length > 0 && (
-        <>
-          <div className="grid grid-cols-12 gap-4 md:gap-6">
-            {columnArray.map(column => (
-              <CSVColumnCard
-                key={column.Id}
-                data={column}
-                previewValues={getColumnPreviewValues(column.Name)}
-                availableFields={getAvailableFields(column)}
-                onMappingChange={(field) => handleMappingChange(column.Id, field)}
-              />
-            ))}
-          </div>
-
-          <pre className='text-sm text-white'>
-            {JSON.stringify(columns, null, 2)}
-          </pre>
-        </>
-      )}
-    </Sizing>
-  );
 };

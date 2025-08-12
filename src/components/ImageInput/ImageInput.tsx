@@ -81,7 +81,6 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 				throw new Error('Upload enpoint is missing.');
 			}
 
-			let data = new FormData()
 			const reader = new FileReader();
 			reader.onloadend = async () => {
 				//data.append('file', new Blob([reader.result as ArrayBuffer], { type: file.type }), file.name);
@@ -99,16 +98,13 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 				}
 
 				let jobject = await response.json();
-
-				const SASSplit = /images\/(.+?)\?/gm.exec(jobject.DownloadUrl);
-				console.log('SASSplit', SASSplit, file.type);
 				let contentTypeResponse = await fetch(ContentTypeEndpoint, {
 					method: 'POST',
 					headers: {
 						"Content-Type": "application/json"
 					},
 					body: JSON.stringify({
-						"filename": SASSplit ? SASSplit[1] : file.name,
+						"filename": jobject.FileName,
 						"contentType": file.type
 					})
 				});

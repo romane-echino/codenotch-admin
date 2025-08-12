@@ -66,6 +66,10 @@ export function getColumnsFromSource(source: any): any[] {
 
     switch (getSourceType(source)) {
         case SourceType.Array:
+            if((source as any[]).length === 0) {
+                return [];
+            }
+            console.log("Array source detected", source[0]);
             return Object.keys(source[0])
                 .filter(key => typeof source[0][key] !== 'object'
                     && typeof source[0][key] !== 'function'
