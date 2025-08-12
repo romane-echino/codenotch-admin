@@ -23,6 +23,29 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 	const refFileInput = React.useRef<HTMLInputElement | null>(null);
 
 	const Endpoint = props._projectInfo.clusterUrl + '/portal/api/upload-image';
+	const ContentTypeEndpoint = props._projectInfo.clusterUrl + '/portal/api/update-content-type';
+
+	React.useEffect(() => {
+		if (props.Value !== undefined && props.Value !== null && props.Value !== '') {
+
+			let value: UploadedFile;
+			if (typeof props.Value === 'string') {
+				value = JSON.parse(props.Value);
+			}
+			else {
+				//@ts-ignore
+				value = props.Value as UploadedFile;
+			}
+			//@ts-ignore
+			props.OnChange?.(value);
+			props.onPropertyChanged('value', undefined, value);
+			//@ts-ignore
+			setFile(value);
+
+
+			console.log('Value', props.Value)
+		}
+	}, [props.Value]);
 
 	const onDrop = async (e: React.DragEvent<HTMLInputElement>) => {
 		e.preventDefault();
@@ -59,30 +82,59 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 			}
 
 			let data = new FormData()
-			data.append('file', file);
+			const reader = new FileReader();
+			reader.onloadend = async () => {
+				//data.append('file', new Blob([reader.result as ArrayBuffer], { type: file.type }), file.name);
+				let response = await fetch(Endpoint, {
+					method: 'POST',
+					body: reader.result,
+					headers: {
+						"Content-Type": "application/octet-stream"
+					}
+				});
 
-			let response = await fetch(Endpoint, {
-				method: 'POST',
-				body: data,
-				headers: {
-					"Content-Type": "application/octet-stream"
+
+				if (response.ok === false) {
+					throw new Error(`${response.status} ${await response.text()}`);
 				}
-			});
 
-			if (response.ok === false) {
-				throw new Error(`${response.status} ${await response.text()}`);
-			}
+				let jobject = await response.json();
 
-			let jobject = await response.json();
-			setIsUploading(false);
+				const SASSplit = /images\/(.+?)\?/gm.exec(jobject.DownloadUrl);
+				console.log('SASSplit', SASSplit, file.type);
+				let contentTypeResponse = await fetch(ContentTypeEndpoint, {
+					method: 'POST',
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						"filename": SASSplit ? SASSplit[1] : file.name,
+						"contentType": file.type
+					})
+				});
 
-			const result: UploadedFile = {
-				url: jobject.DownloadUrl,
-				name: file.name
+				if(contentTypeResponse.ok === false) {
+					throw new Error(`${contentTypeResponse.status} ${await contentTypeResponse.text()}`);
+				}
+				
+				setIsUploading(false);
+
+				const result: UploadedFile = {
+					url: jobject.DownloadUrl,
+					name: file.name
+				};
+				props.OnChange?.(result);
+				props.onPropertyChanged('value', undefined, result);
+				setFile(result);
 			};
-			props.OnChange?.(result);
-			props.onPropertyChanged('value', undefined, result);
-			setFile(result);
+
+			reader.onerror = (error) => {
+				setIsUploading(false);
+				console.error("File reading error", error);
+			};
+			reader.readAsArrayBuffer(file);
+
+
 		}
 		catch (e) {
 			setIsUploading(false);
@@ -105,7 +157,7 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 			return (
 				<div className='absolute inset-1'>
 					<img className='w-full h-full object-cover rounded-lg' src={file.url} alt={file.name} />
-					<div className='absolute inset-0 bg-black/30 flex items-center justify-center'>
+					<div className='absolute bottom-0 right-0 bg-black/30 flex items-center justify-center'>
 						<p className='text-white text-sm'>{file.name}</p>
 					</div>
 				</div>
@@ -113,7 +165,7 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 		}
 		else {
 			return (
-				<div className="flex max-w-[260px] flex-col items-center gap-4">
+				<div className="flex max-w-[260px] flex-col items-center gap-4 pointer-events-none">
 					<div className={`inline-flex h-13 w-13 items-center justify-center rounded-full border transition-all 
 						${focused ? 'text-primary border-primary -translate-y-2' : 'border-gray-200 dark:border-gray-800 text-gray-700  dark:text-gray-400'}`}>
 

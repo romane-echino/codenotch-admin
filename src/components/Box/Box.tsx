@@ -1,6 +1,7 @@
 import React from 'react';
 import './Box.scss';
 import { Sizing } from '../Sizing/Sizing';
+import { Markdown } from '../Markdown/Markdown';
 
 export interface IBoxProps {
 
@@ -151,7 +152,7 @@ export const BoxTitle: React.FC<IBoxTitleProps> = (props) => {
 						}
 						{Subtitle &&
 							<p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-								{Subtitle}
+								<Markdown Type='Normal'>{Subtitle}</Markdown>
 							</p>
 						}
 					</div>

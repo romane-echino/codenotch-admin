@@ -7,7 +7,7 @@ import { IBindableComponentProps } from '@echino/echino.ui.sdk';
 
 interface IDropdownProps extends IAbstractInputProps, IBindableComponentProps {
 	Source?: any;
-	DisplayField: string;
+	DisplayField?: string;
 	ValueField?: string;
 
 	Renderer?: (as: string, data: any) => React.ReactNode;
@@ -118,7 +118,7 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 									<span className={`truncate flex gap-2 items-center justify-start`}>
 										{props.Renderer ?
 											props.Renderer('item', obj) :
-											obj[props.DisplayField] || obj
+											props.DisplayField ? obj[props.DisplayField] || obj : obj
 										}
 									</span>
 

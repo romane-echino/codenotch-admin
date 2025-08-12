@@ -1,0 +1,30 @@
+{
+  "name": "CSV",
+  "menu": "input",
+  "props": [],
+  "childrenProps": [
+    {
+      "name": "Field",
+      "displayName": "Field",
+      "type": "string"
+    },
+    {
+      "name": "DisplayName",
+      "displayName": "DisplayName",
+      "type": "string"
+    },
+    {
+      "name": "Type",
+      "displayName": "Type",
+      "type": "string",
+      "enum": [
+        "text",
+        "gender",
+        "date",
+        "phone",
+        "email",
+        "street"
+      ]
+    }
+  ]
+}

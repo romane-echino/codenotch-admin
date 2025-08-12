@@ -5,7 +5,7 @@ import { Helper } from './Helper';
 import { Markdown } from '../Markdown/Markdown';
 
 export interface IAbstractInputProps extends IInputProps {
-    Focus: boolean;
+    Focus?: boolean;
     Error?: boolean;
     ErrorText?: string;
     DisabledSizing?: boolean;
@@ -50,7 +50,7 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
 
     componentDidUpdate(prevProps: Readonly<IAbstractInputProps>, prevState: Readonly<IAbstractInputState>, snapshot?: any): void {
         if (this.props.Focus !== prevProps.Focus) {
-            this.setState({ focused: this.props.Focus });
+            this.setState({ focused: this.props.Focus || false });
         }
         else if (this.props.Error !== prevProps.Error) {
             this.setState({ error: this.props.Error || false });
