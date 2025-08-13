@@ -86,7 +86,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 	}
 
 	setValueAtPath(obj: any, parts: (string | number)[], val: any): any {
-		//console.log("Setting value at path", parts, "Value", val);
+		console.log("Setting value at path", obj, parts, "Value", val);
 		// Cas de base: on a atteint la fin du chemin
 		if (parts.length === 0) {
 			return val;
@@ -124,7 +124,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 	}
 
 	fieldChanged(field: string, value: any) {
-		//console.log("Field changed", field, value, this.state.value[field]);
+		console.log("Field changed", field, value, this.state.value[field]);
 		this.setState((prevState) => {
 			let result = { ...prevState.value };
 
@@ -163,15 +163,13 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
 			if (this.props.Lazy) {
 				this.changeTimer = setTimeout(() => {
-					if (this.props.OnChange) {
-						this.props.OnChange(result);
-					}
+					console.log("Lazy change, calling OnChange with", result);
+					this.props.OnChange?.(result);
 				}, 750);
 			}
 			else {
-				if (this.props.OnChange) {
-					this.props.OnChange(result);
-				}
+				console.log("Immediate change, calling OnChange with", result);
+				this.props.OnChange?.(result);
 			}
 
 			return { value: result };

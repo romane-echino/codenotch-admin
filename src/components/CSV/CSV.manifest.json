@@ -1,7 +1,28 @@
 {
   "name": "CSV",
   "menu": "input",
-  "props": [],
+  "props": [
+    {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+    {
+      "name": "Subtitle",
+      "displayName": "Subtitle",
+      "type": "string"
+    },
+    {
+      "name": "Placeholder",
+      "displayName": "Placeholder",
+      "type": "string"
+    },
+    {
+      "name": "Helper",
+      "displayName": "Helper",
+      "type": "string"
+    }
+  ],
   "childrenProps": [
     {
       "name": "Field",

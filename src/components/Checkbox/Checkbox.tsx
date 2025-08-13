@@ -44,7 +44,7 @@ export const Checkbox: React.FC<ICheckboxProps> = (props) => {
 					</span>
 				}
 
-				<div className={`flex flex-col gap-1`}>
+				<div className={`flex flex-col gap-1 pointer-events-none`}>
 					<label className={`text-sm font-medium text-gray-700 select-none dark:text-gray-400`}>{props.Title}</label>
 					{props.Subtitle && <p className="text-xs text-gray-500">{props.Subtitle}</p>}
 				</div>

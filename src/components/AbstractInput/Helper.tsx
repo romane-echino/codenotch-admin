@@ -8,7 +8,7 @@ export const Helper: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 <i className="far fa-circle-info size-5 text-white flex items-center justify-center"></i>
             </Popover.Button>
             <Popover.Panel
-                className="absolute text-gray-800 dark:text-white/90 min-w-sm right-0 z-50 px-4 py-2 text-sm bg-white border border-gray-300  dark:border-gray-700 dark:bg-gray-800 translate-y-0.5 rounded-lg shadow-lg overflow-hidden">
+                className="absolute top-full text-gray-800 dark:text-white/90 min-w-sm right-0 z-50 px-4 py-2 text-sm bg-white border border-gray-300  dark:border-gray-700 dark:bg-gray-800 translate-y-0.5 rounded-lg shadow-lg overflow-hidden">
                 <Markdown Type="Normal">
                     {children}
                 </Markdown>
