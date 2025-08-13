@@ -200,8 +200,6 @@ export class Application extends React.Component<IApplicationProps, IApplication
               SideBarToggle={this.state.sideBarToggle}
               OnSideBarToggle={() => this.setState({ sideBarToggle: !this.state.sideBarToggle })} />
 
-            {this.state.sideBarToggle && <div>Salut!</div>}
-
             {/* Main content area */}
             <Switch>
               {this.getPages()}

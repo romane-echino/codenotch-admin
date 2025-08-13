@@ -37,6 +37,11 @@ export const Slider: React.FC<SliderProps> = (props) => {
 		}
 	}, [PropsValue]);
 
+
+	useEffect(() => {
+		setInternalValue(PropsValue !== undefined ? PropsValue > Max ? Max : PropsValue < Min ? Min : PropsValue : Min);
+	}, [Min, Max, Step]);
+
 	const Value = PropsValue !== undefined ? PropsValue : internalValue;
 
 	const percentage = ((Value - Min) / (Max - Min)) * 100;

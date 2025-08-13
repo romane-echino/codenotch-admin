@@ -124,7 +124,12 @@ export class Form extends React.Component<IFormProps, IFormState> {
 	}
 
 	fieldChanged(field: string, value: any) {
-		console.log("Field changed", field, value, this.state.value[field]);
+		
+		if(value === this.state.value[field]) {
+			return;
+		}
+
+		console.log(`Field changed "${field}" from "${this.state.value[field]}" to "${value}"`);
 		this.setState((prevState) => {
 			let result = { ...prevState.value };
 
