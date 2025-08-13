@@ -27,6 +27,11 @@
       "type": "string"
     },
     {
+      "name": "Placeholder",
+      "displayName": "Placeholder",
+      "type": "string"
+    },
+    {
       "name": "Helper",
       "displayName": "Helper",
       "type": "string"
