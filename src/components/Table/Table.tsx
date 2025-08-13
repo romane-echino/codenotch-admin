@@ -5,7 +5,7 @@ import { IAbstractListAction, IInputProps } from '../AbstractInput/AbstractInput
 import { Helper } from '../AbstractInput/Helper';
 import { IChildrenInheritedProps } from '@echino/echino.ui.sdk';
 
-interface ITableProps extends IInputProps, IChildrenInheritedProps<{ DisplayName:string, Field: string }> {
+interface ITableProps extends IInputProps, IChildrenInheritedProps<{ DisplayName: string, Field: string }> {
 
 }
 
@@ -32,7 +32,8 @@ export const Table: React.FC<ITableProps> = (props) => {
 			effectiveProps.children.props = {
 				...props.childrenProps[index],
 				...effectiveProps?.children?.props,
-				Containered:true,
+				Containered: true,
+				Full: true,
 				Value: data[rowIndex] ? data[rowIndex][field] : undefined,
 				OnChange: field ? (value: any) => handleUpdate(rowIndex, field, value) : undefined,
 				OnSelect: field ? (value: IAbstractListAction) => handleUpdate(rowIndex, field, value.value) : undefined,
@@ -79,21 +80,22 @@ export const Table: React.FC<ITableProps> = (props) => {
 				))}
 
 
-				<div className='size-10 flex items-center justify-center' onClick={() => setRowCount(rowCount + 1)}>
-					<i className='fas fa-plus-circle text-green-500'></i>
+				<div className='size-10 flex items-center justify-center'>
+
 				</div>
 			</div>
 
 
-			<div className={`dark:bg-dark-900 min-h-11 w-full rounded-b-lg border bg-transparent text-sm  dark:bg-gray-900 text-gray-800 dark:text-white/90 border-gray-300 dark:border-gray-700 grid`} style={{ gridTemplateColumns: `repeat(${props.childrenProps.length}, minmax(0, 1fr)) auto` }}>
+			<div className={`dark:bg-dark-900 min-h-11 w-full border bg-transparent text-sm  dark:bg-gray-900 text-gray-800 dark:text-white/90 border-gray-300 dark:border-gray-700 grid`} style={{ gridTemplateColumns: `repeat(${props.childrenProps.length}, minmax(0, 1fr)) auto` }}>
 				{Array.from({ length: rowCount }).map((_, rowIndex) => (
 					<React.Fragment key={rowIndex}>
 						{getChildren(rowIndex)?.map((child, childIndex) => (
-							<div key={childIndex} className={`flex items-center justify-between px-4 py-2 border-r border-gray-200 dark:border-gray-800 ${childIndex === props.childrenProps.length - 1 ? '' : 'border-r'}`}>
+							<div key={childIndex} className={`border-r border-b border-gray-200 dark:border-gray-800 
+							${childIndex === props.childrenProps.length - 1 ? '' : 'border-r'}`}>
 								{child}
 							</div>
 						))}
-						
+
 						<div className='size-10 flex items-center justify-center' onClick={() => rowCount > 1 && setRowCount(rowCount - 1)}>
 							<i className='fas fa-minus-circle text-red-500'></i>
 						</div>
@@ -102,9 +104,15 @@ export const Table: React.FC<ITableProps> = (props) => {
 			</div>
 
 
-			<pre>
-				{JSON.stringify(data, null, 2)}
-			</pre>
+			<div className='flex justify-center items-center  h-10 border-b border-l border-r border-gray-300 dark:border-gray-700 rounded-b-lg cursor-pointer' onClick={() => setRowCount(rowCount + 1)}>
+
+
+				<div className='size-10 flex gap-2 items-center justify-center text-gray-800 dark:text-white/90 ' >
+
+					<span>Add</span>
+					<i className='fas fa-plus-circle text-green-500'></i>
+				</div>
+			</div>
 		</Sizing>
 	);
 }

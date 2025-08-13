@@ -42,6 +42,11 @@ export const DefaultColorPaletteNames = [
     'Asbestos'
 ];
 
+export const getNameFromHex = (hexColor:string) => {
+   const colorIndex = DefaultColorPalette.findIndex(color => color === hexColor);
+   return colorIndex !== -1 ? DefaultColorPaletteNames[colorIndex] : 'Custom Color';
+}
+
 export type ColorPalette = 'Turquoise' | 'Emerald' | 'PeterRiver' | 'Amethyst' | 'WetAsphalt' | 'GreenSea' | 'Nephritis' | 'BelizeHole' | 'Wisteria' | 'MidnightBlue' | 'SunFlower' | 'Carrot' | 'Alizarin' | 'Clouds' | 'Concrete' | 'Orange' | 'Pumpkin' | 'Pomegranate' | 'Silver' | 'Asbestos' | 'Gray';
 
 export const DefaultColorPalette = [

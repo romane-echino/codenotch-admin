@@ -2,6 +2,7 @@ import React from 'react';
 import './RadioButton.scss';
 import { RadioGroup } from '@headlessui/react';
 import { Action, IBindableComponentProps, IChildrenInheritedProps } from '@echino/echino.ui.sdk';
+import { AbstractInputTitle } from '../AbstractInput/AbstractInput';
 
 interface IRadioButtonProps extends IBindableComponentProps, IChildrenInheritedProps<{ Label: string, Value: any, Icon?: string, Description?: string }> {
 	Orientation?: 'Horizontal' | 'Vertical';
@@ -30,11 +31,7 @@ export const RadioButton = (props: IRadioButtonProps) => {
 
 	return (
 		<div className='col-span-12 '>
-			{props.Title &&
-				<label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-					{props.Title}
-				</label>
-			}
+			<AbstractInputTitle {...props} />
 
 			<RadioGroup as='div'
 				className={`rounded-lg flex ${props.Orientation === 'Vertical' ? 'flex-col' : 'flex-col sm:flex-row'}`}

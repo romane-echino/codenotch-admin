@@ -10,6 +10,7 @@ export interface IAbstractInputProps extends IInputProps {
     ErrorText?: string;
     DisabledSizing?: boolean;
     Dashed?: boolean;
+    Full?:boolean;
 }
 
 export interface IAbstractListAction {
@@ -61,32 +62,14 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
     getComponent() {
         return (
             <>
-                <div className='flex justify-between'>
-                    <div>
-                        {this.props.Title &&
-                            <label className={`${this.props.Subtitle ? '' : 'mb-1.5'} block text-sm font-medium text-gray-700 dark:text-gray-400`}>
-                                {this.props.Title}
-                            </label>
-                        }
+            <AbstractInputTitle {...this.props} />
 
-                        {this.props.Subtitle &&
-                            <label className="mb-1.5 block text-xs font-medium text-gray-500 dark:text-gray-500">
-                                {this.props.Subtitle}
-                            </label>
-                        }
-                    </div>
 
-                    {this.props.Helper &&
-                        <Helper>
-                            {this.props.Helper}
-                        </Helper>
-                    }
-                </div>
-
-                <div className={`flex dark:bg-dark-900 min-h-11 w-full rounded-lg border  bg-transparent text-sm dark:bg-gray-900 text-gray-800 dark:text-white/90 
+                <div className={`flex dark:bg-dark-900 min-h-11 w-full ${this.props.Full?'':'rounded-lg border'}   bg-transparent text-sm dark:bg-gray-900 text-gray-800 dark:text-white/90 
+               
                     ${this.props.Dashed ? 'border-dashed' : 'border-solid'}
                     ${this.state.error ? 'border-alizarin dark:border-alizarin ring-alizarin/10 ring-3' :
-                        (this.state.focused ? 'border-primary ring-primary/10 ring-3' :
+                        (this.state.focused ? 'border-primary ring-primary/10 ring-3 z-10' :
                             'border-gray-300 dark:border-gray-700')}`}>
 
                     {this.props.Prefix &&
@@ -137,4 +120,31 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
         )
     }
 
+}
+
+
+export const AbstractInputTitle = (props: { Title?: string, Subtitle?: string, Helper?: React.ReactNode }) => {
+    return (
+        <div className='flex justify-between'>
+            <div>
+                {props.Title &&
+                    <label className={`${props.Subtitle ? '' : 'mb-1.5'} block text-sm font-medium text-gray-700 dark:text-gray-400`}>
+                        {props.Title}
+                    </label>
+                }
+
+                {props.Subtitle &&
+                    <label className="mb-1.5 block text-xs font-medium text-gray-500 dark:text-gray-500">
+                        {props.Subtitle}
+                    </label>
+                }
+            </div>
+
+            {props.Helper &&
+                <Helper>
+                    {props.Helper}
+                </Helper>
+            }
+        </div>
+    )
 }

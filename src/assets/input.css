@@ -156,17 +156,17 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   @apply text-base font-bold mb-1;
 }
 .mdblock p{
-  @apply mb-2 text-white/80;
+  @apply mb-2 text-gray-600 dark:text-white/80;
 }
 
 .mdblock em {
-  @apply text-white/70 italic;
+  @apply text-gray-700 dark:text-white/70 italic;
 }
 
 .mdblock strong,
 .mdblock b
 {
-  @apply font-bold text-white;
+  @apply font-bold text-gray-800 dark:text-white;
 }
 .mdblock ul{
   @apply list-disc pl-5 mb-2;
@@ -213,4 +213,12 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 .mdblock hr {
   @apply border-t border-gray-300 dark:border-gray-600 my-4;
+}
+
+.popover {
+  @apply absolute 
+  text-gray-800 dark:text-white/90 text-sm
+  border border-gray-300 dark:border-gray-700
+  bg-white  dark:bg-gray-800
+  right-0 z-50 translate-y-0.5 rounded-lg shadow-lg overflow-hidden;
 }

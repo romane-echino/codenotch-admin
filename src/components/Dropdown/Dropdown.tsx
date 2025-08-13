@@ -100,7 +100,7 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 				</Listbox.Button>
 
 				<Listbox.Options
-					className={`absolute ${popupPosition === 'top' ? 'bottom-full mb-1' : 'top-full mt-1'} z-50 bg-white border border-gray-300 dark:border-gray-700 translate-y-0.5 rounded-lg shadow-lg overflow-hidden max-w-full`}>
+					className={`${popupPosition === 'top' ? 'bottom-full mb-1' : 'top-full mt-1'} popover`}>
 					{data.map((obj, objIndex) => {
 
 						let disabled = props.DisabledFunction ? props.DisabledFunction(obj, objIndex) : false;
@@ -109,7 +109,7 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 							key={objIndex}
 							value={objIndex}
 							disabled={disabled}
-							className={({ active }) => `relative cursor-default select-none py-2 pr-10 pl-4 
+							className={({ active }) => `relative cursor-default select-none py-2 pr-10 pl-4 text-gray-700 dark:text-white/80
 							${disabled ? 'opacity-50 cursor-not-allowed line-through' : ''}
 							${active ? 'bg-primary-500 text-white' : 'text-gray-700'}`}>
 
@@ -123,7 +123,7 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 									</span>
 
 									{objIndex === selectedIndex &&
-										<span className={`absolute inset-y-0 right-0 flex items-center pr-3  ${active ? 'text-white' : 'text-gray-800'}`}>
+										<span className={`absolute inset-y-0 right-0 flex items-center pr-3  ${active ? 'text-white' : 'text-gray-700 dark:text-white/80'}`}>
 											<i className="fa-regular fa-circle-check flex justify-center items-center"></i>
 										</span>
 									}
