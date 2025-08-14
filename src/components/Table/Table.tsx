@@ -41,7 +41,15 @@ export const Table: React.FC<ITableProps> = (props) => {
 
 		props.OnChange?.(newData);
 		props.onPropertyChanged('value', null, newData);
-	}
+	};
+
+	const removeRow = (index: number) => {
+		const newData = data.filter((_, i) => i !== index);
+		setData(newData);
+
+		props.OnChange?.(newData);
+		props.onPropertyChanged('value', null, newData);
+	};
 
 	const getChildren = (rowIndex: number) => {
 		let children = React.Children.map(props.children, (child, index) => {
@@ -116,9 +124,11 @@ export const Table: React.FC<ITableProps> = (props) => {
 							</div>
 						))}
 
-						<div className='size-10 flex items-center justify-center' onClick={() => rowCount > 1 && setRowCount(rowCount - 1)}>
-							<i className='fas fa-minus-circle text-red-500'></i>
-						</div>
+						{rowCount > 1 && (
+							<div className='size-10 flex items-center justify-center' onClick={() => removeRow(rowIndex)}>
+								<i className='fas fa-minus-circle text-red-500'></i>
+							</div>
+						)}
 					</React.Fragment>
 				))}
 			</div>
@@ -128,8 +138,6 @@ export const Table: React.FC<ITableProps> = (props) => {
 
 
 				<div className='size-10 flex gap-2 items-center justify-center text-gray-800 dark:text-white/90 ' >
-
-					<span>Add</span>
 					<i className='fas fa-plus-circle text-green-500'></i>
 				</div>
 			</div>
