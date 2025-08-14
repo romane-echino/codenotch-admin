@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect } from 'react';
+import React, { PropsWithChildren, useCallback, useEffect } from 'react';
 
 import { Sizing } from '../Sizing/Sizing';
 import { IAbstractListAction, IInputProps } from '../AbstractInput/AbstractInput';
@@ -10,7 +10,6 @@ interface ITableProps extends IInputProps, IChildrenInheritedProps<{ DisplayName
 }
 
 export const Table: React.FC<ITableProps> = (props) => {
-	const [rowCount, setRowCount] = React.useState(1);
 	const [data, setData] = React.useState<any[]>([]);
 
 
@@ -51,12 +50,25 @@ export const Table: React.FC<ITableProps> = (props) => {
 		props.onPropertyChanged('value', null, newData);
 	};
 
-	const getChildren = (rowIndex: number) => {
+
+	const addRow = () => {
+		const newData = [...data, {}];
+		setData(newData);
+
+		props.OnChange?.(newData);
+		props.onPropertyChanged('value', null, newData);
+	};
+
+	const getChildren = useCallback((rowIndex: number) => {
 		let children = React.Children.map(props.children, (child, index) => {
+
+			console.log("Processing child", child, "at index", index, "for row", rowIndex);
 
 			//@ts-ignore
 			let effectiveProps: any = { ...child.props };
 			let field: string | undefined = props.childrenProps[index]?.Field;
+
+			console.log("Processing child", child, "at index", index, "for row", rowIndex, "field", field);
 			effectiveProps.children.props = {
 				...props.childrenProps[index],
 				...effectiveProps?.children?.props,
@@ -74,7 +86,7 @@ export const Table: React.FC<ITableProps> = (props) => {
 		});
 
 		return children;
-	}
+	}, [data, props.children, props.childrenProps]);
 
 	return (
 		<Sizing {...props} Containered={true}>
@@ -115,18 +127,19 @@ export const Table: React.FC<ITableProps> = (props) => {
 
 
 			<div className={`dark:bg-dark-900 min-h-11 w-full border bg-transparent text-sm  dark:bg-gray-900 text-gray-800 dark:text-white/90 border-gray-300 dark:border-gray-700 grid`} style={{ gridTemplateColumns: `repeat(${props.childrenProps.length}, minmax(0, 1fr)) auto` }}>
-				{Array.from({ length: rowCount }).map((_, rowIndex) => (
+				{data.map((_, rowIndex) => (
 					<React.Fragment key={rowIndex}>
 						{getChildren(rowIndex)?.map((child, childIndex) => (
-							<div key={childIndex} className={`border-r border-b border-gray-200 dark:border-gray-800 
+							<div key={`${rowIndex}-${childIndex}`} className={`border-r border-b border-gray-200 dark:border-gray-800 
 							${childIndex === props.childrenProps.length - 1 ? '' : 'border-r'}`}>
 								{child}
 							</div>
 						))}
 
-						{rowCount > 1 && (
+						{data.length > 1 && (
 							<div className='size-10 flex items-center justify-center' onClick={() => removeRow(rowIndex)}>
 								<i className='fas fa-minus-circle text-red-500'></i>
+								{rowIndex}
 							</div>
 						)}
 					</React.Fragment>
@@ -134,7 +147,7 @@ export const Table: React.FC<ITableProps> = (props) => {
 			</div>
 
 
-			<div className='flex justify-center items-center  h-10 border-b border-l border-r border-gray-300 dark:border-gray-700 rounded-b-lg cursor-pointer' onClick={() => setRowCount(rowCount + 1)}>
+			<div className='flex justify-center items-center  h-10 border-b border-l border-r border-gray-300 dark:border-gray-700 rounded-b-lg cursor-pointer' onClick={() => addRow()}>
 
 
 				<div className='size-10 flex gap-2 items-center justify-center text-gray-800 dark:text-white/90 ' >
