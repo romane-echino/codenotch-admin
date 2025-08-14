@@ -890,6 +890,10 @@
     border-top-style: var(--tw-border-style);
     border-top-width: 1px;
   }
+  .border-t-0 {
+    border-top-style: var(--tw-border-style);
+    border-top-width: 0px;
+  }
   .border-r {
     border-right-style: var(--tw-border-style);
     border-right-width: 1px;
@@ -1981,6 +1985,11 @@
   .xs\:text-left {
     @media (width >= 30rem) {
       text-align: left;
+    }
+  }
+  .sm\:-mr-px {
+    @media (width >= 40rem) {
+      margin-right: -1px;
     }
   }
   .sm\:flex-row {

@@ -6,7 +6,7 @@ import { Helper } from '../AbstractInput/Helper';
 import { IBindableComponentProps, IChildrenInheritedProps } from '@echino/echino.ui.sdk';
 
 interface ITableProps extends IInputProps, IChildrenInheritedProps<{ DisplayName: string, Field: string }>, IBindableComponentProps {
-
+	AddText?: string;
 }
 
 export const Table: React.FC<ITableProps> = (props) => {
@@ -31,6 +31,7 @@ export const Table: React.FC<ITableProps> = (props) => {
 	}, [props.Value]);
 
 	const handleUpdate = (index: number, colName: string, value: string) => {
+		console.log("Updating row", index, "column", colName, "to", value);
 		const newData = [...data];
 		if (!newData[index]) {
 			newData[index] = {};
@@ -52,7 +53,11 @@ export const Table: React.FC<ITableProps> = (props) => {
 
 
 	const addRow = () => {
-		const newData = [...data, {}];
+		const newObj = {};
+		props.childrenProps.forEach(col => {
+			newObj[col.Field] = '';
+		});
+		const newData = [...data, newObj];
 		setData(newData);
 
 		props.OnChange?.(newData);
@@ -120,38 +125,42 @@ export const Table: React.FC<ITableProps> = (props) => {
 				))}
 
 
-				<div className='size-10 flex items-center justify-center'>
-
-				</div>
+				{data.length > 1 && (
+					<div className='size-10 flex items-center justify-center'>
+					</div>
+				)}
 			</div>
 
 
-			<div className={`dark:bg-dark-900 min-h-11 w-full border bg-transparent text-sm  dark:bg-gray-900 text-gray-800 dark:text-white/90 border-gray-300 dark:border-gray-700 grid`} style={{ gridTemplateColumns: `repeat(${props.childrenProps.length}, minmax(0, 1fr)) auto` }}>
-				{data.map((_, rowIndex) => (
-					<React.Fragment key={rowIndex}>
-						{getChildren(rowIndex)?.map((child, childIndex) => (
-							<div key={`${rowIndex}-${childIndex}`} className={`border-r border-b border-gray-200 dark:border-gray-800 
+			{data.length > 0 &&
+				<div className={`dark:bg-dark-900 min-h-11 w-full border bg-transparent text-sm  dark:bg-gray-900 text-gray-800 dark:text-white/90 border-gray-300 dark:border-gray-700 grid`} style={{ gridTemplateColumns: `repeat(${props.childrenProps.length}, minmax(0, 1fr)) auto` }}>
+					{data.map((_, rowIndex) => (
+						<React.Fragment key={rowIndex}>
+							{getChildren(rowIndex)?.map((child, childIndex) => (
+								<div key={`${rowIndex}-${childIndex}`} className={`border-r border-b border-gray-200 dark:border-gray-800 
 							${childIndex === props.childrenProps.length - 1 ? '' : 'border-r'}`}>
-								{child}
-							</div>
-						))}
+									{child}
+								</div>
+							))}
 
-						{data.length > 1 && (
-							<div className='size-10 flex items-center justify-center' onClick={() => removeRow(rowIndex)}>
-								<i className='fas fa-minus-circle text-red-500'></i>
-								{rowIndex}
-							</div>
-						)}
-					</React.Fragment>
-				))}
-			</div>
-
-
-			<div className='flex justify-center items-center  h-10 border-b border-l border-r border-gray-300 dark:border-gray-700 rounded-b-lg cursor-pointer' onClick={() => addRow()}>
+							{data.length > 1 && (
+								<div className='size-10 cursor-pointer flex items-center justify-center' onClick={() => removeRow(rowIndex)}>
+									<i className='fas fa-minus-circle text-red-500'></i>
+									{rowIndex}
+								</div>
+							)}
+						</React.Fragment>
+					))}
+				</div>
+			}
 
 
+			<div className={`flex justify-center items-center  h-10 border-b border-l border-r border-gray-300 dark:border-gray-700 rounded-b-lg cursor-pointer ${data.length === 0 ? 'border-t' : 'border-t-0'}`} onClick={() => addRow()}>
 				<div className='size-10 flex gap-2 items-center justify-center text-gray-800 dark:text-white/90 ' >
 					<i className='fas fa-plus-circle text-green-500'></i>
+					{props.AddText &&
+						<span className='text-sm text-gray-500 dark:text-gray-400'>{props.AddText}</span>
+					}
 				</div>
 			</div>
 		</Sizing>

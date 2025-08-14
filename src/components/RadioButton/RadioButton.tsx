@@ -49,7 +49,7 @@ export const RadioButton = (props: IRadioButtonProps) => {
 							${checked ? 'border-primary-300 dark:border-primary-800 ring-primary-500/10 ring-3 z-10' : 'border-gray-300 dark:border-gray-700'}
 							${props.Orientation === 'Vertical' ?
 									'flex-col first:-mb-px last:-mt-px xs:flex-row first:rounded-t-lg last:rounded-b-lg' :
-									'flex-col first:-mb-px last:-mt-px sm:first:mb-0 sm:last:mt-0 sm:first:-mr-px sm:last:-ml-px first:rounded-t-lg last:rounded-b-lg sm:last:rounded-bl-none sm:first:rounded-tr-none sm:first:rounded-l-lg sm:last:rounded-r-lg'} 
+									'flex-col first:-mb-px last:-mt-px sm:first:mb-0 sm:last:mt-0 sm:-mr-px first:rounded-t-lg last:rounded-b-lg sm:last:rounded-bl-none sm:first:rounded-tr-none sm:first:rounded-l-lg sm:last:rounded-r-lg'} 
 						 	items-center gap-3 p-4 cursor-pointer`}>
 								<div className={`size-5 min-w-5 hover:border-primary-500 dark:hover:border-primary-500 flex items-center justify-center rounded-full border-[1.25px] ${checked ? 'border-primary-500 bg-primary-500' : 'bg-transparent border-gray-300 dark:border-gray-700'}`}>
 									<span className={`size-2 rounded-full bg-white ${checked ? 'bg-white' : 'bg-white dark:bg-[#171f2e]'}`}></span>

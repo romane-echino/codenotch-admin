@@ -1,5 +1,4 @@
-import React from 'react';
-import './Tag.scss';
+import React, { useEffect } from 'react';
 import { ColorPalette, getBackgroundColorFromName, getConstrastColorFromName, getTextColorFromName } from '../../utils/DefaultColorPalette';
 
 interface ITagProps {
@@ -11,44 +10,34 @@ interface ITagProps {
 	Light?: boolean;
 }
 
-interface ITagState {
-}
+export const Tag = (props: ITagProps) => {
 
-export class Tag extends React.Component<ITagProps, ITagState> {
+	const { Label, Icon, Color, IconPlacement = 'Left', Light = false } = props;
 
-	static defaultProps = {
-		IconPlacement: 'Left',
-		Light: false
-	};
-	constructor(props: ITagProps) {
-		super(props);
+	useEffect(() => {
 
-		this.state = {
-		}
+	}, [props]);
+
+
+	if (!Label && !Icon) {
+		return null;
 	}
 
-	render() {
-		if (!this.props.Label && !this.props.Icon) {
-			return null;
-		}
-
-		return (
-			<span className={`inline-flex items-center justify-center gap-1 rounded-full py-0.5 pl-2 
+	return (
+		<span className={`inline-flex items-center justify-center gap-1 rounded-full py-0.5 pl-2 
 			pr-2.5 text-sm font-medium
-			${this.props.Color ? (this.props.Light ? getTextColorFromName(this.props.Color) : getConstrastColorFromName(this.props.Color)) : 'text-gray-500'}
-			${this.props.Color ? getBackgroundColorFromName(this.props.Color) + (this.props.Light ? '/15' : '') : 'bg-gray-200'}`}>
+			${Color ? (Light ? getTextColorFromName(Color) : getConstrastColorFromName(Color)) : 'text-gray-500'}
+			${Color ? getBackgroundColorFromName(Color) + (Light ? '/15' : '') : 'bg-gray-200'}`}>
 
-				{this.props.Icon && this.props.IconPlacement === 'Left' &&
-					<i className={`${this.props.Icon} text-xs`} />
-				}
+			{Icon && IconPlacement === 'Left' &&
+				<i className={`${Icon} text-xs`} />
+			}
 
-				{this.props.Label}
+			{Label}
 
-				{this.props.Icon && this.props.IconPlacement === 'Right' &&
-					<i className={`${this.props.Icon} text-xs`} />
-				}
-			</span>
-		)
-	}
-
+			{Icon && IconPlacement === 'Right' &&
+				<i className={`${Icon} text-xs`} />
+			}
+		</span>
+	)
 }

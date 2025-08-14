@@ -84,7 +84,9 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 	const filteredData = query === ''
 		? data
 		: data.filter((item) =>
-			item[props.DisplayField].toLowerCase().includes(query.toLowerCase())
+			typeof (item) === 'object' ?
+				item[props.DisplayField]?.toLowerCase().includes(query.toLowerCase()) :
+				item.toLowerCase().includes(query.toLowerCase())
 		);
 
 	return (

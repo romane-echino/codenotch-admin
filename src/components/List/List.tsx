@@ -105,6 +105,18 @@ export const List: React.FC<IListProps> = (props) => {
 	}
 
 
+	const getAlignment = (align: 'Left' | 'Right' | 'Center') => {
+		switch (align) {
+			case 'Center':
+				return 'text-center';
+			case 'Right':
+				return 'text-right';
+			default:
+				return 'text-left';
+		}
+	}
+
+
 	return (
 		<Box {...props}>
 
@@ -114,11 +126,10 @@ export const List: React.FC<IListProps> = (props) => {
 					<thead>
 						<tr className='border-b border-gray-100 dark:border-gray-800'>
 							{columns.filter(c => c.Visible === true).map((column, index) => {
-								const columnAlign = column.Align === 'Left' ? 'text-left' : column.Align === 'Right' ? 'text-right' : 'text-center';
-								return(
-									<td key={index} className={`px-6 py-3  whitespace-nowrap first:pl-0 font-medium text-gray-500 dark:text-gray-400 ${columnAlign}`}>
-									{column.DisplayName || column.Field}
-								</td>
+								return (
+									<td key={index} className={`px-6 py-3  whitespace-nowrap first:pl-0 font-medium text-gray-500 dark:text-gray-400 ${getAlignment(column.Align || 'Left')}`}>
+										{column.DisplayName || column.Field} {column.Align}
+									</td>
 								)
 							})}
 
@@ -131,9 +142,7 @@ export const List: React.FC<IListProps> = (props) => {
 					<tbody>
 						{data.slice(0, props.Take ?? data.length).map((item, itemIndex) => {
 							return (
-								<tr
-									onClick={() => handleClick(itemIndex)}
-									className={`border-b border-gray-100 dark:border-gray-800 ${props.OnClick !== undefined ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/[0.03]' : ''}`}>
+								<tr className={`border-b border-gray-100 dark:border-gray-800 ${props.OnClick !== undefined ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/[0.03]' : ''}`}>
 									{columns.filter(c => c.Visible === true).map((column, colIndex) => {
 										return (
 											<td className={`px-6 py-3  whitespace-nowrap text-gray-500 dark:text-gray-400 ${colIndex === 0 ? 'pl-0' : ''}`}

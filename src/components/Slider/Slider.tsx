@@ -30,6 +30,9 @@ export const Slider: React.FC<SliderProps> = (props) => {
 		PropsValue !== undefined ? PropsValue : Min
 	);
 
+	let changeTimer: any = null;
+
+
 	useEffect(() => {
 		if (PropsValue !== undefined) {
 			setInternalValue(PropsValue);
@@ -47,12 +50,15 @@ export const Slider: React.FC<SliderProps> = (props) => {
 	const percentage = ((Value - Min) / (Max - Min)) * 100;
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		clearTimeout(changeTimer);
+		changeTimer = null;
 		const newValue = parseFloat(e.target.value);
 		setInternalValue(newValue);
-		props.onPropertyChanged('value', undefined, newValue)
-		if (props.OnChange) {
-			props.OnChange(newValue);
-		}
+
+		changeTimer = setTimeout(() => {
+			props.onPropertyChanged('value', undefined, newValue)
+			props.OnChange?.(newValue);
+		}, 750);
 	};
 
 	return (

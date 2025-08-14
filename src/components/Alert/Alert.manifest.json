@@ -23,6 +23,11 @@
       "displayName": "Message",
       "type": "string"
     },
+     {
+      "name": "More",
+      "displayName": "More",
+      "type": "string"
+    },
     {
       "name": "LinkText",
       "displayName": "Link Text",

@@ -109,10 +109,10 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 					})
 				});
 
-				if(contentTypeResponse.ok === false) {
+				if (contentTypeResponse.ok === false) {
 					throw new Error(`${contentTypeResponse.status} ${await contentTypeResponse.text()}`);
 				}
-				
+
 				setIsUploading(false);
 
 				const result: UploadedFile = {
@@ -193,7 +193,5 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 				{getChild()}
 			</div>
 		</AbstractInput>
-
-
 	)
 }

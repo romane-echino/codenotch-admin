@@ -11,6 +11,7 @@ interface IAlertProps {
 	Message?: string;
 	LinkText?: string;
 	LinkUrl?: string;
+	More?: string;
 }
 
 const typeStyles: Record<AlertType, { border: string; bg: string; icon: string; iconClass: string }> = {
@@ -41,6 +42,7 @@ const typeStyles: Record<AlertType, { border: string; bg: string; icon: string; 
 };
 
 export const Alert: React.FC<IAlertProps> = (props) => {
+	const [isOpen, setIsOpen] = React.useState(false);
 
 	const {
 		Type = 'Info',
@@ -48,12 +50,13 @@ export const Alert: React.FC<IAlertProps> = (props) => {
 		Message,
 		LinkText,
 		LinkUrl,
+		More
 	} = props;
 
 	const style = typeStyles[Type];
 	return (
 		<Sizing {...props}>
-			<div className={`rounded-xl border ${style.border} ${style.bg} p-4`.trim()}>
+			<div className={`rounded-xl border ${style.border} ${style.bg} p-4`.trim()} onClick={() => More && setIsOpen(!isOpen)}>
 				<div className="flex items-start gap-3">
 					<div className={`-mt-0.5 ${style.iconClass}`}>
 						<i className={`fa ${style.icon}`} />
@@ -61,8 +64,14 @@ export const Alert: React.FC<IAlertProps> = (props) => {
 					<div>
 						{Title && <h3 className="font-semibold text-gray-800 dark:text-white">{Title}</h3>}
 						<p className="text-sm text-gray-500 dark:text-gray-400">
-							<Markdown>{Message ?? props.children}</Markdown>
+							<Markdown Type='Normal'>{Message ?? props.children}</Markdown>
 						</p>
+
+						{More && isOpen && (
+							<p className="text-sm text-gray-500 dark:text-gray-400">
+								<Markdown Type='Normal'>{More}</Markdown>
+							</p>
+						)}
 
 						{LinkText && LinkUrl && (
 							<a href={LinkUrl} className="mt-3 inline-block text-sm font-medium text-gray-500 underline dark:text-gray-400">
@@ -70,6 +79,10 @@ export const Alert: React.FC<IAlertProps> = (props) => {
 							</a>
 						)}
 					</div>
+
+					{More && (
+						<i className={`far ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`} />
+					)}
 				</div>
 			</div>
 		</Sizing>

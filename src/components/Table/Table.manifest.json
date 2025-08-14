@@ -21,6 +21,11 @@
       "name": "Value",
       "description": "Value",
       "type": "string"
+    },
+    {
+      "name": "AddText",
+      "description": "AddText",
+      "type": "string"
     }
   ],
   "childrenProps": [

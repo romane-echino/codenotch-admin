@@ -5,7 +5,7 @@ import { Label } from '../Label/Label';
 import { Sizing } from '../Sizing/Sizing';
 
 export interface IButtonProps {
-	Label: string;
+	Label?: string;
 	Icon?: string;
 	Type: 'Primary' | 'Secondary' | 'Tertiary' | 'Success' | 'Error' | 'Warning' | 'Info' | 'MenuItem';
 	OnClick: Action<void>;
@@ -63,7 +63,7 @@ export const Button: React.FC<IButtonProps> = (props) => {
 		<Sizing {...props}>
 			<button onClick={handleClick} className={`w-full cursor-pointer whitespace-nowrap items-center gap-2 rounded-lg ${props.Disabled ? 'opacity-50 pointer-events-none' : ''} ${classes}`}>
 				{props.Icon && <i className={`${props.Icon} text-lg flex items-center`} />}
-				<span>{props.Label}</span>
+				{props.Label && <span>{props.Label}</span>}
 			</button>
 		</Sizing>
 	)

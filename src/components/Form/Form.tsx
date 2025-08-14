@@ -40,6 +40,10 @@ export class Form extends React.Component<IFormProps, IFormState> {
 		this.props.declareFunction('disable', (value: boolean) => {
 			this.setState({ disabled: value });
 		});
+
+		this.props.declareFunction('setValue', (field:string, value:string) => {
+			this.fieldChanged(field, value)
+		});
 	}
 
 

@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import './Checkbox.scss';
 import { Sizing } from '../Sizing/Sizing';
 import { Action, IBindableComponentProps } from '@echino/echino.ui.sdk';
+import { Helper } from '../AbstractInput/Helper';
 
 interface ICheckboxProps extends IBindableComponentProps {
 	Title: string;
@@ -9,6 +10,7 @@ interface ICheckboxProps extends IBindableComponentProps {
 	Value?: boolean;
 	Icon?: string;
 	Disabled?: boolean;
+	Helper?: string;
 	OnChange?: Action<any>;
 }
 
@@ -44,10 +46,16 @@ export const Checkbox: React.FC<ICheckboxProps> = (props) => {
 					</span>
 				}
 
-				<div className={`flex flex-col gap-1 pointer-events-none`}>
+				<div className={`flex flex-col gap-1 pointer-events-none ${props.Helper ? 'mr-2' : ''}`}>
 					<label className={`text-sm font-medium text-gray-700 select-none dark:text-gray-400`}>{props.Title}</label>
 					{props.Subtitle && <p className="text-xs text-gray-500">{props.Subtitle}</p>}
 				</div>
+
+				{props.Helper &&
+					<Helper>
+						{props.Helper}
+					</Helper>
+				}
 			</div>
 		</Sizing>
 	)
