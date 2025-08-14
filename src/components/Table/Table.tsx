@@ -1,11 +1,11 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useEffect } from 'react';
 
 import { Sizing } from '../Sizing/Sizing';
 import { IAbstractListAction, IInputProps } from '../AbstractInput/AbstractInput';
 import { Helper } from '../AbstractInput/Helper';
-import { IChildrenInheritedProps } from '@echino/echino.ui.sdk';
+import { IBindableComponentProps, IChildrenInheritedProps } from '@echino/echino.ui.sdk';
 
-interface ITableProps extends IInputProps, IChildrenInheritedProps<{ DisplayName: string, Field: string }> {
+interface ITableProps extends IInputProps, IChildrenInheritedProps<{ DisplayName: string, Field: string }>, IBindableComponentProps {
 
 }
 
@@ -14,6 +14,23 @@ export const Table: React.FC<ITableProps> = (props) => {
 	const [data, setData] = React.useState<any[]>([]);
 
 
+	useEffect(() => {
+		console.log("Table props changed", props);
+		if (props.Value !== undefined && props.Value !== null) {
+			if (Array.isArray(props.Value) && props.Value.length > 0) {
+				console.log("Setting initial data from props", props.Value);
+				setData(props.Value);
+			}
+			else if (typeof props.Value === 'string') {
+				const dataFromString = JSON.parse(props.Value);
+				if (Array.isArray(dataFromString) && dataFromString.length > 0) {
+					console.log("Setting initial data from props", props.Value);
+					setData(dataFromString);
+				}
+			}
+		}
+	}, [props.Value]);
+
 	const handleUpdate = (index: number, colName: string, value: string) => {
 		const newData = [...data];
 		if (!newData[index]) {
@@ -21,6 +38,9 @@ export const Table: React.FC<ITableProps> = (props) => {
 		}
 		newData[index][colName] = value;
 		setData(newData);
+
+		props.OnChange?.(newData);
+		props.onPropertyChanged('value', null, newData);
 	}
 
 	const getChildren = (rowIndex: number) => {

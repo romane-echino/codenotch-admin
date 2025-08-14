@@ -124,14 +124,14 @@ export class Form extends React.Component<IFormProps, IFormState> {
 	}
 
 	fieldChanged(field: string, value: any) {
-		
-		if(value === this.state.value[field]) {
+
+		if(JSON.stringify(value) === JSON.stringify(this.state.value[field])) {
 			return;
 		}
 
-		console.log(`Field changed "${field}" from "${this.state.value[field]}" to "${value}"`);
+		console.log(`Field changed "${field}" from "${JSON.stringify(this.state.value[field])}" to "${JSON.stringify(value)}"`);
 		this.setState((prevState) => {
-			let result = { ...prevState.value };
+			let result = Object.assign({}, prevState.value);
 
 			//console.log("Current value", JSON.stringify(result));
 
@@ -162,9 +162,9 @@ export class Form extends React.Component<IFormProps, IFormState> {
 			//console.log("Updated value", JSON.stringify(prevState.value), JSON.stringify(result));
 			this.props.onPropertyChanged('value', undefined, result);
 			if (JSON.stringify(prevState.value) === JSON.stringify(result) || this.state.disabled) {
-				return { value: result };
+				console.log("No change detected, returning early");
+				return null;
 			}
-
 
 			if (this.props.Lazy) {
 				this.changeTimer = setTimeout(() => {

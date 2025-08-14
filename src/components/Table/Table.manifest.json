@@ -16,6 +16,11 @@
       "name": "OnChange",
       "description": "OnChange",
       "type": "action"
+    },
+    {
+      "name": "Value",
+      "description": "Value",
+      "type": "string"
     }
   ],
   "childrenProps": [
