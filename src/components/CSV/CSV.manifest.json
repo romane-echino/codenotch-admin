@@ -21,6 +21,16 @@
       "name": "Helper",
       "displayName": "Helper",
       "type": "string"
+    },
+    {
+      "name": "OnChange",
+      "displayName": "OnChange",
+      "type": "action"
+    },
+    {
+      "name": "Value",
+      "displayName": "Value",
+      "type": "object"
     }
   ],
   "childrenProps": [

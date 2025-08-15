@@ -18,7 +18,13 @@ export const TableFromJson: React.FC<TableFromJsonProps> = (props) => {
     useEffect(() => {
         setLoading(true);
         setError(null);
-        fetch(url)
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                
+            },
+        })
             .then((res) => {
                 if (!res.ok) throw new Error('Erreur lors du chargement');
                 return res.json();

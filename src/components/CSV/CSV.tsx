@@ -14,7 +14,7 @@ import { TableFromJson } from '../Table/TableFromJson';
 // Types
 interface ICSVImportProps extends IChildrenInheritedProps<ICSVMapping>, IBoxProps, IProjectInfoProps, IBindableComponentProps {
   Value?: UploadedFile;
-  OnChange: Action<UploadedFile>;
+  OnChange?: Action<UploadedFile>;
   PreviewRecords?: number;
 }
 
@@ -158,9 +158,14 @@ export const CSV: React.FC<ICSVImportProps> = (props) => {
 
 
   useEffect(() => {
-    if (Value !== undefined) {
-      setValue(Value);
-      setState('preview');
+    if (Value !== undefined && Value !== null) {
+      if (typeof Value === 'object') {
+        setValue(Value);
+        setState('preview');
+      } else if (typeof Value === 'string') {
+        setValue(JSON.parse(Value));
+        setState('preview');
+      }
     }
   }, [Value]);
 
