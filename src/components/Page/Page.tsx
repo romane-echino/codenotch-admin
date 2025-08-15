@@ -20,7 +20,7 @@ interface IPageState {
 }
 
 export interface IPageInheritedProps {
-	ColSpan?: '1/2' | '1/3' | '1/4' | '2/3' | '3/4' | 'full';
+	ColSpan?: '1/2' | '1/3' | '1/4' | '2/3' | '3/4' | 'full' | 'none';
 	RowSpan?:number;
 }
 

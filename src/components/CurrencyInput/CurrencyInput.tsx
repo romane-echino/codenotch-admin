@@ -25,8 +25,11 @@ export const CurrencyInput: React.FC<ICurrencyInputProps> = (props) => {
 		props.OnChange?.(numericValue);
 	}
 
+	const suffix = (
+		<div>{Currency}</div>
+	);
 	return (
-		<AbstractInput Focus={focused} {...props} Icon={Icon} Suffix={<div>{Currency}</div>}>
+		<AbstractInput Focus={focused} {...props} Icon={Icon} Suffix={props.Suffix ?? suffix}>
 			<input type="number"
 				placeholder={Placeholder}
 				defaultValue={value}

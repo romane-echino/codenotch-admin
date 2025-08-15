@@ -60,10 +60,10 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 			return (
 				<div 
 				onClick={() => this.props.BoxClick?.()}
-				className={`group @container rounded-2xl bg-white p-5 dark:border-gray-800 md:p-6
+				className={`group @container rounded-2xl bg-white p-5  md:p-6
 			${this.props.Clickable ? 'cursor-pointer hover:shadow-lg hover:border-primary hover:ring-3 hover:ring-primary/10' : ''}  
 				${(this.props.Modal === true && !this.props.Footer) ? 'relative w-full max-w-[700px]' : ' h-full grow'} 
-				${hasBorder && 'border border-gray-200'}  
+				${hasBorder && 'border border-gray-200 dark:border-gray-800'}  
 				${this.props.Footer ? 'dark:bg-gray-900' : 'dark:bg-white/[0.03]'}`}>
 					<BoxTitle {...this.props} />
 

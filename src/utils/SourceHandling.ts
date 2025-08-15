@@ -66,10 +66,9 @@ export function getColumnsFromSource(source: any): any[] {
 
     switch (getSourceType(source)) {
         case SourceType.Array:
-            if((source as any[]).length === 0) {
+            if ((source as any[]).length === 0) {
                 return [];
             }
-            console.log("Array source detected", source[0]);
             return Object.keys(source[0])
                 .filter(key => typeof source[0][key] !== 'object'
                     && typeof source[0][key] !== 'function'
@@ -96,7 +95,6 @@ export function getIndexFromSource(source: any[], value: any, valueField?: strin
     if (value !== undefined && value !== null) {
         if (valueField) {
             defaultIndex = source.findIndex((item) => item[valueField!] === value);
-
         } else {
             defaultIndex = source.findIndex((item) => item === value);
         }

@@ -8,6 +8,8 @@ interface ISearchInputProps extends IAbstractInputProps, IBindableComponentProps
 	Source?: any;
 	DisplayField: string;
 	ValueField?: string;
+	AddText?: string;
+	NoResultText?: string;
 
 	OnAdd?: Action<string>;
 
@@ -19,18 +21,33 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 	const [query, setQuery] = React.useState('');
 	const [data, setData] = React.useState<any[]>([]);
 	const [focus, setFocus] = React.useState(false);
+	const [pendingValue, setPendingValue] = React.useState<string | null>(null);
 
 	const [popupPosition, setPopupPosition] = React.useState<'top' | 'bottom'>('bottom');
 	const inputRef = React.useRef<HTMLInputElement>(null);
 	const buttonRef = React.useRef<HTMLButtonElement>(null);
 
 	React.useEffect(() => {
-		let src = getDataFromSource(props.Source);
-		setData(src);
+		if (JSON.stringify(props.Source) !== JSON.stringify(data)) {
+			let src = getDataFromSource(props.Source);
+			setData(src);
 
-		let defaultIndex = getIndexFromSource(src, props.Value, props.ValueField);
-		if (defaultIndex !== -1) {
-			updateValue(src?.[defaultIndex], defaultIndex);
+			if (props.Value !== undefined && props.Value !== null) {
+				let defaultIndex = getIndexFromSource(src, props.Value, props.ValueField);
+				if (defaultIndex > -1) {
+					console.log("Default index found in source", defaultIndex);
+					updateValue(src?.[defaultIndex], defaultIndex);
+					if (props.DisplayField) {
+						setPendingValue(src?.[defaultIndex]?.[props.DisplayField]);
+					}
+					else {
+						setPendingValue(src?.[defaultIndex]);
+					}
+				} else if (typeof (props.Value) === 'string' && props.Value !== '') {
+
+					setPendingValue(props.Value);
+				}
+			}
 		}
 	}, [props.Source, props.Value]);
 
@@ -61,10 +78,19 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 	}, [focus]);
 
 	const updateValue = (value: any, index: number) => {
-		if (value) {
+
+		if (value && index !== selectedIndex) {
+			console.log("Updating value to", value, "at index", index);
+			setSelected(index);
 			let result = props.ValueField ? value[props.ValueField] : value;
 			props.onPropertyChanged('value', undefined, result)
-			setSelected(index);
+
+			if (props.DisplayField) {
+				setPendingValue(value[props.DisplayField]);
+			}
+			else {
+				setPendingValue(value);
+			}
 			props.OnSelect && props.OnSelect({ value: result, index: index });
 		}
 	}
@@ -75,11 +101,23 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 	}
 
 	const getDisplayValue = (index: number | null): string => {
-		if (index !== undefined && index !== null) {
+		if (pendingValue) {
+			return pendingValue;
+		}
+		else if (index !== undefined && index !== null) {
 			return props.DisplayField ? data?.[index]?.[props.DisplayField] : data?.[index];
 		}
+
 		return query;
 	}
+
+
+	const AddNew = () => {
+		if (query !== '' && props.OnAdd !== undefined) {
+			setPendingValue(query);
+			props.OnAdd(query);
+		}
+	};
 
 	const filteredData = query === ''
 		? data
@@ -93,6 +131,7 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 		<AbstractInput {...props} Focus={focus}>
 			<Combobox value={selectedIndex} onChange={(index: number) => {
 				if (index !== undefined) {
+					console.log("Combobox value changed to", index);
 					updateValue(data?.[index], index);
 				}
 			}}>
@@ -100,15 +139,15 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 				<Combobox.Input
 					ref={inputRef}
 					className={`${props.Icon && 'pl-9'} text-left px-4 py-2.5 w-full focus:border-0 focus:outline-hidden placeholder:text-gray-400 dark:placeholder:text-white/30`}
-					displayValue={(index: number) => {
-						if (index !== undefined && index !== null) {
-							return getDisplayValue(index);
-						}
-						return '';
-					}}
+					displayValue={(index: number) => getDisplayValue(index)}
 					onChange={(event) => setQuery(event.target.value)}
 					onFocus={(e) => setFocus(true)}
 					onBlur={() => setFocus(false)}
+					onKeyDown={(e) => {
+						if (e.key === 'Enter' && query !== '' && filteredData.length === 0 && props.OnAdd !== undefined) {
+							AddNew();
+						}
+					}}
 					autoComplete='off'
 					autoCapitalize='off'
 					autoCorrect='off'
@@ -118,6 +157,7 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 
 				<Combobox.Button ref={buttonRef} className="absolute cursor-pointer inset-y-0 right-0 flex items-center pr-4 ">
 					<i className="fa-solid fa-angle-down group-hover:hover:translate-y-1 transition-transform"></i>
+					{selectedIndex}
 				</Combobox.Button>
 
 
@@ -125,13 +165,13 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 					{filteredData.length === 0 && query !== '' ? (
 						<div className="relative cursor-default select-none px-4 py-2 text-gray-700">
 							<div className="flex items-center justify-between">
-								<span>No results found for "{query}"</span>
+								<span>{props.NoResultText || 'No results found'}</span>
 								{props.OnAdd &&
 									<button
 										className="ml-2 text-primary hover:underline"
-										onClick={() => props.OnAdd!(query)}
+										onClick={AddNew}
 									>
-										Add "{query}"
+										{props.AddText || 'Add'} "{query}"
 									</button>
 								}
 							</div>

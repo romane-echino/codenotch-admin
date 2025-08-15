@@ -49,7 +49,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
 	componentDidMount(): void {
 		if (this.props.Value !== undefined && this.props.Value !== null) {
-			console.log("Setting initial value from props", this.props.Value);
+			//console.log("Setting initial value from props", this.props.Value);
 			this.setState({ value: this.props.Value }, () => {
 				this.props.onPropertyChanged('value', undefined, this.state.value);
 				if (this.props.AwaitProps) {
@@ -61,7 +61,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
 	componentDidUpdate(prevProps: Readonly<IFormProps>, prevState: Readonly<IFormState>, snapshot?: any): void {
 		if (this.props.Value !== undefined && this.props.Value !== null && JSON.stringify(this.props.Value) !== JSON.stringify(prevProps.Value)) {
-			console.log("Updated value from props", this.props.Value);
+			//console.log("Updated value from props", this.props.Value);
 			this.setState({ value: this.props.Value }, () => {
 				this.props.onPropertyChanged('value', undefined, this.state.value);
 				if (this.props.AwaitProps) {
@@ -90,7 +90,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 	}
 
 	setValueAtPath(obj: any, parts: (string | number)[], val: any): any {
-		console.log("Setting value at path", obj, parts, "Value", val);
+		//console.log("Setting value at path", obj, parts, "Value", val);
 		// Cas de base: on a atteint la fin du chemin
 		if (parts.length === 0) {
 			return val;
@@ -133,7 +133,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 			return;
 		}
 
-		console.log(`Field changed "${field}" from "${JSON.stringify(this.state.value[field])}" to "${JSON.stringify(value)}"`);
+		//console.log(`Field changed "${field}" from "${JSON.stringify(this.state.value[field])}" to "${JSON.stringify(value)}"`);
 		this.setState((prevState) => {
 			let result = Object.assign({}, prevState.value);
 
@@ -166,18 +166,18 @@ export class Form extends React.Component<IFormProps, IFormState> {
 			//console.log("Updated value", JSON.stringify(prevState.value), JSON.stringify(result));
 			this.props.onPropertyChanged('value', undefined, result);
 			if (JSON.stringify(prevState.value) === JSON.stringify(result) || this.state.disabled) {
-				console.log("No change detected, returning early");
+				//console.log("No change detected, returning early");
 				return null;
 			}
 
 			if (this.props.Lazy) {
 				this.changeTimer = setTimeout(() => {
-					console.log("Lazy change, calling OnChange with", result);
+					//console.log("Lazy change, calling OnChange with", result);
 					this.props.OnChange?.(result);
 				}, 750);
 			}
 			else {
-				console.log("Immediate change, calling OnChange with", result);
+				//console.log("Immediate change, calling OnChange with", result);
 				this.props.OnChange?.(result);
 			}
 

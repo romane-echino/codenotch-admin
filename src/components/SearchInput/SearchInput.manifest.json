@@ -68,6 +68,16 @@
       "name": "Renderer",
       "displayName": "Renderer",
       "type": "renderer"
+    },
+    {
+      "name": "AddText",
+      "displayName": "AddText",
+      "type": "string"
+    },
+    {
+      "name": "NoResultText",
+      "displayName": "NoResultText",
+      "type": "string"
     }
   ]
 }
