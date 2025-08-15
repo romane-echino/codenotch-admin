@@ -71,8 +71,8 @@ export const ObjectPreview: React.FC<IObjectPreviewProps> = (props) => {
 
 
 		return (
-			<div className='overflow-hidden'>
-				<div className='group grid grid-cols-[auto_1fr_1fr_auto] gap-2 items-center bg-white dark:bg-gray-800 p-2 rounded-md shadow-sm'
+			<div className='overflow-hidden group' key={key}>
+				<div className='grid grid-cols-[auto_1fr_1fr_auto] gap-2 items-center hover:bg-gray-200 dark:hover:bg-gray-700 bg-gray-100 dark:bg-gray-800 p-2 rounded-md cursor-pointer'
 					onClick={() => {
 						navigator.clipboard.writeText(value);
 					}}>
@@ -104,29 +104,7 @@ export const ObjectPreview: React.FC<IObjectPreviewProps> = (props) => {
 		const result = (
 			<div className='flex flex-col gap-2'>
 				{Object.entries(obj).sort(([keyA], [keyB]) => keyA.localeCompare(keyB)).map(([key, value]) => {
-					if (typeof value === 'object') {
-						return (
-							<Disclosure as={'div'} key={key} className='overflow-hidden'>
-								<Disclosure.Button as='div' className='grid grid-cols-[auto_1fr_auto] gap-2 items-center bg-white dark:bg-gray-800 p-2 rounded-md shadow-sm'>
-									<div className='size-6 bg-wisteria text-white flex items-center justify-center rounded-lg'>
-										<i className="far fa-cube flex items-center justify-center"></i>
-									</div>
-									<div className='grow font-medium text-gray-600 dark:text-gray-400'>
-										{key}
-									</div>
-									<div className='size-6 flex items-center justify-center text-sm text-gray-500 dark:text-gray-400'>
-										{'{'}{Object.keys(value!).length}{'}'}
-									</div>
-								</Disclosure.Button>
-								{Object.keys(value!).length > 0 && (
-									<Disclosure.Panel as='div' className='flex flex-row ml-4 mt-2 mb-4'>
-										<div className='border-l border-gray-200 dark:border-gray-800'></div>
-										<div className='ml-4 grow'>{getStructure(value)}</div>
-									</Disclosure.Panel>
-								)}
-							</Disclosure>
-						);
-					} else if (Array.isArray(value)) {
+					if (Array.isArray(value)) {
 						return (
 							<Disclosure as={'div'} key={key} className='overflow-hidden'>
 								<Disclosure.Button as='div' className='grid hover:bg-gray-200 dark:hover:bg-gray-700 grid-cols-[auto_1fr_auto] gap-2 items-center bg-gray-100 dark:bg-gray-800 p-2 rounded-md cursor-pointer'>
@@ -150,6 +128,29 @@ export const ObjectPreview: React.FC<IObjectPreviewProps> = (props) => {
 
 						);
 					}
+					else if (typeof value === 'object') {
+						return (
+							<Disclosure as={'div'} key={key} className='overflow-hidden'>
+								<Disclosure.Button as='div' className='grid hover:bg-gray-200 dark:hover:bg-gray-700 grid-cols-[auto_1fr_auto] gap-2 items-center bg-gray-100 dark:bg-gray-800 p-2 rounded-md cursor-pointer'>
+									<div className='size-6 bg-wisteria text-white flex items-center justify-center rounded-lg'>
+										<i className="far fa-cube flex items-center justify-center"></i>
+									</div>
+									<div className='grow font-medium text-gray-600 dark:text-gray-400'>
+										{key}
+									</div>
+									<div className='size-6 flex items-center justify-center text-sm text-gray-500 dark:text-gray-400'>
+										{'{'}{Object.keys(value!).length}{'}'}
+									</div>
+								</Disclosure.Button>
+								{Object.keys(value!).length > 0 && (
+									<Disclosure.Panel as='div' className='flex flex-row ml-4 mt-2 mb-4'>
+										<div className='border-l border-gray-200 dark:border-gray-800'></div>
+										<div className='ml-4 grow'>{getStructure(value)}</div>
+									</Disclosure.Panel>
+								)}
+							</Disclosure>
+						);
+					} 
 					else {
 						return getValue(key, value);
 					}
