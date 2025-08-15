@@ -21,6 +21,11 @@
       "name": "Tint",
       "displayName": "Tint",
       "type": "string"
+    },
+    {
+      "name": "Disabled",
+      "displayName": "Disabled",
+      "type": "boolean"
     }
   ],
   "childrenProps": [

@@ -19,6 +19,7 @@ export interface IListColumn {
 	Field: string;
 	Output?: boolean;
 	Visible?: boolean;
+	DisableInteractions?: boolean;
 	Align?: 'Left' | 'Right' | 'Center';
 	Renderer?: (as: string, data: any) => React.ReactNode;
 }
@@ -146,7 +147,7 @@ export const List: React.FC<IListProps> = (props) => {
 									{columns.filter(c => c.Visible === true).map((column, colIndex) => {
 										return (
 											<td className={`px-6 py-3  whitespace-nowrap text-gray-500 dark:text-gray-400 ${colIndex === 0 ? 'pl-0' : ''}`}
-												onClick={() => handleClick(itemIndex)}
+												onClick={() => column.DisableInteractions ? undefined : handleClick(itemIndex)}
 												key={colIndex + itemIndex}>
 												{column.Renderer ? column.Renderer('item', item[column.Field]) : item[column.Field] || <i className="fa-solid fa-empty-set text-sm opacity-80"></i>}
 											</td>

@@ -1,0 +1,10 @@
+{
+  "name": "ObjectPreview",
+  "menu": "",
+  "props": [
+    {
+      "name":"Source",
+      "description": "Source"
+    }
+  ]
+}

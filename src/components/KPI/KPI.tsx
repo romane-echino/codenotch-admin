@@ -3,12 +3,15 @@ import './KPI.scss';
 import { Sizing } from '../Sizing/Sizing';
 import { IPageInheritedProps } from '../Page/Page';
 import { Box, IBoxProps } from '../Box/Box';
+import { Action } from '@echino/echino.ui.sdk';
 
 interface IKPIProps extends IPageInheritedProps, IBoxProps {
 	Icon?: string;
 	Label?: string;
 	Count?: number;
 	Rate?: number;
+
+	OnClick?: Action;
 }
 
 interface IKPIState {
@@ -25,7 +28,7 @@ export class KPI extends React.Component<IKPIProps, IKPIState> {
 
 	render() {
 		return (
-			<Box {...this.props}>
+			<Box {...this.props} Clickable={this.props.OnClick ? true : false} BoxClick={() => this.props.OnClick?.()}>
 				{this.props.Icon &&
 					<div className="flex h-12 w-12 items-center text-lg justify-center rounded-xl text-gray-800 dark:text-white/90 bg-gray-100 dark:bg-gray-800">
 						<i className={`${this.props.Icon}`}></i>

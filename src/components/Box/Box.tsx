@@ -2,6 +2,7 @@ import React from 'react';
 import './Box.scss';
 import { Sizing } from '../Sizing/Sizing';
 import { Markdown } from '../Markdown/Markdown';
+import { Action } from '@echino/echino.ui.sdk';
 
 export interface IBoxProps {
 
@@ -21,6 +22,7 @@ export interface IBoxProps {
 	 */
 	Modal?: boolean;
 	Clickable?: boolean;
+	BoxClick?: Action;
 }
 
 interface IBoxState {
@@ -56,7 +58,9 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 	renderBox(hasBorder: boolean = true) {
 		if (this.props.HasLayout) {
 			return (
-				<div className={`group @container rounded-2xl bg-white p-5 dark:border-gray-800 md:p-6
+				<div 
+				onClick={() => this.props.BoxClick?.()}
+				className={`group @container rounded-2xl bg-white p-5 dark:border-gray-800 md:p-6
 			${this.props.Clickable ? 'cursor-pointer hover:shadow-lg hover:border-primary hover:ring-3 hover:ring-primary/10' : ''}  
 				${(this.props.Modal === true && !this.props.Footer) ? 'relative w-full max-w-[700px]' : ' h-full grow'} 
 				${hasBorder && 'border border-gray-200'}  

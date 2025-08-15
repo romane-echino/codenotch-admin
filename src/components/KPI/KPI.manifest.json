@@ -21,6 +21,11 @@
       "name": "Rate",
       "displayName": "Rate",
       "type": "number"
+    },
+    {
+      "name": "OnClick",
+      "displayName": "OnClick",
+      "type": "action"
     }
   ]
 }

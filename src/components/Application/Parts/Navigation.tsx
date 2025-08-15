@@ -49,7 +49,7 @@ export const Navigation: React.FC<INavigationProps> = (props) => {
 
 
 
-            <nav className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
+            <nav className={`no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear ${props.Disabled?'opacity-50 pointer-events-none':''}`}>
 
 
                 {props.Menu && props.Menu.length > 0 &&

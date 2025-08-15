@@ -1,15 +1,16 @@
 import React, { Children } from 'react';
-import { IApplicationThemeProps, IChildrenInheritedProps, IUserInfoProps } from '@echino/echino.ui.sdk';
+import { IApplicationThemeProps, IChildrenInheritedProps, Ii18nProps, IProjectInfoProps, IUserInfoProps } from '@echino/echino.ui.sdk';
 import { Switch, Route, NavLink } from "react-router-dom";
 import { IPageProps } from '../Page/Page';
 import { Header } from './Parts/Header';
 import { Navigation } from './Parts/Navigation';
 import { getTint } from '../../utils/ColorPaletteUtils';
-export interface IApplicationProps extends IApplicationThemeProps, IUserInfoProps, IChildrenInheritedProps<IApplicationInheritedProps> {
+export interface IApplicationProps extends IApplicationThemeProps, IUserInfoProps, IChildrenInheritedProps<IApplicationInheritedProps>, Ii18nProps, IProjectInfoProps {
   LogoUrl?: string;
   LogoDarkUrl?: string;
   LogoIcon?: string;
   Tint?: string;
+  Disabled?: boolean;
 }
 
 interface IApplicationInheritedProps {
@@ -18,7 +19,6 @@ interface IApplicationInheritedProps {
   Title?: string;
   Icon?: string;
   Route?: string;
-
 }
 
 interface IApplicationState {

@@ -24,6 +24,11 @@
       "type": "boolean"
     },
     {
+      "name": "DisableInteractions",
+      "displayName": "DisableInteractions",
+      "type": "boolean"
+    },
+    {
       "name": "Renderer",
       "displayName": "Renderer",
       "type": "renderer"
