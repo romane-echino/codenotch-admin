@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import './ObjectPreview.scss';
 import { Sizing } from '../Sizing/Sizing';
 import { Box } from '../Box/Box';
+import { Disclosure } from '@headlessui/react';
 
 interface IObjectPreviewProps {
 	Source?: any;
@@ -71,7 +72,11 @@ export const ObjectPreview: React.FC<IObjectPreviewProps> = (props) => {
 
 		return (
 			<div className='overflow-hidden'>
-				<div className='grid grid-cols-[auto_1fr_1fr_auto] gap-2 items-center bg-white dark:bg-gray-800 p-2 rounded-md shadow-sm'>
+				<div className='group grid grid-cols-[auto_1fr_1fr_auto] gap-2 items-center bg-white dark:bg-gray-800 p-2 rounded-md shadow-sm'
+					onClick={() => {
+						navigator.clipboard.writeText(value);
+					}}>
+
 					<div className={`size-6 ${color} text-white flex items-center justify-center rounded-lg`}>
 						<i className={`${icon} flex items-center justify-center`}></i>
 					</div>
@@ -82,6 +87,7 @@ export const ObjectPreview: React.FC<IObjectPreviewProps> = (props) => {
 						{valueDisplay}
 					</div>
 					<div className='size-6 flex items-center justify-center text-sm text-gray-500 dark:text-gray-400'>
+						<i className="fa-solid fa-paste flex justify-center items-center opacity-0 group-hover:opacity-100"></i>
 					</div>
 				</div>
 			</div>
@@ -100,8 +106,8 @@ export const ObjectPreview: React.FC<IObjectPreviewProps> = (props) => {
 				{Object.entries(obj).sort(([keyA], [keyB]) => keyA.localeCompare(keyB)).map(([key, value]) => {
 					if (typeof value === 'object') {
 						return (
-							<div key={key} className='overflow-hidden'>
-								<div className='grid grid-cols-[auto_1fr_auto] gap-2 items-center bg-white dark:bg-gray-800 p-2 rounded-md shadow-sm'>
+							<Disclosure as={'div'} key={key} className='overflow-hidden'>
+								<Disclosure.Button as='div' className='grid grid-cols-[auto_1fr_auto] gap-2 items-center bg-white dark:bg-gray-800 p-2 rounded-md shadow-sm'>
 									<div className='size-6 bg-wisteria text-white flex items-center justify-center rounded-lg'>
 										<i className="far fa-cube flex items-center justify-center"></i>
 									</div>
@@ -111,20 +117,37 @@ export const ObjectPreview: React.FC<IObjectPreviewProps> = (props) => {
 									<div className='size-6 flex items-center justify-center text-sm text-gray-500 dark:text-gray-400'>
 										{'{'}{Object.keys(value!).length}{'}'}
 									</div>
-								</div>
+								</Disclosure.Button>
 								{Object.keys(value!).length > 0 && (
-									<div className='flex flex-row ml-4 mt-2 mb-4'>
+									<Disclosure.Panel as='div' className='flex flex-row ml-4 mt-2 mb-4'>
 										<div className='border-l border-gray-200 dark:border-gray-800'></div>
 										<div className='ml-4 grow'>{getStructure(value)}</div>
-									</div>
+									</Disclosure.Panel>
 								)}
-							</div>
+							</Disclosure>
 						);
 					} else if (Array.isArray(value)) {
 						return (
-							<div key={key} className='flex flex-row gap-2'>
-								<strong>{key}:</strong> <div className='ml-2'>{getStructure(value)}</div>
-							</div>
+							<Disclosure as={'div'} key={key} className='overflow-hidden'>
+								<Disclosure.Button as='div' className='grid hover:bg-gray-200 dark:hover:bg-gray-700 grid-cols-[auto_1fr_auto] gap-2 items-center bg-gray-100 dark:bg-gray-800 p-2 rounded-md cursor-pointer'>
+									<div className='size-6 bg-alizarin text-white flex items-center justify-center rounded-lg'>
+										<i className="far fa-brackets-square flex items-center justify-center"></i>
+									</div>
+									<div className='grow font-medium text-gray-600 dark:text-gray-400'>
+										{key}
+									</div>
+									<div className='size-6 flex items-center justify-center text-sm text-gray-500 dark:text-gray-400'>
+										{'['}{value.length}{']'}
+									</div>
+								</Disclosure.Button>
+								{value.length > 0 && (
+									<Disclosure.Panel as='div' className='flex flex-row ml-4 mt-2 mb-4'>
+										<div className='border-l border-gray-200 dark:border-gray-800'></div>
+										<div className='ml-4 grow'>{getStructure(value)}</div>
+									</Disclosure.Panel>
+								)}
+							</Disclosure>
+
 						);
 					}
 					else {
