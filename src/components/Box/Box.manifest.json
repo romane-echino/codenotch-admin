@@ -18,6 +18,11 @@
       "type": "string"
     },
     {
+      "name": "DisablePadding",
+      "displayName": "DisablePadding",
+      "type": "boolean"
+    },
+    {
       "name": "Actions",
       "displayName": "Actions",
       "type": "reactNode"

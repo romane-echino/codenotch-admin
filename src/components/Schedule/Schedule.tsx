@@ -4,11 +4,13 @@ import { Box, IBoxProps } from '../Box/Box';
 import dayjs from 'dayjs';
 import { Ii18nProps } from '@echino/echino.ui.sdk';
 import { Popover } from '@headlessui/react';
+import { Sizing } from '../Sizing/Sizing';
 
 interface IScheduleProps extends Ii18nProps, IBoxProps {
 	ClosedText?: string;
 	Value?: IScheduleData;
 	OnChange?: (data: IScheduleData) => void;
+	HasLayout?: boolean;
 }
 
 
@@ -26,7 +28,7 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 	const [data, setData] = React.useState<IScheduleData>(props.Value || {});
 
 	useEffect(() => {
-		if(props.Value !== undefined && props.Value !== null && Object.keys(props.Value).length > 0) {
+		if (props.Value !== undefined && props.Value !== null && Object.keys(props.Value).length > 0) {
 			setData(props.Value);
 		}
 	}, [props.Value]);
@@ -38,6 +40,13 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 		if (data[day]) {
 			const newData = { ...data };
 			delete newData[day];
+
+			for(const [key, value] of Object.entries(data)) {
+				if (key !== day && value.bound === day) {
+					delete newData[key];
+				}
+			}
+
 			setData(newData);
 		} else {
 			setData((prevData) => ({
@@ -127,7 +136,7 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 			const lastDay = days[bindingIndex];
 			return <>
 				<span className='hidden md:block capitalize'>{day} - {lastDay}</span>
-				<span className='md:hidden capitalize'>{day.substring(0, 2)} {lastDay.substring(0, 2)}</span>
+				<span className='md:hidden capitalize'>{day.substring(0, 2)} - {lastDay.substring(0, 2)}</span>
 			</>
 		}
 		else {
@@ -140,8 +149,9 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 
 	};
 
-	return (
-		<Box {...props}>
+
+	const getContent = () => {
+		return (
 			<div>
 				{/* @ts-ignore */}
 				{dayjs.weekdays(true).map((day, dayIndex) => {
@@ -158,10 +168,11 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 
 					return (
 						(
-							<div key={index} className='grid grid-cols-[auto_auto_1fr_2fr_auto] items-center gap-2 text-gray-700 dark:text-gray-400 py-2 px-2 border-b border-gray-200 dark:border-gray-700 last:border-b-0'>
+							<div key={index} className='grid grid-cols-[auto_auto_64px_2fr_auto] md:grid-cols-[auto_auto_128px_2fr_auto] items-center gap-2 text-gray-700 dark:text-gray-400 py-2 px-4 border-b border-gray-200 dark:border-gray-800 last:border-b-0'>
 								<div
 									onClick={() => toggleDay(index)}
-									className={`${isSelected ? 'border-primary-500 bg-primary-500' : ''} hover:border-primary-500 dark:hover:border-primary-500 flex size-5 items-center justify-center rounded-md border-[1.25px] `}>
+									className={`dark:bg-gray-900 cursor-pointer hover:border-primary-500 dark:hover:border-primary-500 flex size-5 items-center justify-center rounded-md border
+									 ${isSelected ? 'border-primary bg-primary dark:bg-primary' : 'border-gray-300 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500'} `}>
 									{isSelected &&
 										<i className="fa-solid fa-check text-white flex items-center justify-center"></i>
 									}
@@ -170,18 +181,15 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 
 								{previous && !isSelected ? (
 									<div onClick={() => bindDay(index, dayIndex)}
-										className={`${isBound ? 'border-primary-500 bg-primary-500' : ''} hover:border-primary-500 dark:hover:border-primary-500 flex size-5 items-center justify-center rounded-md border-[1.25px] `}>
-										{isBound ?
-											<i key={`link-slash-${index}`} className="fa-solid fa-link-slash text-white flex items-center justify-center text-xs"></i>
-											:
-											<i key={`link-${index}`} className="fa-solid fa-link text-white flex items-center justify-center text-xs"></i>
-										}
+										className={`${isBound ? 'border-primary bg-primary dark:bg-primary' : 'border-gray-300 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500'} 
+										cursor-pointer dark:bg-gray-900 hover:border-primary-500 dark:hover:border-primary-500 flex size-5 items-center justify-center rounded-md border-[1.25px] `}>
+										<i key={`link-${index}`} className="fa-solid fa-link text-gray-700 dark:text-white flex items-center justify-center text-xs"></i>
 									</div>
 								) :
 									<div className='size-5'></div>
 								}
 
-								<div className='capitalize'>
+								<div className={`capitalize ${isSelected ? 'text-gray-700 dark:text-white' : ''}`}>
 									{getDayName(dayIndex)}
 								</div>
 
@@ -208,8 +216,8 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 								{isSelected ?
 									<button
 										onClick={() => addBlock(index)}
-										className='rounded-lg bg-primary size-6 text-white flex items-center justify-center text-sm'>
-										<i className="fa-solid fa-plus flex items-center justify-center"></i>
+										className='rounded-lg bg-primary size-6 text-white flex items-center justify-center'>
+										<i className="fa-solid fa-plus text-sm flex items-center justify-center"></i>
 									</button>
 									:
 									<div className='size-6'></div>
@@ -219,8 +227,24 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 					)
 				})}
 			</div>
-		</Box>
-	)
+		)
+	}
+
+	if (props.HasLayout !== undefined && props.HasLayout === false) {
+		return (
+			<Sizing>
+				{getContent()}
+			</Sizing>
+		)
+	}
+	else {
+		return (
+			<Box {...props} DisablePadding={true}>
+				{getContent()}
+			</Box>
+		)
+	}
+
 }
 
 
@@ -240,12 +264,12 @@ const TimeInput: React.FC<ITimeInputProps> = (props) => {
 
 	return (
 		<Popover className="relative">
-			<Popover.Button as='div' className={`h-8 ${props.Side === 'Left' ? 'rounded-l-lg border-r' : 'border-x'} px-2 py-0.5 cursor-pointer border-gray-300 dark:border-gray-700 text-gray-800 dark:text-white/90 flex items-center`}>
+			<Popover.Button as='div' className={`h-8 ${props.Side === 'Left' ? 'rounded-l-lg border-r' : 'border-x'} px-2 cursor-pointer border-gray-300 dark:border-gray-700 text-gray-800 dark:text-white/90 flex items-center`}>
 				{`${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`}
 			</Popover.Button>
 
-			<Popover.Panel className="absolute z-10 flex text-gray-800 dark:text-white/90 bg-white border border-gray-300  dark:border-gray-700 dark:bg-gray-800 rounded-lg">
-				<div className='overflow-y-auto max-h-96 py-1'>
+			<Popover.Panel className="absolute z-10 top-full mt-1 flex text-gray-800 dark:text-white/90 bg-white border border-gray-300  dark:border-gray-700 dark:bg-gray-800 rounded-lg">
+				<div className='overflow-y-auto max-h-96 py-1 cn-scroll'>
 					{Array.from({ length: 24 }, (_, i) => (
 						<div key={i} className='py-0.5 px-2 cursor-pointer' onClick={() => setHours(i)}>
 							<div className={`px-2 py-0.5 ${hours === i ? 'bg-primary text-white' : 'text-gray-800 dark:text-white/90 hover:bg-gray-100 dark:hover:bg-gray-700'} text-center rounded-lg`}>

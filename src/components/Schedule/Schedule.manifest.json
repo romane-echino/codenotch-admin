@@ -1,5 +1,28 @@
 {
   "name": "Schedule",
-  "menu": "",
-  "props": []
+  "menu": "Input",
+  "props": [
+    {
+      "name": "ClosedText",
+      "displayName": "Closed Text",
+      "type": "string",
+      "description": "Text to display when the schedule is closed"
+    },
+    {
+      "name": "Value",
+      "displayName": "Value",
+      "type": "object"
+    },
+    {
+      "name": "OnChange",
+      "displayName": "OnChange",
+      "type": "action",
+      "description": "Callback function called when the schedule data changes"
+    },
+    {
+      "name": "HasLayout",
+      "displayName": "HasLayout",
+      "type": "boolean"
+    }
+  ]
 }

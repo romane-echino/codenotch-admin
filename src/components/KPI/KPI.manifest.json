@@ -3,6 +3,21 @@
   "menu": "Charts",
   "props": [
     {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+    {
+      "name": "Subtitle",
+      "displayName": "Subtitle",
+      "type": "string"
+    },
+    {
+      "name": "Unit",
+      "displayName": "Unit",
+      "type": "string"
+    },
+    {
       "name": "Icon",
       "displayName": "Icon",
       "type": "string"

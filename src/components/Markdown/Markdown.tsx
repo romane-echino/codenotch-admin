@@ -52,7 +52,7 @@ export const Markdown = (props: IMarkdownProps ) => {
 	return (
 		<Sizing {...props}>
 			<div
-				className={`mdblock ${Type === 'Error' ? 'md-error' : ''} text-gray-800 dark:text-white/90`}
+				className={`mdblock ${Type === 'Error' ? 'md-error' : ''}`}
 				dangerouslySetInnerHTML={{ __html: getContent() }}>
 
 			</div>

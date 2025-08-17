@@ -61,7 +61,7 @@ export const Button: React.FC<IButtonProps> = (props) => {
 
 	return (
 		<Sizing {...props}>
-			<button onClick={handleClick} className={`w-full cursor-pointer whitespace-nowrap items-center gap-2 rounded-lg ${props.Disabled ? 'opacity-50 pointer-events-none' : ''} ${classes}`}>
+			<button onClick={handleClick} className={`w-full cursor-pointer whitespace-nowrap items-center gap-2 h-[42px] rounded-lg ${props.Disabled ? 'opacity-50 pointer-events-none' : ''} ${classes}`}>
 				{props.Icon && <i className={`${props.Icon} text-lg flex items-center`} />}
 				{props.Label && <span>{props.Label}</span>}
 			</button>

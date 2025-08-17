@@ -6,10 +6,10 @@ import { Box, IBoxProps } from '../Box/Box';
 import { Action } from '@echino/echino.ui.sdk';
 
 interface IKPIProps extends IPageInheritedProps, IBoxProps {
-	Icon?: string;
 	Label?: string;
 	Count?: number;
 	Rate?: number;
+	Unit?: string;
 
 	OnClick?: Action;
 }
@@ -29,19 +29,13 @@ export class KPI extends React.Component<IKPIProps, IKPIState> {
 	render() {
 		return (
 			<Box {...this.props} Clickable={this.props.OnClick ? true : false} BoxClick={() => this.props.OnClick?.()}>
-				{this.props.Icon &&
-					<div className="flex h-12 w-12 items-center text-lg justify-center rounded-xl text-gray-800 dark:text-white/90 bg-gray-100 dark:bg-gray-800">
-						<i className={`${this.props.Icon}`}></i>
-					</div>
-				}
-
 				<div className="mt-5 flex items-end justify-between">
 					<div>
 						<span className="text-sm text-gray-500 dark:text-gray-400">
 							{this.props.Label}
 						</span>
 						<h4 className="mt-2 text-3xl font-bold text-gray-800 dark:text-white/90">
-							{this.props.Count?.toLocaleString()}
+							{this.props.Count?.toLocaleString()} {this.props.Unit}
 						</h4>
 					</div>
 

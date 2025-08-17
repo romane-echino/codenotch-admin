@@ -28,6 +28,18 @@
       "type": "reactNode"
     }
   ],
+  "childrenProps":[
+    {
+      "name": "Field",
+      "displayName": "Field",
+      "type": "string"
+    },
+    {
+      "name": "Label",
+      "displayName": "Label",
+      "type": "string"
+    }
+  ],
   "snippets": {
     "scenar.io": "<Display Source=\"${1}\" />"
   }

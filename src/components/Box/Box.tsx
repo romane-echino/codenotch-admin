@@ -11,14 +11,14 @@ export interface IBoxProps {
 	Subtitle?: string;
 	Icon?: string;
 	Helper?: string;
-	
+
 
 	Actions?: React.ReactNode;
 	Footer?: React.ReactNode;
 
 	HasLayout?: boolean;
 	GridLayout?: boolean;
-
+	DisablePadding?: boolean;
 	/**
 	 * If true, the box will be displayed as a modal.
 	 * @hidden
@@ -61,9 +61,9 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 	renderBox(hasBorder: boolean = true) {
 		if (this.props.HasLayout) {
 			return (
-				<div 
-				onClick={() => this.props.BoxClick?.()}
-				className={`group @container rounded-2xl bg-white p-5  md:p-6
+				<div
+					onClick={() => this.props.BoxClick?.()}
+					className={`group @container rounded-2xl bg-white
 			${this.props.Clickable ? 'cursor-pointer hover:shadow-lg hover:border-primary hover:ring-3 hover:ring-primary/10' : ''}  
 				${(this.props.Modal === true && !this.props.Footer) ? 'relative w-full max-w-[700px]' : ' h-full grow'} 
 				${hasBorder && 'border border-gray-200 dark:border-gray-800'}  
@@ -73,8 +73,12 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 					{this.props.Modal ?
 						<div className='max-h-[550px] pb-1 overflow-x-hidden px-1 overflow-y-auto cn-scroll'>
 							{this.renderChildren()}
-						</div> :
-						this.renderChildren()
+						</div>
+						:
+						<div className={`${this.props.DisablePadding ? '' : 'p-5 md:p-6'}`}>
+							{this.renderChildren()}
+						</div>
+
 					}
 				</div>
 			)
@@ -144,9 +148,9 @@ export const BoxTitle: React.FC<IBoxTitleProps> = (props) => {
 	return (
 		<>
 			{(Title !== undefined || Subtitle !== undefined || Actions !== undefined || Icon !== undefined || props.Helper !== undefined) &&
-				<div className={`flex items-center gap-2 ${DisableMargins ? '' : 'mb-4'}`}>
+				<div className={`flex items-center gap-4 p-4 md:p-6 border-b border-gray-200 dark:border-gray-800`}>
 					{Icon &&
-						<div className="flex h-12 w-12 items-center text-lg justify-center rounded-xl text-gray-800 dark:text-white/90 bg-gray-100 dark:bg-gray-800">
+						<div className="flex size-[42px] items-center text-lg justify-center rounded-xl text-gray-800 dark:text-white/90 bg-gray-100 dark:bg-gray-800">
 							<i className={`${Icon}`}></i>
 						</div>
 					}
@@ -159,7 +163,7 @@ export const BoxTitle: React.FC<IBoxTitleProps> = (props) => {
 
 						}
 						{Subtitle &&
-							<p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+							<p className="mt-1 text-sm text-gray-500 dark:text-gray-700">
 								<Markdown Type='Normal'>{Subtitle}</Markdown>
 							</p>
 						}
@@ -172,7 +176,7 @@ export const BoxTitle: React.FC<IBoxTitleProps> = (props) => {
 					}
 
 					{props.Helper &&
-						<Helper>{props.Helper}</Helper>
+						<Helper Size='large'>{props.Helper}</Helper>
 					}
 				</div>
 			}

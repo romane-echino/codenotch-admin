@@ -21,6 +21,11 @@
       "type": "reactNode"
     },
     {
+      "name": "DisablePadding",
+      "displayName": "DisablePadding",
+      "type": "boolean"
+    },
+    {
       "name": "Footer",
       "displayName": "Footer",
       "type": "reactNode"

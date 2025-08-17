@@ -82,10 +82,10 @@ export class Display extends React.Component<IDisplayProps, IDisplayState> {
 					{this.state.fields.map((field, index) => {
 						return (
 							<div key={index}>
-								<p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
+								<p className="mb-2 leading-normal text-gray-500 dark:text-gray-400">
 									{field.Label}
 								</p>
-								<p className="text-sm font-medium text-gray-800 dark:text-white/90">
+								<p className="font-medium text-gray-800 dark:text-white/90">
 									{this.props.Source[field.Field] !== undefined ? this.props.Source[field.Field].toString() : 'N/A'}
 								</p>
 							</div>
