@@ -3,12 +3,15 @@ import './Box.scss';
 import { Sizing } from '../Sizing/Sizing';
 import { Markdown } from '../Markdown/Markdown';
 import { Action } from '@echino/echino.ui.sdk';
+import { Helper } from '../AbstractInput/Helper';
 
 export interface IBoxProps {
 
 	Title?: string;
 	Subtitle?: string;
 	Icon?: string;
+	Helper?: string;
+	
 
 	Actions?: React.ReactNode;
 	Footer?: React.ReactNode;
@@ -128,6 +131,7 @@ interface IBoxTitleProps extends IBoxProps {
 	Actions?: React.ReactNode;
 	DisableMargins?: boolean;
 	Icon?: string;
+	Helper?: string;
 }
 
 /**
@@ -139,7 +143,7 @@ export const BoxTitle: React.FC<IBoxTitleProps> = (props) => {
 	const { Title, Subtitle, Actions, Icon, DisableMargins } = props;
 	return (
 		<>
-			{(Title !== undefined || Subtitle !== undefined || Actions !== undefined) &&
+			{(Title !== undefined || Subtitle !== undefined || Actions !== undefined || Icon !== undefined || props.Helper !== undefined) &&
 				<div className={`flex items-center gap-2 ${DisableMargins ? '' : 'mb-4'}`}>
 					{Icon &&
 						<div className="flex h-12 w-12 items-center text-lg justify-center rounded-xl text-gray-800 dark:text-white/90 bg-gray-100 dark:bg-gray-800">
@@ -165,6 +169,10 @@ export const BoxTitle: React.FC<IBoxTitleProps> = (props) => {
 						<div className='flex items-center gap-3'>
 							{Actions}
 						</div>
+					}
+
+					{props.Helper &&
+						<Helper>{props.Helper}</Helper>
 					}
 				</div>
 			}

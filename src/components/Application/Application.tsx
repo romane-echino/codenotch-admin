@@ -5,6 +5,7 @@ import { IPageProps } from '../Page/Page';
 import { Header } from './Parts/Header';
 import { Navigation } from './Parts/Navigation';
 import { getTint } from '../../utils/ColorPaletteUtils';
+import dayjs from 'dayjs';
 export interface IApplicationProps extends IApplicationThemeProps, IUserInfoProps, IChildrenInheritedProps<IApplicationInheritedProps>, Ii18nProps, IProjectInfoProps {
   LogoUrl?: string;
   LogoDarkUrl?: string;
@@ -50,6 +51,8 @@ export class Application extends React.Component<IApplicationProps, IApplication
   constructor(props: IApplicationProps) {
     super(props);
 
+    dayjs.locale(props.language.substring(0, 2) || 'en');
+
     this.state = {
       pages: [],
       menu: [],
@@ -58,6 +61,7 @@ export class Application extends React.Component<IApplicationProps, IApplication
   }
 
   componentDidMount(): void {
+    
     const links = document.head.getElementsByTagName('link');
     for (let i = links.length - 1; i >= 0; i--) {
       const link = links[i];
