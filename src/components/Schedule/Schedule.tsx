@@ -171,7 +171,7 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 							<div key={index} className='grid grid-cols-[auto_auto_64px_2fr_auto] md:grid-cols-[auto_auto_128px_2fr_auto] items-center gap-2 text-gray-700 dark:text-gray-400 py-2 px-4 border-b border-gray-200 dark:border-gray-800 last:border-b-0'>
 								<div
 									onClick={() => toggleDay(index)}
-									className={`dark:bg-gray-900 cursor-pointer hover:border-primary-500 dark:hover:border-primary-500 flex size-5 items-center justify-center rounded-md border
+									className={`dark:bg-gray-900 cursor-pointer hover:border-primary-500 dark:hover:border-primary-500 hover:ring-3 hover:ring-primary/10 flex size-5 items-center justify-center rounded-md border
 									 ${isSelected ? 'border-primary bg-primary dark:bg-primary' : 'border-gray-300 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500'} `}>
 									{isSelected &&
 										<i className="fa-solid fa-check text-white flex items-center justify-center"></i>
@@ -216,7 +216,7 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 								{isSelected ?
 									<button
 										onClick={() => addBlock(index)}
-										className='rounded-lg bg-primary size-6 text-white flex items-center justify-center'>
+										className='rounded-lg bg-primary size-6 text-white flex hover:ring-3 hover:ring-primary/10 items-center justify-center cursor-pointer'>
 										<i className="fa-solid fa-plus text-sm flex items-center justify-center"></i>
 									</button>
 									:

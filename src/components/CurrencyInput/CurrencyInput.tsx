@@ -8,7 +8,7 @@ interface ICurrencyInputProps extends IInputProps, IBindableComponentProps, IPag
 }
 
 export const CurrencyInput: React.FC<ICurrencyInputProps> = (props) => {
-	const { Icon = 'fas fa-dollar-sign', Placeholder = '0.00', Currency = 'CHF' } = props;
+	const { Icon, Placeholder = '0.00', Currency = 'CHF' } = props;
 	const [focused, setFocused] = React.useState(false);
 	const [value, setValue] = React.useState<number | undefined>(props.Value ? (props.Value as number) / 100 : undefined);
 
@@ -29,7 +29,7 @@ export const CurrencyInput: React.FC<ICurrencyInputProps> = (props) => {
 		<div>{Currency}</div>
 	);
 	return (
-		<AbstractInput Focus={focused} {...props} Icon={Icon} Suffix={props.Suffix ?? suffix}>
+		<AbstractInput Focus={focused} {...props} Suffix={props.Suffix ?? suffix}>
 			<input type="number"
 				placeholder={Placeholder}
 				defaultValue={value}

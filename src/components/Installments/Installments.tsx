@@ -1,214 +1,258 @@
 import React, { useEffect } from 'react';
-
 import { Sizing } from '../Sizing/Sizing';
-import { CurrencyInput } from '../CurrencyInput/CurrencyInput'
 import { Ii18nProps } from '@echino/echino.ui.sdk';
+import { Box, IBoxProps } from '../Box/Box';
+import { Popover } from '@headlessui/react';
 
-interface IInstallmentsProps extends Ii18nProps {
+import { Checkbox } from '../Checkbox/Checkbox'
+import { Dropdown } from '../Dropdown/Dropdown'
+import { CurrencyInput } from '../CurrencyInput/CurrencyInput'
+
+interface IInstallmentsProps extends Ii18nProps, IBoxProps {
+	BasePrice?: number;
+	BaseFee?: number;
+	BaseRenewal?: boolean;
+
+	HasLayout?: boolean;
+	Value?: IInstallmentsData;
+	Durations?: number[];
+	OnChange?: (data: IInstallmentsData) => void;
 }
 
 interface IInstallmentsData {
 	[duration: number]: {
-		[installment: number]: {
-			hasFee: boolean;
-			hasCustomPrice: boolean;
-			fee: number;
-			renewal: boolean;
-			price: number;
-			installment: number;
-			duration: number;
-			isOpen: boolean;
-		}
+		[installment: number]: IInstallment
 	};
+}
+
+
+interface IInstallment {
+	fee: number;
+	renewal: boolean;
+	price: number;
+	count: number;
+	duration: number;
 }
 
 export const Installments: React.FC<IInstallmentsProps> = (props) => {
-	const durations = [1, 2, 3, 4, 6, 12, 24];
-	const installments = [1, 2, 3, 4, 6, 12, 24];
-	const [basePrice, setBasePrice] = React.useState<number>(10000);
-	const [baseFee, setBaseFee] = React.useState<number>(0);
+	const durations = props.Durations || [1, 2, 3, 4, 6, 12, 24];
+	const basePrice = props.BasePrice || 10000;
+	const baseFee = props.BaseFee || 0;
+	const baseRenewal = props.BaseRenewal || false;
 
-	const [selectedDurations, setSelectedDurations] = React.useState<number[]>([]);
-	const [installmentsData, setInstallmentsData] = React.useState<IInstallmentsData>({});
+	const [data, setData] = React.useState<IInstallmentsData>({});
 
 	const toggleDuration = (duration: number) => {
-		setSelectedDurations((prev) => {
-			if (prev.includes(duration)) {
-				setInstallmentsData((prev) => {
-					const newData = { ...prev };
-					delete newData[duration];
-					return newData;
-				});
-				return prev.filter((d) => d !== duration);
-			} else {
-				setInstallmentsData((prev) => {
-					return { ...prev, [duration]: {} };
-				});
-				return [...prev, duration];
-			}
-		});
-	};
-
-
-	const toggleInstallment = (duration: number, installment: number) => {
-		setInstallmentsData((prev) => {
-			const newData = { ...prev };
-			if (newData[duration]) {
-				if (newData[duration][installment]) {
-					delete newData[duration][installment];
-				} else {
-					newData[duration][installment] = {
+		const isSelected = data[duration] !== undefined;
+		if (isSelected) {
+			const newData = { ...data };
+			delete newData[duration];
+			setData(newData);
+		} else {
+			setData({
+				...data,
+				[duration]: {
+					1: {
 						fee: baseFee,
-						renewal: false,
-						price: basePrice * duration / installment,
-						installment: installment,
-						duration: duration,
-						hasFee: false,
-						hasCustomPrice: false,
-						isOpen: false,
-					};
+						renewal: baseRenewal,
+						price: basePrice * duration,
+						count: 1,
+						duration
+					}
 				}
+			});
+		}
+	};
+
+	const addInstallment = (duration: number, nextInstallment: number) => {
+
+
+		const newInstallment: IInstallment = {
+			fee: baseFee,
+			renewal: baseRenewal,
+			price: basePrice * duration,
+			count: nextInstallment,
+			duration
+		};
+
+		setData((prevData) => ({
+			...prevData,
+			[duration]: {
+				...prevData[duration],
+				[nextInstallment]: newInstallment
 			}
-			return newData;
+		}));
+	};
+
+	const removeInstallment = (duration: number, installment: number) => {
+		setData((prevData) => {
+			const newDurationData = { ...prevData[duration] };
+			delete newDurationData[installment];
+
+			if (Object.keys(newDurationData).length === 0) {
+				const newData = { ...prevData };
+				delete newData[duration];
+				return {
+					...newData
+				};
+			}
+			else {
+				return {
+					...prevData,
+					[duration]: newDurationData
+				};
+			}
+
 		});
 	};
 
+	const getContent = () => (
+		<div>
+			{durations.map((duration, durationIndex) => {
+				const isSelected = data[duration] !== undefined;
+				const installmentData = data[duration] || undefined;
 
-	const setInstallementField = (duration: number, installment: number, field: string, value: any) => {
-		setInstallmentsData((prev) => {
-			const newData = { ...prev };
-			if (newData[duration]) {
-				if (newData[duration][installment]) {
-					newData[duration][installment][field] = value;
-				}
-			}
-			return newData;
-		});
-	};
-
-	const getInstallments = (duration: number) => {
-		return installments.filter((i) => i <= duration && duration % i === 0);
-	};
+				const alreadySelected = isSelected ? Object.keys(data[duration]).map(Number) : [];
+				const currentInstallments = getInstallments(duration);
+				const availableInstallments = currentInstallments.filter(item => !alreadySelected.includes(item)).sort((a, b) => a - b);
+				const nextInstallment = availableInstallments.length > 0 ? availableInstallments[0] : 1;
 
 
-	const getPrice = (price: number) => {
-		return new Intl.NumberFormat(props.language, { style: 'currency', currency: 'CHF' }).format(price / 100);
-	};
-
-	const suffix = (
-		<div>CHF / mois</div>
-	);
-	return (
-		<Sizing >
-			<div className='grid grid-cols-2 gap-2'>
-
-				<CurrencyInput ColSpan='none' Title="Base price" Subtitle='Input your monthly base price' Value={basePrice} onPropertyChanged={(v, o, n) => setBasePrice(n)} declareFunction={() => { }} Suffix={suffix} />
-				<CurrencyInput ColSpan='none' Title="Base fee" Subtitle='Input your default fee amout' Value={baseFee} onPropertyChanged={(v, o, n) => setBaseFee(n)} declareFunction={() => { }} Suffix={suffix} />
-
-
-				<hr className='my-2 col-span-2 border-gray-400' />
-
-				<div className='flex flex-col gap-2 col-span-2 '>
-					{durations.map((duration) => {
-						const isSelected = selectedDurations.includes(duration);
-						return (
-							<div>
-								<div key={duration} className={`flex items-center justify-between gap-2 rounded-2xl bg-white text-gray-700 dark:text-gray-400 dark:bg-white/[0.03] cursor-pointer py-2 px-4 hover:shadow-lg hover:border-primary hover:ring-3 hover:ring-primary/10 border border-gray-200 dark:border-gray-800
-								${isSelected ? 'rounded-b-none' : ''}`} onClick={() => toggleDuration(duration)}>
-									<div className='grow'>{duration} month</div>
-
-									{isSelected &&
-										<div>{getPrice(basePrice * duration)}</div>
-									}
-									<Switch defaultChecked={isSelected} />
-								</div>
-
-								{isSelected && (
-									<div className='rounded-b-2xl bg-white text-gray-700 dark:text-gray-400 dark:bg-white/[0.03] border-l border-b border-r border-gray-200 dark:border-gray-800'>
-
-										{getInstallments(duration).map((installment) => {
-											const data = installmentsData[duration][installment];
-											const isInstallmentSelected = data !== undefined;
-											return (
-												<div key={installment}
-
-													className='grid grid-cols-[1fr_auto] items-center gap-2 py-2 px-4 border-b border-gray-200 dark:border-gray-800'>
-													<div className='flex gap-2'>
-														<div className={`${isInstallmentSelected ? '' : 'grow'} cursor-pointer`} onClick={() => toggleInstallment(duration, installment)}>{installment}x</div>
-														{isInstallmentSelected && (
-															<>
-																<div className='grow'>{getPrice(data.price)} {data.hasFee && <span>+ ({getPrice(data.fee)})</span>}</div>
-																{data.renewal &&
-																	<div className={` size-6 flex items-center justify-center rounded-lg  text-white bg-primary `}>
-																		<i className="fas fa-arrows-repeat flex justify-center items-center"></i>
-																	</div>
-																}
-
-																<div className={` size-6 flex items-center justify-center rounded-lg  
-																${data.isOpen ? 'border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-400' : 'text-white bg-primary'}`}
-																	onClick={() => setInstallementField(duration, installment, 'isOpen', !data.isOpen)}>
-																	<i className="fas fa-angle-up flex justify-center items-center" style={{ transform: data.isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}></i>
-																</div>
-															</>
-														)}
-													</div>
-													<Switch defaultChecked={isInstallmentSelected} onClick={() => toggleInstallment(duration, installment)} />
-
-													{isInstallmentSelected && data.isOpen && (
-														<div>
-
-
-															<CurrencyInput
-																ColSpan='none'
-																Title='Custom price'
-																onPropertyChanged={(v, o, n) => setInstallementField(duration, installment, 'price', n)}
-																declareFunction={() => { }}
-																Value={data.hasCustomPrice ? data.price : ((basePrice * duration) / installment)} />
-
-															
-
-
-															<CurrencyInput
-															Title='Subscription fee'
-																ColSpan='none'
-																onPropertyChanged={(v, o, n) => setInstallementField(duration, installment, 'fee', n)}
-																declareFunction={() => { }}
-																Value={data.hasFee ? data.fee : 0} />
-
-															
-
-
-															<label className={`block text-sm font-medium text-gray-700 dark:text-gray-400`}>
-																Allow to renew
-															</label>
-															<Switch defaultChecked={data.renewal} onClick={() => setInstallementField(duration, installment, 'renewal', !data.renewal)} />
-														</div>
-													)}
-												</div>
-											)
-										})}
-									</div>
-								)}
+				return (
+					(
+						<div key={durationIndex} className='grid grid-cols-[auto_64px_2fr_auto] md:grid-cols-[auto_128px_2fr_auto] items-center gap-2 text-gray-700 dark:text-gray-400 py-2 px-4 border-b border-gray-200 dark:border-gray-800 last:border-b-0'>
+							<div
+								onClick={() => toggleDuration(duration)}
+								className={`dark:bg-gray-900 cursor-pointer hover:border-primary-500 dark:hover:border-primary-500 hover:ring-3 hover:ring-primary/10 flex size-5 items-center justify-center rounded-md border
+												 ${isSelected ? 'border-primary bg-primary dark:bg-primary' : 'border-gray-300 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500'} `}>
+								{isSelected &&
+									<i className="fa-solid fa-check text-white flex items-center justify-center"></i>
+								}
 							</div>
-						)
-					})}
-				</div>
 
 
-				<pre className='text-white text-sm col-span-2'>{JSON.stringify(installmentsData, null, 2)}</pre>
-			</div>
-		</Sizing>
+							<div className={`capitalize ${isSelected ? 'text-gray-700 dark:text-white' : ''}`}>
+								{duration} Mois
+							</div>
+
+							<div className='text-right md:text-left flex gap-2 min-h-9 items-center flex-wrap '>
+								{Object.keys(installmentData || {}).map((installmentKey) => {
+									const installment = installmentData[installmentKey];
+									return (
+										<div key={installmentKey} className='flex bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 hover:ring-3 hover:ring-primary/10 border hover:border-primary hover:dark:border-primary rounded-lg'>
+											<Installement
+												installment={installment}
+												OnChange={(updatedInstallment) => {
+													setData((prevData) => ({
+														...prevData,
+														[duration]: {
+															...prevData[duration],
+															[installmentKey]: updatedInstallment
+														}
+													}));
+												}}
+												availableInstallments={availableInstallments}
+												language={props.language} />
+
+											<div className='flex items-center justify-center px-2 border-l border-gray-300 dark:border-gray-700' onClick={() => removeInstallment(duration, installment.count)}>
+												<i className="fa-solid fa-trash text-sm text-alizarin cursor-pointer hover:opacity-80 flex items-center justify-center" ></i>
+											</div>
+										</div>
+									);
+								})}
+							</div>
+
+							{isSelected && availableInstallments.length > Object.keys(installmentData || {}).length ?
+								<button
+									onClick={() => addInstallment(duration, nextInstallment)}
+									className='rounded-lg bg-primary size-6 text-white flex items-center justify-center cursor-pointer'>
+									<i className="fa-solid fa-plus text-sm flex items-center justify-center"></i>
+								</button>
+								:
+								<div className='size-6'></div>
+							}
+						</div>
+					)
+				)
+			})}
+		</div>
 	)
+
+	if (props.HasLayout !== undefined && props.HasLayout === false) {
+		return (
+			<Sizing>
+				{getContent()}
+			</Sizing>
+		)
+	}
+	else {
+		return (
+			<Box {...props} DisablePadding={true}>
+				{getContent()}
+
+
+				<pre className='text-sm text-white'>
+					{JSON.stringify(data, null, 2)}
+				</pre>
+			</Box>
+		)
+	}
 }
 
+const getPrice = (price: number, language: string) => {
+	return new Intl.NumberFormat(language, { style: 'currency', currency: 'CHF' }).format(price / 100).replace('.00', '.-');
+};
 
-export const Switch: React.FC<{ defaultChecked: boolean, onClick?: () => void }> = ({ defaultChecked = false, onClick }) => {
+const getInstallments = (duration: number) => {
+	return [1, 2, 3, 4, 6, 12, 24].filter((i) => i <= duration && duration % i === 0);
+};
+
+interface IInstallmentProps {
+	language: string;
+	installment: IInstallment;
+	availableInstallments: number[];
+	OnChange: (installment: IInstallment) => void;
+}
+
+const Installement: React.FC<IInstallmentProps> = (props) => {
+	const [data, setData] = React.useState<IInstallment>(props.installment);
+	const { OnChange } = props;
 
 	return (
-		<div className="relative cursor-pointer" onClick={() => onClick && onClick()}>
-			<input type="checkbox" id="toggle2" className="sr-only" defaultChecked={defaultChecked} />
-			<div className={`block h-6 w-11 rounded-full ${defaultChecked ? 'bg-primary' : 'bg-gray-200 dark:bg-white/10'}`}></div>
-			<div className={`shadow-sm absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white duration-150 ease-linear ${defaultChecked ? 'translate-x-full' : 'translate-x-0'}`}></div>
-		</div>
+		<Popover className="relative">
+			<Popover.Button as='div' className={`h-8 cursor-pointer text-sm border-gray-300 dark:border-gray-700 text-gray-800 dark:text-white/90 flex divide-gray-300 dark:divide-gray-700 divide-x`}>
+				<div className='flex items-center gap-0.5 px-2 '>
+					<div>{data.count}</div>
+					<i className="fa-solid fa-xmark text-xs flex items-end h-4"></i>
+				</div>
+
+				<div className='px-2 flex gap-1 items-center'>
+					<span>{getPrice(data.price, props.language)}</span>
+					<i className="fa-solid fa-money-bill-transfer text-xs"></i>
+				</div>
+
+				{data.fee > 0 &&
+					<div className='flex px-2 gap-1 items-center'>
+						<i className="fas fa-plus text-xs"></i>
+						<span>{getPrice(data.fee, props.language)}</span>
+						<i className="fas fa-money-bill-1 text-sm flex items-center"></i>
+					</div>
+				}
+
+				{data.renewal &&
+					<div className='flex items-center pl-2'><i className="fa-solid fa-arrows-repeat text-success-500"></i></div>
+				}
+
+			</Popover.Button>
+
+			<Popover.Panel className="absolute z-10 top-full mt-1 flex flex-col gap-2 p-2 text-gray-800 dark:text-white/90 bg-white border border-gray-300  dark:border-gray-700 dark:bg-gray-800 rounded-lg">
+				{props.availableInstallments.length > 1 && (
+					<Dropdown Value={data.count} Source={props.availableInstallments} declareFunction={() => { }} onPropertyChanged={(v, o, n) => { setData({ ...data, count: n }); OnChange(data); }} />
+				)}
+				<CurrencyInput Value={data.price} declareFunction={() => { }} onPropertyChanged={(v, o, n) => { setData({ ...data, price: n }); OnChange(data); }} />
+				<CurrencyInput Value={data.fee} declareFunction={() => { }} onPropertyChanged={(v, o, n) => { setData({ ...data, fee: n }); OnChange(data); }} />
+				<Checkbox Value={data.renewal} declareFunction={() => { }} onPropertyChanged={(v, o, n) => { setData({ ...data, renewal: n }); OnChange(data); }} />
+			</Popover.Panel>
+		</Popover>
 	)
 }

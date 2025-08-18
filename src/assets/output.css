@@ -749,6 +749,9 @@
   .grid-cols-\[auto_1fr_auto\] {
     grid-template-columns: auto 1fr auto;
   }
+  .grid-cols-\[auto_64px_2fr_auto\] {
+    grid-template-columns: auto 64px 2fr auto;
+  }
   .grid-cols-\[auto_auto_64px_2fr_auto\] {
     grid-template-columns: auto auto 64px 2fr auto;
   }
@@ -781,6 +784,9 @@
   }
   .justify-start {
     justify-content: flex-start;
+  }
+  .gap-0\.5 {
+    gap: calc(var(--spacing) * 0.5);
   }
   .gap-1 {
     gap: calc(var(--spacing) * 1);
@@ -824,6 +830,14 @@
       margin-inline-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-x-reverse)));
     }
   }
+  .divide-x {
+    :where(& > :not(:last-child)) {
+      --tw-divide-x-reverse: 0;
+      border-inline-style: var(--tw-border-style);
+      border-inline-start-width: calc(1px * var(--tw-divide-x-reverse));
+      border-inline-end-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));
+    }
+  }
   .divide-y {
     :where(& > :not(:last-child)) {
       --tw-divide-y-reverse: 0;
@@ -831,6 +845,11 @@
       border-top-style: var(--tw-border-style);
       border-top-width: calc(1px * var(--tw-divide-y-reverse));
       border-bottom-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
+    }
+  }
+  .divide-alizarin {
+    :where(& > :not(:last-child)) {
+      border-color: var(--color-alizarin);
     }
   }
   .divide-gray-100 {
@@ -841,6 +860,11 @@
   .divide-gray-200 {
     :where(& > :not(:last-child)) {
       border-color: var(--color-gray-200);
+    }
+  }
+  .divide-gray-300 {
+    :where(& > :not(:last-child)) {
+      border-color: var(--color-gray-300);
     }
   }
   .self-stretch {
@@ -1799,6 +1823,17 @@
       flex-grow: 1;
     }
   }
+  .\*\:border-r {
+    :is(& > *) {
+      border-right-style: var(--tw-border-style);
+      border-right-width: 1px;
+    }
+  }
+  .\*\:border-alizarin {
+    :is(& > *) {
+      border-color: var(--color-alizarin);
+    }
+  }
   .group-hover\:text-primary {
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
@@ -2168,6 +2203,11 @@
   .md\:grid-cols-12 {
     @media (width >= 48rem) {
       grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+  }
+  .md\:grid-cols-\[auto_128px_2fr_auto\] {
+    @media (width >= 48rem) {
+      grid-template-columns: auto 128px 2fr auto;
     }
   }
   .md\:grid-cols-\[auto_auto_128px_2fr_auto\] {
@@ -2751,6 +2791,15 @@
       }
     }
   }
+  .hover\:dark\:border-primary {
+    &:hover {
+      @media (hover: hover) {
+        &:where(.dark, .dark *) {
+          border-color: rgb(var(--primary-color));
+        }
+      }
+    }
+  }
   .dark\:hover\:bg-gray-700 {
     &:where(.dark, .dark *) {
       &:hover {
@@ -3186,7 +3235,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   inherits: false;
   initial-value: 0;
 }
-@property --tw-divide-y-reverse {
+@property --tw-divide-x-reverse {
   syntax: "*";
   inherits: false;
   initial-value: 0;
@@ -3195,6 +3244,11 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   syntax: "*";
   inherits: false;
   initial-value: solid;
+}
+@property --tw-divide-y-reverse {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
 }
 @property --tw-leading {
   syntax: "*";
@@ -3384,8 +3438,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
       --tw-skew-y: initial;
       --tw-space-y-reverse: 0;
       --tw-space-x-reverse: 0;
-      --tw-divide-y-reverse: 0;
+      --tw-divide-x-reverse: 0;
       --tw-border-style: solid;
+      --tw-divide-y-reverse: 0;
       --tw-leading: initial;
       --tw-font-weight: initial;
       --tw-shadow: 0 0 #0000;

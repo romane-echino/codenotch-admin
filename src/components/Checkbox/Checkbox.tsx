@@ -5,7 +5,7 @@ import { Action, IBindableComponentProps } from '@echino/echino.ui.sdk';
 import { Helper } from '../AbstractInput/Helper';
 
 interface ICheckboxProps extends IBindableComponentProps {
-	Title: string;
+	Title?: string;
 	Subtitle?: string;
 	Value?: boolean;
 	Icon?: string;
