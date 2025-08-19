@@ -15,12 +15,43 @@ interface ILabelProps extends Ii18nProps {
 	TextColor: 'Normal' | 'Light' | 'Inherit';
 	IconPlacement: 'Left' | 'Right';
 
-	Type: 'Date' | 'Time' | 'DateTime' | 'Text' | 'Duration' | 'Currency' | 'Percentage' | 'Phone' | 'Email' | 'Url';
+	Type: LabelType;
 
 }
 
+export type LabelType = 'Date' | 'Time' | 'DateTime' | 'Text' | 'Duration' | 'Currency' | 'Percentage' | 'Phone' | 'Email' | 'Url'
 interface ILabelState {
 }
+
+export const getFormattedValue = (type:LabelType , value:string, language:string): string => {
+	switch (type) {
+		case 'Date':
+			return dayjs(value).locale(language).format('ll');
+		case 'Time':
+			return dayjs(value).locale(language).format('LT');
+		case 'DateTime':
+			return dayjs(value).locale(language).format('lll');
+		case 'Duration':
+			//@ts-ignore
+			return dayjs.duration(dayjs(value).diff(dayjs())).locale(language).humanize(true);
+		case 'Currency':
+			return new Intl.NumberFormat(language, { style: 'currency', currency: 'CHF' }).format(parseInt(value)/100).replace('.00','.-');
+		case 'Percentage':
+			let percentageValue = parseFloat(value);
+			if (isNaN(percentageValue)) {
+				return '0%';
+				}
+				return `${percentageValue < 1 ? percentageValue * 100 : percentageValue}%`;
+			case 'Phone':
+				return value;
+			case 'Email':
+				return value;
+			case 'Url':
+				return value;
+			default:
+				return value;
+		}
+	}
 
 export class Label extends React.Component<ILabelProps, ILabelState> {
 
@@ -38,34 +69,7 @@ export class Label extends React.Component<ILabelProps, ILabelState> {
 	}
 
 
-	getFormattedValue(): string {
-		switch (this.props.Type) {
-			case 'Date':
-				return dayjs(this.props.Value).locale(this.props.language).format('ll');
-			case 'Time':
-				return dayjs(this.props.Value).locale(this.props.language).format('LT');
-			case 'DateTime':
-				return dayjs(this.props.Value).locale(this.props.language).format('lll');
-			case 'Duration':
-				return dayjs.duration(dayjs(this.props.Value).diff(dayjs())).locale(this.props.language).humanize(true);
-			case 'Currency':
-				return new Intl.NumberFormat(this.props.language, { style: 'currency', currency: 'CHF' }).format(parseInt(this.props.Value)/100);
-			case 'Percentage':
-				let percentageValue = parseFloat(this.props.Value);
-				if (isNaN(percentageValue)) {
-					return '0%';
-				}
-				return `${percentageValue < 1 ? percentageValue * 100 : percentageValue}%`;
-			case 'Phone':
-				return this.props.Value;
-			case 'Email':
-				return this.props.Value;
-			case 'Url':
-				return this.props.Value;
-			default:
-				return this.props.Value;
-		}
-	}
+	
 
 	getFormattedComponent(): { type: any, props: any } {
 		let component = 'p'
@@ -151,7 +155,7 @@ export class Label extends React.Component<ILabelProps, ILabelState> {
 						<i className={`${this.props.Icon} ${iconClass} text-sm flex items-center justify-center`} />
 					}
 
-					{this.getFormattedValue()}
+					{getFormattedValue(this.props.Type, this.props.Value, this.props.language)}
 
 					{this.props.Icon && this.props.IconPlacement === 'Right' &&
 						<i className={`${this.props.Icon} ${iconClass} text-sm flex items-center justify-center`} />

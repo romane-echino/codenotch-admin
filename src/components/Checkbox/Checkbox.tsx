@@ -31,9 +31,13 @@ export const Checkbox: React.FC<ICheckboxProps> = (props) => {
 		}
 	}
 
+	const columnTemplate = `auto ${props.Icon ? 'auto ' : ''}1fr ${props.Helper ? 'auto' : ''}`;
 	return (
 		<Sizing {...props}>
-			<div onClick={() => updateValue(!selected)} className={`flex cursor-pointer items-center text-sm font-medium text-gray-700 select-none dark:text-gray-400 ${props.Disabled ? 'opacity-50 pointer-events-none' : ''}`}>
+			<div onClick={() => updateValue(!selected)} 
+			style={{ gridTemplateColumns: columnTemplate }}
+			className={`grid cursor-pointer items-center text-sm font-medium text-gray-700 select-none dark:text-gray-400 
+				${props.Disabled ? 'opacity-50 pointer-events-none' : ''}`}>
 
 				<div className={`${selected ? 'border-primary bg-primary dark:bg-primary' : 'border-gray-300 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500'}
 					 dark:bg-gray-900  mr-3 flex h-5 w-5 items-center justify-center rounded-md border `}>
@@ -43,7 +47,7 @@ export const Checkbox: React.FC<ICheckboxProps> = (props) => {
 				</div>
 
 				{props.Icon &&
-					<span className="mr-2">
+					<span className="mr-3">
 						<i className={props.Icon}></i>
 					</span>
 				}

@@ -16,6 +16,11 @@
       "type": "string"
     },
     {
+      "name": "Helper",
+      "displayName": "Helper",
+      "type": "string"
+    },
+    {
       "name": "Currency",
       "displayName": "Currency",
       "type": "string"

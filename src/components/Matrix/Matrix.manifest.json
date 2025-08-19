@@ -1,0 +1,79 @@
+{
+  "name": "Matrix",
+  "menu": "Input",
+  "props": [
+    {
+      "name": "Vertical",
+      "displayName": "Vertical",
+      "type": "array",
+      "description": "Array of vertical labels"
+    },
+    {
+      "name": "Horizontal",
+      "displayName": "Horizontal",
+      "type": "array",
+      "description": "Array of horizontal labels"
+    },
+    {
+      "name": "Template",
+      "displayName": "Template",
+      "type": "function",
+      "description": "Function to render custom cell content"
+    },
+    {
+      "name": "HasLayout",
+      "displayName": "HasLayout",
+      "type": "boolean",
+      "description": "Whether the matrix has a layout"
+    },
+    {
+      "name": "OnChange",
+      "displayName": "OnChange",
+      "type": "function",
+      "description": "Callback function triggered when the matrix data changes"
+    },
+    {
+      "name": "VerticalLabel",
+      "displayName": "VerticalLabel",
+      "type": "string",
+      "description": "Label for the vertical axis"
+    },
+    {
+      "name": "VerticalIcon",
+      "displayName": "VerticalIcon",
+      "type": "string",
+      "description": "Icon for the vertical axis"
+    },
+    {
+      "name": "HorizontalLabel",
+      "displayName": "HorizontalLabel",
+      "type": "string",
+      "description": "Label for the horizontal axis"
+    },
+    {
+      "name": "HorizontalIcon",
+      "displayName": "HorizontalIcon",
+      "type": "string",
+      "description": "Icon for the horizontal axis"
+    },
+    {
+      "name": "Availability",
+      "displayName": "Availability",
+      "type": "function",
+      "description": "Function to determine the availability of a cell"
+    }
+  ],
+  "childrenProps": [
+    {
+      "name": "Field",
+      "displayName": "Field",
+      "type": "string"
+    },
+    {
+      "name": "Type",
+      "displayName": "Type",
+      "type": "string",
+      "enum": ["Date", "Time", "DateTime", "Text", "Duration", "Currency", "Percentage", "Phone", "Email", "Url"]
+    }
+  ]
+}
