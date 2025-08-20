@@ -2,23 +2,45 @@ import React from 'react';
 import './FileInput.scss';
 import { AbstractInput, IInputProps } from '../AbstractInput/AbstractInput';
 import { Action, IBindableComponentProps, IProjectInfoProps } from '@echino/echino.ui.sdk';
+import { UploadedFile } from '../ImageInput/ImageInput';
+import { Markdown } from '../Markdown/Markdown';
 
 interface IFileInputProps extends IInputProps, IProjectInfoProps, IBindableComponentProps {
 	Accept?: string;
-	OnUploaded?: Action<{ url: string; name: string }>;
-	OnChange?: Action<string>;
+	OnChange?: Action<UploadedFile>;
 }
 
 export const FileInput: React.FC<IFileInputProps> = (props) => {
 	const [focused, setFocused] = React.useState(false);
-	const [fileName, setFileName] = React.useState<string | undefined>(props.Value as string);
-	const [showDropZone, setShowDropZone] = React.useState(false);
+	//@ts-ignore
+	const [file, setFile] = React.useState<UploadedFile | undefined>(props.Value ?? undefined);
 	const [isUploading, setIsUploading] = React.useState(false);
 	const refFileInput = React.useRef<HTMLInputElement | null>(null);
 
-
-	const Endpoint = props._projectInfo.clusterUrl + '/portal/api/upload';
+	const Endpoint = props._projectInfo.clusterUrl + '/portal/api/upload-image';
 	const ContentTypeEndpoint = props._projectInfo.clusterUrl + '/portal/api/update-content-type';
+
+	React.useEffect(() => {
+		if (props.Value !== undefined && props.Value !== null && props.Value !== '') {
+
+			let value: UploadedFile;
+			if (typeof props.Value === 'string') {
+				value = JSON.parse(props.Value);
+			}
+			else {
+				//@ts-ignore
+				value = props.Value as UploadedFile;
+			}
+			//@ts-ignore
+			props.OnChange?.(value);
+			props.onPropertyChanged('value', undefined, value);
+			//@ts-ignore
+			setFile(value);
+
+
+			console.log('Value', props.Value)
+		}
+	}, [props.Value]);
 
 	const onDrop = async (e: React.DragEvent<HTMLInputElement>) => {
 		e.preventDefault();
@@ -46,98 +68,115 @@ export const FileInput: React.FC<IFileInputProps> = (props) => {
 		await uploadFile(file);
 	}
 
-	const uploadFile = async (file: File) => {
-		setIsUploading(true);
-		try {
-			if (Endpoint === undefined || `${Endpoint}`.trim() === '') {
-				throw new Error('Upload enpoint is missing.');
-			}
-
-			let data = new FormData()
-			data.append('file', file);
-
-			let response = await fetch(Endpoint, {
-				method: 'POST',
-				body: data,
-				headers: {
-					"Content-Type": "application/octet-stream"
+	
+		const uploadFile = async (file: File) => {
+			setIsUploading(true);
+			try {
+				if (Endpoint === undefined || `${Endpoint}`.trim() === '') {
+					throw new Error('Upload enpoint is missing.');
 				}
-			});
-
-			if (response.ok === false) {
-				throw new Error(`${response.status} ${await response.text()}`);
+	
+				const reader = new FileReader();
+				reader.onloadend = async () => {
+					//data.append('file', new Blob([reader.result as ArrayBuffer], { type: file.type }), file.name);
+					let response = await fetch(Endpoint, {
+						method: 'POST',
+						body: reader.result,
+						headers: {
+							"Content-Type": "application/octet-stream"
+						}
+					});
+	
+	
+					if (response.ok === false) {
+						throw new Error(`${response.status} ${await response.text()}`);
+					}
+	
+					let jobject = await response.json();
+					let contentTypeResponse = await fetch(ContentTypeEndpoint, {
+						method: 'POST',
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({
+							"filename": jobject.FileName,
+							"contentType": file.type
+						})
+					});
+	
+					if (contentTypeResponse.ok === false) {
+						throw new Error(`${contentTypeResponse.status} ${await contentTypeResponse.text()}`);
+					}
+	
+					setIsUploading(false);
+	
+					const result: UploadedFile = {
+						url: jobject.DownloadUrl,
+						name: file.name
+					};
+					props.OnChange?.(result);
+					props.onPropertyChanged('value', undefined, result);
+					setFile(result);
+				};
+	
+				reader.onerror = (error) => {
+					setIsUploading(false);
+					console.error("File reading error", error);
+				};
+				reader.readAsArrayBuffer(file);
+	
+	
 			}
-
-			let jobject = await response.json();
-			let contentTypeResponse = await fetch(ContentTypeEndpoint, {
-				method: 'POST',
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify({
-					"filename": jobject.FileName,
-					"contentType": file.type
-				})
-			});
-
-			if (contentTypeResponse.ok === false) {
-				throw new Error(`${contentTypeResponse.status} ${await contentTypeResponse.text()}`);
+			catch (e) {
+				setIsUploading(false);
+				console.error("upload", e);
 			}
-
-			setIsUploading(false);
-			props.OnUploaded?.({ url: jobject.DownloadUrl, name: file.name });
-			props.OnChange?.(jobject.DownloadUrl);
-			props.onPropertyChanged('value', undefined, jobject.DownloadUrl);
-
+			finally {
+	
+			}
 		}
-		catch (e) {
-			setIsUploading(false);
-			console.error("upload", e);
+
+	const getChild = () => {
+			if (isUploading) {
+				return (
+	
+					<i className="fa-solid fa-spinner fa-spin text-primary"></i>
+				)
+			}
+			else if (file) {
+				return (
+					<p className='text-white text-sm'>{file.name}</p>
+				)
+			}
+			else {
+				return (
+					<div className="">
+
+						{props.Placeholder &&
+							<p className="text-center text-sm text-gray-500 dark:text-gray-400">
+								<Markdown Type='Normal'>{props.Placeholder}</Markdown>
+							</p>
+						}
+					</div>
+				)
+			}
 		}
-		finally {
-			setFileName(file.name);
-		}
-	}
 
 
-	const prefix = (
-		<div className='self-stretch flex items-center'>Choose a file</div>
-	)
 
 	return (
-		<AbstractInput Focus={focused} {...props} Prefix={prefix}>
-			<input style={{ display: 'none' }} accept={props.Accept} onChange={(e) => onInputFileChange(e)} ref={refFileInput} type="file" />
-
-			<input
-				onDrop={onDrop.bind(this)}
-				disabled={props.Disabled}
-				onBlur={() => setFocused(false)}
-				onFocus={() => { setFocused(true) }}
-				onClick={() => refFileInput.current?.click()}
-
-				onDragEnter={onDragEnter.bind(this)}
-				onDragLeave={onDragLeave.bind(this)}
-				onDragOver={(e) => e.preventDefault()}
-				readOnly={true}
-				spellCheck={false}
-				value={fileName}
-				placeholder={props.Placeholder}
-				className={`${props.Icon && 'pl-9'} cursor-pointer px-4 py-2.5 w-full focus:border-0 focus:outline-hidden placeholder:text-gray-400 dark:placeholder:text-white/30`}
-				type="text" />
-
-
-			{isUploading && (
-				<div className='absolute inset-y-0 right-0 w-10 flex items-center justify-center'>
-					<i className="fa-solid fa-spinner fa-spin text-primary"></i>
+			<AbstractInput Dashed={true} Focus={focused} {...props} Icon={props.Icon ?? 'fad fa-file'}>
+				<input style={{ display: 'none' }} accept={props.Accept} onChange={(e) => onInputFileChange(e)} ref={refFileInput} type="file" />
+	
+				<div className="grow flex justify-center items-center cursor-pointer h-10"
+					onClick={() => refFileInput.current?.click()}
+					onDrop={onDrop.bind(this)}
+					onDragEnter={onDragEnter.bind(this)}
+					onDragLeave={onDragLeave.bind(this)}
+					onDragOver={(e) => e.preventDefault()}
+				>
+					{getChild()}
 				</div>
-			)}
-
-			{showDropZone && (
-				<div className='absolute rounded-md inset-0 text-white/50 gap-1 border-2 border-dashed flex items-center justify-center border-white/30 pointer-events-none'>
-					<i className="fa-regular fa-file"></i>
-					<span>Drop zone</span>
-				</div>
-			)}
-		</AbstractInput>
-	)
+			</AbstractInput>
+		)
 }
