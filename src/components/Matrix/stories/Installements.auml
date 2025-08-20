@@ -1,0 +1,48 @@
+<Application>
+	<Application.Imports>
+		<Import Namespace="e" Source="/static/" />
+	</Application.Imports>
+
+
+
+	<e:Mock />
+
+	<e:Application>
+
+		<e:Page Application.Title="My Page" Application.Route="/">
+
+			<e:Matrix
+				Title="Salut"
+				Subtitle="Subtitle"
+				Vertical="{[1, 2, 3, 4, 6, 12, 24]}"
+				VerticalLabel="Mois"
+				VerticalIcon="fad fa-arrows-left-right-to-line"
+				HorizontalLabel="Tranche"
+				HorizontalIcon="fas fa-xmark"
+				Horizontal="{[1, 2, 3, 4, 6, 12, 24]}"
+				Availability="{(d,i) => i <= d && d % i === 0}"
+				Template="{(d,i) => {return { price:(10000*d)/i, fee:0, renew:false}}}">
+
+				<e:CurrencyInput 
+				Icon="fad fa-money-bill" 
+				Title="Frais mensuel" 
+				Subtitle="Prix récurent"
+				Helper="Salut" 
+				Matrix.Type="Currency" 
+				Matrix.Field="price" />	
+
+				<e:CurrencyInput 
+				Icon="fad fa-coins" 
+				Title="Frais d'inscription" 
+				Subtitle="Prix unitaire à l'achat" 
+				Matrix.Type="Currency"
+				Matrix.Field="fee" />
+
+				<e:Checkbox Icon="fad fa-arrows-repeat" Title="Renouvellable" Subtitle="Est-ce que vous permettez le renouvellement de cet abonnement" Matrix.Field="renew" />
+			</e:Matrix>
+            
+		</e:Page>
+
+	</e:Application>
+
+</Application>

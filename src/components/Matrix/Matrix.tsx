@@ -143,7 +143,7 @@ export const Matrix: React.FC<IMatrixProps> = (props) => {
 				const { next, available } = getNext(v);
 
 				return (
-					<React.Fragment key={vi}>
+					<React.Fragment key={v}>
 						<div className='h-9 my-2 flex items-center'>
 							<div onClick={() => toggle(v)}
 								className={`dark:bg-gray-900 ml-2 cursor-pointer hover:border-primary-500 dark:hover:border-primary-500 hover:ring-3 hover:ring-primary/10 flex size-5 items-center justify-center rounded-md border
@@ -171,7 +171,6 @@ export const Matrix: React.FC<IMatrixProps> = (props) => {
 									<div className='flex' key={`${v}-${h}`}>
 										<div className='flex bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 hover:ring-3 hover:ring-primary/10 border hover:border-primary hover:dark:border-primary rounded-l-lg'>
 											<MatrixItem
-												key={`${v}-${h}`}
 												OnChange={(d) => change(v, h, d)}
 												OnChangeKey={(oldKey, newKey) => changeKey(v, oldKey, newKey)}
 												HorizontalLabel={props.HorizontalLabel}
@@ -223,11 +222,6 @@ export const Matrix: React.FC<IMatrixProps> = (props) => {
 		return (
 			<Box {...props} DisablePadding={true}>
 				{getContent()}
-
-
-				<pre className='text-sm text-white'>
-					{JSON.stringify(data, null, 2)}
-				</pre>
 			</Box>
 		)
 	}
@@ -249,11 +243,32 @@ interface IMatrixItemProps extends IChildrenInheritedProps<IItemProps> {
 
 const MatrixItem: React.FC<IMatrixItemProps> = (props) => {
 	const [data, setData] = React.useState<any>(props.data);
+	const [isOpen, setIsOpen] = React.useState(false);
 	const { OnChange } = props;
+	const ref = React.useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		setData(props.data);
 	}, [props.data]);
+
+
+	useEffect(() => {
+		/**
+		 * Alert if clicked on outside of element
+		 */
+		function handleClickOutside(event) {
+			if (ref.current && !ref.current.contains(event.target)) {
+				console.log("You clicked outside of me!");
+				setIsOpen(false);
+			}
+		}
+		// Bind the event listener
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			// Unbind the event listener on clean up
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [ref]);
 
 	const handleChange = (value: any, field: string) => {
 		if (JSON.stringify(value) !== JSON.stringify(data[field])) {
@@ -268,6 +283,8 @@ const MatrixItem: React.FC<IMatrixItemProps> = (props) => {
 	};
 
 	const getChildren = useCallback(() => {
+
+		console.log('Matrix::getChildren')
 		return React.Children.map(props.children, (child, index) => {
 			//@ts-ignore
 			let effectiveProps: any = { ...child.props };
@@ -284,7 +301,7 @@ const MatrixItem: React.FC<IMatrixItemProps> = (props) => {
 				return React.cloneElement(child, effectiveProps);
 			}
 		});
-	}, [data, props.children, props.childrenProps]);
+	}, [data, props.children, props.childrenProps, props.VerticalKey, props.HorizontalKey, handleChange]);
 
 	const getIcon = (index: number) => {
 		const child: any = React.Children.toArray(props.children)[index] as any;
@@ -295,8 +312,9 @@ const MatrixItem: React.FC<IMatrixItemProps> = (props) => {
 	};
 
 	return (
-		<Popover className="relative">
-			<Popover.Button as='div' className={`h-8 cursor-pointer text-sm border-gray-300 dark:border-gray-700 text-gray-800 dark:text-white/90 flex divide-gray-300 dark:divide-gray-700 divide-x`}>
+		<div className="relative">
+			<div onClick={() => setIsOpen(!isOpen)}
+				className={`h-8 cursor-pointer text-sm border-gray-300 dark:border-gray-700 text-gray-800 dark:text-white/90 flex divide-gray-300 dark:divide-gray-700 divide-x`}>
 				<div className='flex items-center gap-1 px-2 '>
 					<div>{props.HorizontalKey}</div>
 					{props.HorizontalIcon && <i className={`${props.HorizontalIcon} text-xs flex items-center`}></i>}
@@ -320,11 +338,12 @@ const MatrixItem: React.FC<IMatrixItemProps> = (props) => {
 							</div>
 						);
 				})}
-			</Popover.Button>
+			</div>
 
-			<Popover.Panel className="absolute z-10 shadow-lg top-full min-w-xs mt-1 flex flex-col gap-2 p-2 text-gray-800 dark:text-white/90 bg-white border border-gray-300  dark:border-gray-700 dark:bg-gray-800 rounded-lg">
-				<div>{props.VerticalKey} {props.HorizontalKey}</div>
-				<pre>{JSON.stringify(props.data, null, 2)}</pre>
+			<div ref={ref} key={`${props.VerticalKey}-${props.HorizontalKey}`}
+				style={{ display: isOpen ? 'block' : 'none' }}
+				className="absolute z-10 shadow-lg top-full min-w-xs mt-1 flex flex-col gap-2 p-2 text-gray-800 dark:text-white/90 bg-white border border-gray-300  dark:border-gray-700 dark:bg-gray-800 rounded-lg">
+
 				{props.AvailableKeys.length > 0 &&
 					<Dropdown
 						Title={props.HorizontalLabel}
@@ -339,7 +358,7 @@ const MatrixItem: React.FC<IMatrixItemProps> = (props) => {
 						}} />
 				}
 				{getChildren()}
-			</Popover.Panel>
-		</Popover>
+			</div>
+		</div>
 	)
 }

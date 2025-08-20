@@ -3,6 +3,18 @@
   "menu": "Input",
   "props": [
     {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string",
+      "description": "Title of the matrix"
+    },
+    {
+      "name": "Subtitle",
+      "displayName": "Subtitle",
+      "type": "string",
+      "description": "Subtitle of the matrix"
+    },
+    {
       "name": "Vertical",
       "displayName": "Vertical",
       "type": "array",
