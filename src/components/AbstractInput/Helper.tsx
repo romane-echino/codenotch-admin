@@ -14,7 +14,7 @@ export const Helper: React.FC<IHelperProps> = ({ children, Size = 'small' }) => 
                 <i className={`  ${Size === 'small' ? 'far text-base' : 'far text-lg'} fa-circle-info  flex items-center justify-center`}></i>
             </Popover.Button>
             <Popover.Panel
-                className="absolute top-full text-gray-800 dark:text-white/90 max-w-screen right-0 z-50 px-4 py-2 text-sm bg-white border border-gray-300  dark:border-gray-700 dark:bg-gray-800 translate-y-0.5 rounded-lg shadow-lg overflow-hidden">
+                className="absolute top-full text-gray-800 dark:text-white/90 max-w-screen min-w-xs right-0 z-50 px-4 py-2 text-sm bg-white border border-gray-300  dark:border-gray-700 dark:bg-gray-800 translate-y-0.5 rounded-lg shadow-lg overflow-hidden">
                 <Markdown Type="Normal">
                     {children}
                 </Markdown>

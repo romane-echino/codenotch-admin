@@ -41,7 +41,7 @@
     {
       "name": "OnChange",
       "displayName": "On Change",
-      "type": "function",
+      "type": "action",
       "description": "Function to call when the value changes"
     }
   ]
