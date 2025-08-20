@@ -219,10 +219,6 @@ export const Table: React.FC<ITableProps> = (props) => {
                 </div>
             </div>
 
-            {/* Données de débogage */}
-            <pre className='mt-4 p-2 bg-gray-100 dark:bg-gray-800 text-xs text-gray-600 dark:text-gray-400 rounded-lg overflow-x-auto'>
-                {JSON.stringify(data, null, 2)}
-            </pre>
         </Sizing>
     );
 };
