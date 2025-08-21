@@ -91,7 +91,9 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 			else {
 				setPendingValue(value);
 			}
-			props.OnSelect && props.OnSelect({ value: result, index: index });
+			
+			props._internalOnChange?.(value);
+			props.OnChange?.({ value: result, index: index });
 		}
 	}
 

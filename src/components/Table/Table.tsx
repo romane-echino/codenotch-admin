@@ -55,8 +55,9 @@ export const Table: React.FC<ITableProps> = (props) => {
     // Notifier les changements de données
     useEffect(() => {
         props.OnChange?.(data);
+        props._internalOnChange?.(data);
         props.onPropertyChanged?.('value', null, data);
-    }, [data, props.OnChange, props.onPropertyChanged]);
+    }, [data, props.OnChange, props.onPropertyChanged, props._internalOnChange]);
 
     // Fonction pour mettre à jour une cellule spécifique
     const handleUpdate = useCallback((rowId: string, colName: string, value: any) => {

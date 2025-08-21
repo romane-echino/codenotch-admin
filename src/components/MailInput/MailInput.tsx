@@ -19,9 +19,8 @@ export const MailInput: React.FC<IMailInputProps> = (props) => {
 
 	const updateValue = (value: string) => {
 		props.onPropertyChanged('value', undefined, value)
-		if (props.OnChange) {
-			props.OnChange(value);
-		}
+		props.OnChange?.(value);
+		props._internalOnChange?.(value);
 	}
 
 	return (

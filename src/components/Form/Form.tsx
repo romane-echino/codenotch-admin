@@ -197,8 +197,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 			effectiveProps.children.props = {
 				...this.props.childrenProps[index],
 				...effectiveProps?.children?.props,
-				OnChange: field ? (value: any) => this.fieldChanged(field, value) : undefined,
-				OnSelect: field ? (value: IAbstractListAction) => this.fieldChanged(field, value.value) : undefined,
+				_internalOnChange: field ? (value: any) => this.fieldChanged(field, value) : undefined,
 			}
 
 			if (React.isValidElement(child)) {

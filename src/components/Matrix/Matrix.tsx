@@ -10,6 +10,7 @@ import { getFormattedValue, Label, LabelType } from '../Label/Label';
 interface IMatrixProps extends IChildrenInheritedProps<IItemProps>, Ii18nProps {
 	HasLayout?: boolean;
 	OnChange?: Action<IMatrixStructure>;
+	_internalOnChange?: (value: IMatrixStructure) => void;
 	Vertical?: string[] | number[];
 	Horizontal?: string[] | number[];
 
@@ -98,7 +99,6 @@ export const Matrix: React.FC<IMatrixProps> = (props) => {
 	};
 
 	const change = (vertical: number | string, horizontal: string | number, newValue: any) => {
-		console.log('Change', vertical, horizontal, newValue);
 		setData((prevData) => ({
 			...prevData,
 			[vertical]: {
@@ -106,10 +106,12 @@ export const Matrix: React.FC<IMatrixProps> = (props) => {
 				[horizontal]: newValue
 			}
 		}));
+
+		props.OnChange?.(data);
+		props._internalOnChange?.(data);
 	};
 
 	const changeKey = (vertical: number | string, oldKey: string | number, newKey: string | number) => {
-		console.log('Change Key', vertical, oldKey, newKey);
 		setData((prevData) => {
 			const newData = { ...prevData };
 			if (newData[vertical]) {

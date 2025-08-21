@@ -24,9 +24,8 @@ export class TextArea extends React.Component<ITextAreaProps, ITextAreaState> {
 
 	updateValue(value: string) {
 		this.props.onPropertyChanged('Value', undefined, value)
-		if (this.props.OnChange) {
-			this.props.OnChange(value);
-		}
+		this.props.OnChange?.(value);
+		this.props._internalOnChange?.(value);
 	}
 
 	render() {

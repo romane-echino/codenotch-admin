@@ -24,7 +24,7 @@ export interface IInputProps {
     Placeholder?: string;
     Value?: string | number;
     OnChange?: Action<any>;
-    OnSelect?: Action<IAbstractListAction>;
+    _internalOnChange?: (value: any) => void;
     Icon?: string;
     Disabled?: boolean;
     Helper?: string;

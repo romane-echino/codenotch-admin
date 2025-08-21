@@ -12,6 +12,7 @@ interface ICheckboxProps extends IBindableComponentProps {
 	Disabled?: boolean;
 	Helper?: string;
 	OnChange?: Action<boolean>;
+	_internalOnChange?: (value: boolean) => void;
 }
 
 export const Checkbox: React.FC<ICheckboxProps> = (props) => {
@@ -28,6 +29,7 @@ export const Checkbox: React.FC<ICheckboxProps> = (props) => {
 		setSelected(value);
 		props.onPropertyChanged('value', undefined, value)
 		props.OnChange?.(value);
+		props._internalOnChange?.(value);
 	}
 
 	const columnTemplate = `auto ${props.Icon ? 'auto ' : ''}1fr ${props.Helper ? 'auto' : ''}`;

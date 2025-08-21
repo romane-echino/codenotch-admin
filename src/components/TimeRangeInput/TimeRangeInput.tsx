@@ -18,6 +18,7 @@ export const TimeRangeInput: React.FC<ITimeRangeInputProps> = (props) => {
 	const updateValue = (value: string) => {
 		props.onPropertyChanged('value', undefined, value)
 		props.OnChange?.(value);
+		props._internalOnChange?.(value);
 	}
 
 	return (

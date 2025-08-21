@@ -38,6 +38,7 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 			}
 			//@ts-ignore
 			props.OnChange?.(value);
+			props._internalOnChange?.(value);
 			props.onPropertyChanged('value', undefined, value);
 			//@ts-ignore
 			setFile(value);
@@ -120,6 +121,7 @@ export const ImageInput: React.FC<IImageInputProps> = (props) => {
 					name: file.name
 				};
 				props.OnChange?.(result);
+				props._internalOnChange?.(result);
 				props.onPropertyChanged('value', undefined, result);
 				setFile(result);
 			};

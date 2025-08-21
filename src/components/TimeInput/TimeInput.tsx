@@ -19,6 +19,7 @@ export const TimeInput: React.FC<ITimeInputProps> = (props) => {
 	const updateValue = (value: string) => {
 		props.onPropertyChanged('value', undefined, value)
 		props.OnChange?.(value);
+		props._internalOnChange?.(value);
 	}
 
 	return (

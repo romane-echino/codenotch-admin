@@ -23,6 +23,7 @@ export const CurrencyInput: React.FC<ICurrencyInputProps> = (props) => {
 		let numericValue = Math.floor(value * 100);
 		props.onPropertyChanged('value', undefined, numericValue);
 		props.OnChange?.(numericValue);
+		props._internalOnChange?.(value);
 	}
 
 	const suffix = (

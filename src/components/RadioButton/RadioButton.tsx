@@ -9,6 +9,7 @@ interface IRadioButtonProps extends IBindableComponentProps, IChildrenInheritedP
 	Value?: any;
 	Title?: string;
 	OnChange?: Action<any>;
+	_internalOnChange?: (value: any) => void;
 }
 
 
@@ -24,9 +25,8 @@ export const RadioButton = (props: IRadioButtonProps) => {
 	const updateValue = (value: string) => {
 		setSelectedValue(value);
 		props.onPropertyChanged('value', undefined, value)
-		if (props.OnChange) {
-			props.OnChange(value);
-		}
+		props.OnChange?.(value);
+		props._internalOnChange?.(value);
 	}
 
 	return (

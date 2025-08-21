@@ -7,6 +7,7 @@ import { IAbstractListAction } from '../AbstractInput/AbstractInput';
 interface IFormProps extends IBoxProps, IPageInheritedProps, IBindableComponentProps, IChildrenInheritedProps<{ Field: string }> {
 	HasLayout?: boolean;
 	OnChange?: Action<any>;
+	_internalOnChange?: (value: any) => void;
 	SortField?: string;
 }
 
@@ -71,8 +72,7 @@ export class FormAddList extends React.Component<IFormProps, IFormState> {
 			effectiveProps.children.props = {
 				...this.props.childrenProps[templateIndex],
 				...effectiveProps?.children?.props,
-				OnChange: field ? (value: any) => this.fieldChanged(field, value, instanceIndex) : undefined,
-				OnSelect: field ? (value: IAbstractListAction) => this.fieldChanged(field, value.value, instanceIndex) : undefined,
+				_internalOnChange: field ? (value: any) => this.fieldChanged(field, value, instanceIndex) : undefined
 			}
 
 			return React.cloneElement(child, effectiveProps);
@@ -85,10 +85,8 @@ export class FormAddList extends React.Component<IFormProps, IFormState> {
 			} : undefined] // Ajouter un objet vide pour la nouvelle instance
 		}), () => {
 			this.props.onPropertyChanged('value', undefined, this.state.value);
-
-			if (this.props.OnChange) {
-				this.props.OnChange(this.state.value);
-			}
+			this.props._internalOnChange?.(this.state.value);
+			this.props.OnChange?.(this.state.value);
 		});
 	};
 
@@ -166,9 +164,8 @@ export class FormAddList extends React.Component<IFormProps, IFormState> {
 
 		this.setState({ value: [...this.state.value.slice(0, index), newValue, ...this.state.value.slice(index + 1)] }, () => {
 			this.props.onPropertyChanged('value', undefined, this.state.value);
-			if (this.props.OnChange) {
-				this.props.OnChange(this.state.value);
-			}
+			this.props._internalOnChange?.(this.state.value);
+			this.props.OnChange?.(this.state.value);
 		});
 
 

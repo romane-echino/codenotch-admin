@@ -58,6 +58,7 @@ export const Slider: React.FC<SliderProps> = (props) => {
 		changeTimer = setTimeout(() => {
 			props.onPropertyChanged('value', undefined, newValue)
 			props.OnChange?.(newValue);
+			props._internalOnChange?.(newValue);
 		}, 750);
 	};
 

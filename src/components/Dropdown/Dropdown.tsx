@@ -65,7 +65,8 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 			let result = props.ValueField ? value[props.ValueField] : value;
 			props.onPropertyChanged('value', undefined, result)
 			setSelected(index);
-			props.OnSelect && props.OnSelect({ value: result, index: index });
+			props._internalOnChange?.(value);
+			props.OnChange?.({ value: result, index: index });
 		}
 	}
 

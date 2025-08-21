@@ -31,6 +31,7 @@ export const ColorInput: React.FC<IColorInputProps> = (props) => {
 		setColor({ value, name });
 		props.onPropertyChanged('Value', undefined, value)
 		props.OnChange?.(value);
+		props._internalOnChange?.(value);
 	}
 
 	return (

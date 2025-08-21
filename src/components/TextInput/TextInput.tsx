@@ -30,11 +30,13 @@ export const TextInput: React.FC<ITextInputProps> = (props) => {
 				setError(false);
 				props.onPropertyChanged('value', undefined, value);
 				props.OnChange?.(value);
+				props._internalOnChange?.(value);
 			}
 		}
 		else {
 			props.onPropertyChanged('value', undefined, value)
 			props.OnChange?.(value);
+			props._internalOnChange?.(value);
 		}
 
 	}
