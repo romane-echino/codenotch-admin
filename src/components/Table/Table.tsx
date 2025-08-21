@@ -60,7 +60,7 @@ export const Table: React.FC<ITableProps> = (props) => {
             props.OnChange?.(data);
             props._internalOnChange?.(data);
             props.onPropertyChanged?.('value', null, data);
-        }, 750);
+        }, 1200);
     }, [data, props.OnChange, props.onPropertyChanged, props._internalOnChange]);
 
     // Fonction pour mettre à jour une cellule spécifique

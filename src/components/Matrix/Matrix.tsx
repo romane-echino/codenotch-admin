@@ -53,7 +53,7 @@ export const Matrix: React.FC<IMatrixProps> = (props) => {
 		changeTimer = setTimeout(() => {
 			props._internalOnChange?.(data);
 			props.OnChange?.(data);
-		}, 750);
+		}, 1200);
 	}, [data]);
 
 	useEffect(() => {
@@ -155,7 +155,7 @@ export const Matrix: React.FC<IMatrixProps> = (props) => {
 
 
 	const getContent = () => (
-		<div className='grid grid-cols-[auto_auto_1fr_auto] items-start text-gray-700 dark:text-gray-400 gap-x-2 px-2'>
+		<div className={`grid grid-cols-[auto_auto_1fr_auto] items-start text-gray-700 dark:text-gray-400 gap-x-2 ${props.HasLayout === false ? '' : 'px-2'}`}>
 			{vertical.map((v, vi) => {
 				const isSelected = data[v] !== undefined;
 				const verticalData = data[v] || undefined;
@@ -165,7 +165,7 @@ export const Matrix: React.FC<IMatrixProps> = (props) => {
 					<React.Fragment key={v}>
 						<div className='h-9 my-2 flex items-center'>
 							<div onClick={() => toggle(v)}
-								className={`dark:bg-gray-900 ml-2 cursor-pointer hover:border-primary-500 dark:hover:border-primary-500 hover:ring-3 hover:ring-primary/10 flex size-5 items-center justify-center rounded-md border
+								className={`dark:bg-gray-900 ${props.HasLayout === false?'':'ml-4'} cursor-pointer hover:border-primary-500 dark:hover:border-primary-500 hover:ring-3 hover:ring-primary/10 flex size-5 items-center justify-center rounded-md border
 								${isSelected ? 'border-primary bg-primary dark:bg-primary' : 'border-gray-300 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500'} `}>
 
 								{isSelected &&
@@ -177,7 +177,7 @@ export const Matrix: React.FC<IMatrixProps> = (props) => {
 
 						<div className='h-9 my-2 flex items-center'>
 							<div className={`capitalize flex gap-1 ${isSelected ? 'text-gray-700 dark:text-white' : ''}`}>
-								{props.VerticalIcon && <i className={`${props.VerticalIcon} text-xs flex items-center`}></i>}
+								{props.VerticalIcon && <i className={`${props.VerticalIcon} hidden md:flex text-xs items-center`}></i>}
 								<span>{v}</span>
 								{props.VerticalLabel && <span>{props.VerticalLabel}</span>}
 							</div>

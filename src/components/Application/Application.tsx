@@ -12,6 +12,8 @@ export interface IApplicationProps extends IApplicationThemeProps, IUserInfoProp
   LogoIcon?: string;
   Tint?: string;
   Disabled?: boolean;
+
+  Loading?: boolean;
 }
 
 interface IApplicationInheritedProps {
@@ -61,7 +63,7 @@ export class Application extends React.Component<IApplicationProps, IApplication
   }
 
   componentDidMount(): void {
-    
+
     const links = document.head.getElementsByTagName('link');
     for (let i = links.length - 1; i >= 0; i--) {
       const link = links[i];
@@ -77,7 +79,7 @@ export class Application extends React.Component<IApplicationProps, IApplication
 
   componentDidUpdate(prevProps: IApplicationProps): void {
     //console.log('Application component updated');
-    if(JSON.stringify(prevProps.childrenProps) !== JSON.stringify(this.props.childrenProps)) {
+    if (JSON.stringify(prevProps.childrenProps) !== JSON.stringify(this.props.childrenProps)) {
       this.processNavigation(this.props);
     }
   }
@@ -210,6 +212,12 @@ export class Application extends React.Component<IApplicationProps, IApplication
             </Switch>
           </main>
 
+
+          {this.props.Loading &&
+            <div className='bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 absolute bottom-4 right-4 size-8 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors'>
+              <i className="fa-solid fa-spinner text-primary fa-spin"></i>
+            </div>
+          }
         </div>
       </div>
     )

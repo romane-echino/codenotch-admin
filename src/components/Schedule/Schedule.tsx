@@ -35,7 +35,7 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 		changeTimer = setTimeout(() => {
 			props._internalOnChange?.(data);
 			props.OnChange?.(data);
-		}, 750);
+		}, 1200);
 	}, [data]);
 
 	useEffect(() => {
@@ -148,14 +148,14 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 
 			const lastDay = days[bindingIndex];
 			return <>
-				<span className='hidden md:block capitalize'>{day} - {lastDay}</span>
-				<span className='md:hidden capitalize'>{day.substring(0, 2)} - {lastDay.substring(0, 2)}</span>
+				<span className=' capitalize'>{day} - {lastDay}</span>
+				
 			</>
 		}
 		else {
 			return <>
-				<span className='hidden md:block capitalize'>{day}</span>
-				<span className='md:hidden capitalize'>{day.substring(0, 2)}</span>
+				<span className='capitalize'>{day}</span>
+				
 			</>
 		}
 
@@ -165,7 +165,7 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 
 	const getContent = () => {
 		return (
-			<div>
+			<div className={`grid grid-cols-[auto_auto_1fr_auto] md:grid-cols-[auto_auto_auto_1fr_auto] items-start text-gray-700 dark:text-gray-400 gap-x-2 ${props.HasLayout === false ? '' : 'my-3'}`}>
 				{/* @ts-ignore */}
 				{dayjs.weekdays(true).map((day, dayIndex) => {
 
@@ -181,38 +181,56 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 
 					return (
 						(
-							<div key={index} className='grid grid-cols-[auto_auto_64px_2fr_auto] md:grid-cols-[auto_auto_128px_2fr_auto] items-center gap-2 text-gray-700 dark:text-gray-400 py-2 px-4 border-b border-gray-200 dark:border-gray-800 last:border-b-0'>
-								<div
-									onClick={() => toggleDay(index)}
-									className={`dark:bg-gray-900 cursor-pointer hover:border-primary-500 dark:hover:border-primary-500 hover:ring-3 hover:ring-primary/10 flex size-5 items-center justify-center rounded-md border
-									 ${isSelected ? 'border-primary bg-primary dark:bg-primary' : 'border-gray-300 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500'} `}>
-									{isSelected &&
-										<i className="fa-solid fa-check text-white flex items-center justify-center"></i>
+							<React.Fragment key={index}>
+								<div className='h-9 my-0.5 md:my-2 flex items-center'>
+									<div onClick={() => toggleDay(index)}
+										className={`dark:bg-gray-900 ${props.HasLayout === false ? '' : 'ml-5 md:ml-6'} cursor-pointer hover:border-primary-500 dark:hover:border-primary-500 hover:ring-3 hover:ring-primary/10 flex size-5 items-center justify-center rounded-md border
+										${isSelected ? 'border-primary bg-primary dark:bg-primary' : 'border-gray-300 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500'} `}>
+
+										{isSelected &&
+											<i className="fa-solid fa-check text-white flex items-center justify-center"></i>
+										}
+									</div>
+								</div>
+
+
+								<div className='h-9 my-0.5 md:my-2 flex items-center w-5'>
+									{(previous && !isSelected) ?
+										<div onClick={() => bindDay(index, dayIndex)}
+											className={`${isBound ? 'border-primary bg-primary dark:bg-primary' : 'border-gray-300 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500'} 
+										cursor-pointer dark:bg-gray-900 hover:border-primary-500 dark:hover:border-primary-500 flex size-5 items-center justify-center rounded-md border-[1.25px] `}>
+											<i key={`link-${index}`} className="fa-solid fa-arrow-up text-gray-700 dark:text-white flex items-center justify-center text-xs"></i>
+										</div>
+										:
+										<div className='size-5 border border-gray-300 dark:border-gray-700 opacity-50 rounded-md'></div>
 									}
 								</div>
 
 
-								{previous && !isSelected ? (
-									<div onClick={() => bindDay(index, dayIndex)}
-										className={`${isBound ? 'border-primary bg-primary dark:bg-primary' : 'border-gray-300 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500'} 
-										cursor-pointer dark:bg-gray-900 hover:border-primary-500 dark:hover:border-primary-500 flex size-5 items-center justify-center rounded-md border-[1.25px] `}>
-										<i key={`link-${index}`} className="fa-solid fa-link text-gray-700 dark:text-white flex items-center justify-center text-xs"></i>
+								<div className='h-9 my-0.5 md:my-2 flex items-center '>
+									<div className={`capitalize truncate flex gap-1 ${isSelected ? 'text-gray-700 dark:text-white' : ''}`}>
+										{getDayName(dayIndex)}
 									</div>
-								) :
-									<div className='size-5'></div>
-								}
-
-								<div className={`capitalize ${isSelected ? 'text-gray-700 dark:text-white' : ''}`}>
-									{getDayName(dayIndex)}
 								</div>
 
-								<div className='text-right md:text-left flex gap-2 min-h-9 items-center flex-wrap '>
+								<div className='h-9 my-0.5 flex md:hidden items-center'>
+									{isSelected &&
+										<button
+											onClick={() => addBlock(index)}
+											className={`rounded-lg bg-primary size-6 ${props.HasLayout === false ? '' : 'mr-5 md:mr-6'} text-white flex items-center justify-center cursor-pointer`}>
+											<i className="fa-solid fa-plus text-sm flex items-center justify-center"></i>
+										</button>
+									}
+								</div>
+
+
+								<div className={`${(blocks && blocks.length > 0)?'flex':'hidden md:flex'} col-span-4 ${props.HasLayout=== false ? '' :'mx-5'} my-0.5  gap-2 min-h-9 items-center flex-wrap md:col-span-1 md:mx-0 md:my-2`}>
 									{blocks && blocks.length > 0 ? (
 										blocks.map((block, blockIndex) => (
-											<div key={blockIndex} className='flex items-center bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 border rounded-lg'>
+											<div key={blockIndex} className='flex grow md:grow-0 items-center bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 border rounded-lg'>
 												<TimeInput Side='Left' onChange={(value) => setTime(index, blockIndex, value, 'from')} value={block.from} />
 
-												<div className='px-2'>-</div>
+												<div className='px-2 grow text-center'>-</div>
 
 												<TimeInput Side='Right' onChange={(value) => setTime(index, blockIndex, value, 'to')} value={block.to} />
 
@@ -222,20 +240,24 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 											</div>
 										))
 									) : (
-										<div>{props.ClosedText || 'Closed'}</div>
+										<div className=''>{props.ClosedText || 'Closed'}</div>
 									)}
 								</div>
 
-								{isSelected ?
-									<button
-										onClick={() => addBlock(index)}
-										className='rounded-lg bg-primary size-6 text-white flex hover:ring-3 hover:ring-primary/10 items-center justify-center cursor-pointer'>
-										<i className="fa-solid fa-plus text-sm flex items-center justify-center"></i>
-									</button>
-									:
-									<div className='size-6'></div>
+								<div className='hidden md:flex h-9 my-2 items-center'>
+									{isSelected &&
+										<button
+											onClick={() => addBlock(index)}
+											className={`rounded-lg bg-primary size-6 ${props.HasLayout === false ? '' : 'mr-5 md:mr-6'} text-white flex items-center justify-center cursor-pointer`}>
+											<i className="fa-solid fa-plus text-sm flex items-center justify-center"></i>
+										</button>
+									}
+								</div>
+
+								{dayIndex < dayKeys.length - 1 &&
+									<div className='col-span-5 border-b border-gray-200 dark:border-gray-800'></div>
 								}
-							</div>
+							</React.Fragment>
 						)
 					)
 				})}
