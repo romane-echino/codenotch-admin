@@ -379,9 +379,6 @@
   .col-span-12 {
     grid-column: span 12 / span 12;
   }
-  .row-start-2 {
-    grid-row-start: 2;
-  }
   .container {
     width: 100%;
     @media (width >= 30rem) {
@@ -759,9 +756,6 @@
   .grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
-  .grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .grid-cols-12 {
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
@@ -783,14 +777,8 @@
   .grid-cols-\[auto_64px_2fr_auto\] {
     grid-template-columns: auto 64px 2fr auto;
   }
-  .grid-cols-\[auto_auto_1fr\] {
-    grid-template-columns: auto auto 1fr;
-  }
   .grid-cols-\[auto_auto_1fr_auto\] {
     grid-template-columns: auto auto 1fr auto;
-  }
-  .grid-cols-\[auto_auto_auto_1fr_auto\] {
-    grid-template-columns: auto auto auto 1fr auto;
   }
   .flex-col {
     flex-direction: column;
@@ -1452,6 +1440,9 @@
   .pb-7 {
     padding-bottom: calc(var(--spacing) * 7);
   }
+  .pb-16 {
+    padding-bottom: calc(var(--spacing) * 16);
+  }
   .pl-0 {
     padding-left: calc(var(--spacing) * 0);
   }
@@ -1705,9 +1696,6 @@
   }
   .opacity-0 {
     opacity: 0%;
-  }
-  .opacity-30 {
-    opacity: 30%;
   }
   .opacity-50 {
     opacity: 50%;
@@ -2095,16 +2083,6 @@
       outline-style: none;
     }
   }
-  .xs\:block {
-    @media (width >= 30rem) {
-      display: block;
-    }
-  }
-  .xs\:hidden {
-    @media (width >= 30rem) {
-      display: none;
-    }
-  }
   .xs\:flex-row {
     @media (width >= 30rem) {
       flex-direction: row;
@@ -2226,11 +2204,6 @@
       margin-left: calc(var(--spacing) * 6);
     }
   }
-  .md\:block {
-    @media (width >= 48rem) {
-      display: block;
-    }
-  }
   .md\:flex {
     @media (width >= 48rem) {
       display: flex;
@@ -2254,11 +2227,6 @@
   .md\:grid-cols-\[auto_128px_2fr_auto\] {
     @media (width >= 48rem) {
       grid-template-columns: auto 128px 2fr auto;
-    }
-  }
-  .md\:grid-cols-\[auto_auto_1fr_auto\] {
-    @media (width >= 48rem) {
-      grid-template-columns: auto auto 1fr auto;
     }
   }
   .md\:grid-cols-\[auto_auto_auto_1fr_auto\] {

@@ -72,6 +72,21 @@ export class Application extends React.Component<IApplicationProps, IApplication
       }
     }
 
+    document.body.style.overflow = 'hidden';
+    document.body.style.touchAction = 'none';
+
+    const metas = document.head.getElementsByTagName('meta')
+    for (const meta of metas) {
+      if (meta.name === 'viewport') {
+        meta.content = 'width=device-width, initial-scale=1, user-scalable=no';
+      }
+    }
+
+    document.addEventListener('touchmove', function (event) {
+      //@ts-ignore
+      if (event.scale !== 1) { event.preventDefault(); }
+    }, { passive: false });
+
     document.getElementsByTagName("body")[0].style = getTint(this.props.Tint ?? '#465fff');
 
     this.processNavigation(this.props);
@@ -194,7 +209,8 @@ export class Application extends React.Component<IApplicationProps, IApplication
         <Navigation
           {...this.props}
           Menu={this.state.menu}
-          SideBarToggle={this.state.sideBarToggle} />
+          SideBarToggle={this.state.sideBarToggle}
+          SetSideBarToggle={(toggle) => this.setState({ sideBarToggle: toggle })} />
 
 
         <div className="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto">

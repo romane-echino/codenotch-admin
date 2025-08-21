@@ -5,6 +5,7 @@ import { Disclosure } from "@headlessui/react";
 
 interface INavigationProps extends IApplicationProps {
     SideBarToggle: boolean;
+    SetSideBarToggle: (toggle: boolean) => void;
     Menu: IAppMenu[];
 }
 export const Navigation: React.FC<INavigationProps> = (props) => {
@@ -82,7 +83,7 @@ export const Navigation: React.FC<INavigationProps> = (props) => {
                                                                 <>
 
                                                               <div className="flex gap-1">
-                                                                  <NavigationItem key={itemIndex} item={item} sideBarToggle={sideBarToggle} />
+                                                                  <NavigationItem onClick={() => props.SetSideBarToggle(false)} key={itemIndex} item={item} sideBarToggle={sideBarToggle}  />
 
                                                                     <Disclosure.Button className={`flex items-center rounded-lg ${open ? 'bg-gray-100 dark:bg-gray-800 text-primary-500':'text-gray-400 dark:text-gray-400'}`}>
                                                                         
@@ -96,7 +97,7 @@ export const Navigation: React.FC<INavigationProps> = (props) => {
                                                                         {item.Children?.map((childItem, childIndex) => {
                                                                             let child = { ...childItem };
                                                                             child.Route = (item.Route ?? '') + childItem.Route;
-                                                                            return <NavigationItem key={childIndex} item={child} sideBarToggle={sideBarToggle} />
+                                                                            return <NavigationItem onClick={() => props.SetSideBarToggle(false)} key={childIndex} item={child} sideBarToggle={sideBarToggle} />
                                                                         })}
                                                                     </Disclosure.Panel>
                                                                 </>
@@ -108,7 +109,7 @@ export const Navigation: React.FC<INavigationProps> = (props) => {
                                             else {
                                                 return (
                                                     <li>
-                                                        <NavigationItem key={itemIndex} item={item} sideBarToggle={sideBarToggle} />
+                                                        <NavigationItem onClick={() => props.SetSideBarToggle(false)} key={itemIndex} item={item} sideBarToggle={sideBarToggle} />
                                                     </li>
                                                 )
                                             }
@@ -128,7 +129,7 @@ export const Navigation: React.FC<INavigationProps> = (props) => {
 }
 
 
-const NavigationItem: React.FC<{ item: IAppMenuItem, sideBarToggle: boolean }> = ({ item, sideBarToggle }) => {
+const NavigationItem: React.FC<{ item: IAppMenuItem, sideBarToggle: boolean, onClick: () => void }> = ({ item, sideBarToggle, onClick }) => {
 
     let Component = 'div';
     let props: any = {};
@@ -140,7 +141,7 @@ const NavigationItem: React.FC<{ item: IAppMenuItem, sideBarToggle: boolean }> =
     }
 
     return (
-        <Component {...props} className="flex h-10 hover:bg-gray-100 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 items-center rounded-lg gap-3 text-sm font-medium p-2 grow cursor-pointer" >
+        <Component {...props} onClick={onClick} className="flex h-10 hover:bg-gray-100 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 items-center rounded-lg gap-3 text-sm font-medium p-2 grow cursor-pointer" >
             {item.Icon &&
                 <div className="w-8 flex items-center justify-center">
                     <i className={`${item.Icon} text-xl`}></i>

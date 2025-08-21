@@ -67,7 +67,7 @@ export class Page extends React.Component<IPageProps, IPageState> {
 			return <div>no child</div>;
 
 
-		const classes = `p-4 mx-auto ${this.props.Size === 'Large' ? 'max-w-[1536px]' : 'max-w-[768px]'} md:p-6`;
+		const classes = `px-4 pt-4 pb-16 mx-auto ${this.props.Size === 'Large' ? 'max-w-[1536px]' : 'max-w-[768px]'} md:p-6`;
 		switch (this.props.Layout) {
 			case 'Grid':
 
@@ -75,7 +75,7 @@ export class Page extends React.Component<IPageProps, IPageState> {
 					<div className={classes}>
 						<Header CustomHeader={this.props.Header} {...this.props}/>
 
-						<div className="grid grid-cols-12 gap-4 md:gap-6">
+						<div className="grid grid-cols-12 gap-4 md:gap-6 pb">
 							{this.getChildren()}
 						</div>
 					</div>
