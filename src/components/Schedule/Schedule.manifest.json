@@ -23,6 +23,36 @@
       "name": "HasLayout",
       "displayName": "HasLayout",
       "type": "boolean"
+    },
+     {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+    {
+      "name": "Subtitle",
+      "displayName": "Subtitle",
+      "type": "string"
+    },
+    {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string"
+    },
+    {
+      "name": "DisablePadding",
+      "displayName": "DisablePadding",
+      "type": "boolean"
+    },
+    {
+      "name": "Actions",
+      "displayName": "Actions",
+      "type": "reactNode"
+    },
+    {
+      "name": "Footer",
+      "displayName": "Footer",
+      "type": "reactNode"
     }
   ]
 }
