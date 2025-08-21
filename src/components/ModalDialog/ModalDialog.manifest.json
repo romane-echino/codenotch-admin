@@ -26,6 +26,11 @@
       "name": "Footer",
       "displayName": "Footer",
       "type": "reactNode"
+    },
+    {
+      "name": "HasClose",
+      "displayName": "HasClose",
+      "type": "boolean"
     }
   ]
 }

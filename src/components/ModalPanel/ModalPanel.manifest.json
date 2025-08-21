@@ -1,0 +1,22 @@
+{
+  "name": "Modal Panel",
+  "menu": "Layout",
+  "props": [],
+  "childrenProps": [
+    {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+    {
+      "name": "Subtitle",
+      "displayName": "Subtitle",
+      "type": "string"
+    },
+    {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string"
+    }
+  ]
+}

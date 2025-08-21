@@ -17,14 +17,17 @@ export interface IButtonProps {
 export const Button: React.FC<IButtonProps> = (props) => {
 
 	let classes = '';
-	let basics = 'inline-flex font-medium px-4 py-2.5 justify-center';
+	let basics = 'inline-flex font-medium px-3.5 py-2.5 justify-center';
 
 	switch (props.Type) {
 		case 'Primary':
-			classes = `${basics} bg-primary-500 text-white hover:bg-primary-600`;
+			classes = `${basics} bg-primary-500 text-white hover:bg-primary-500 hover:ring-3 hover:ring-primary/10`;
 			break;
 		case 'Secondary':
-			classes = `${basics} border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200`;
+			classes = `${basics} border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-800 hover:ring-3 hover:ring-primary/10 hover:border-primary dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200`;
+			break;
+		case 'Tertiary':
+			classes = `${basics} border border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 hover:ring-3 hover:ring-primary/10 hover:border-primary dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200`;
 			break;
 		case 'Success':
 			classes = `${basics} bg-success-500 text-white hover:bg-success-600`;

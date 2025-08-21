@@ -1,5 +1,5 @@
 import React from 'react';
 
-export const Item: React.FC = () => {
-	return null
+export const Item: React.FC = (props) => {
+	return (<>{props.children}</>)
 }
