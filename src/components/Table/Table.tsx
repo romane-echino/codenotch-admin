@@ -17,6 +17,7 @@ interface RowData {
 export const Table: React.FC<ITableProps> = (props) => {
     // Utiliser un tableau d'objets avec des IDs stables au lieu d'un tableau simple
     const [rows, setRows] = React.useState<RowData[]>([]);
+    let changeTimer: any = null;
 
     // Fonction pour générer un ID unique
     const generateId = useCallback(() => {
@@ -54,9 +55,12 @@ export const Table: React.FC<ITableProps> = (props) => {
 
     // Notifier les changements de données
     useEffect(() => {
-        props.OnChange?.(data);
-        props._internalOnChange?.(data);
-        props.onPropertyChanged?.('value', null, data);
+        clearTimeout(changeTimer);
+        changeTimer = setTimeout(() => {
+            props.OnChange?.(data);
+            props._internalOnChange?.(data);
+            props.onPropertyChanged?.('value', null, data);
+        }, 750);
     }, [data, props.OnChange, props.onPropertyChanged, props._internalOnChange]);
 
     // Fonction pour mettre à jour une cellule spécifique

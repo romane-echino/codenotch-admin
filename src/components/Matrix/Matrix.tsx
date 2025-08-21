@@ -46,10 +46,15 @@ export const Matrix: React.FC<IMatrixProps> = (props) => {
 	const vertical = props.Vertical || [];
 	const horizontal = props.Horizontal || [];
 	const [data, setData] = React.useState<IMatrixStructure>({});
+	let changeTimer: any = null;
 
 	useEffect(() => {
-		props._internalOnChange?.(data);
-		props.OnChange?.(data);
+		clearTimeout(changeTimer);
+
+		changeTimer = setTimeout(() => {
+			props._internalOnChange?.(data);
+			props.OnChange?.(data);
+		}, 750);
 	}, [data]);
 
 	useEffect(() => {

@@ -27,11 +27,16 @@ interface IScheduleData {
 
 export const Schedule: React.FC<IScheduleProps> = (props) => {
 	const [data, setData] = React.useState<IScheduleData>(props.Value || {});
+	let changeTimer: any = null;
 
 	useEffect(() => {
+		clearTimeout(changeTimer);
+
+		changeTimer = setTimeout(() => {
 			props._internalOnChange?.(data);
 			props.OnChange?.(data);
-		}, [data]);
+		}, 750);
+	}, [data]);
 
 	useEffect(() => {
 		if (props.Value !== undefined && props.Value !== null && Object.keys(props.Value).length > 0) {
@@ -49,7 +54,7 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 			const newData = { ...data };
 			delete newData[day];
 
-			for(const [key, value] of Object.entries(data)) {
+			for (const [key, value] of Object.entries(data)) {
 				if (key !== day && value.bound === day) {
 					delete newData[key];
 				}
