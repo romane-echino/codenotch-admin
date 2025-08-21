@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
-import './Matrix.scss';
 import { Action, IChildrenInheritedProps, Ii18nProps } from '@echino/echino.ui.sdk';
 import { Sizing } from '../Sizing/Sizing';
-import { Box } from '../Box/Box';
-import { Popover } from '@headlessui/react';
+import { Box, IBoxProps } from '../Box/Box';
 import { Dropdown } from '../Dropdown/Dropdown';
-import { getFormattedValue, Label, LabelType } from '../Label/Label';
+import { getFormattedValue, LabelType } from '../Label/Label';
 import { ColorPalette, getTextColorFromName } from '../../utils/DefaultColorPalette';
+import { AbstractInputTitle } from '../AbstractInput/AbstractInput';
 
-interface IMatrixProps extends IChildrenInheritedProps<IItemProps>, Ii18nProps {
+interface IMatrixProps extends IChildrenInheritedProps<IItemProps>, Ii18nProps, IBoxProps {
 	HasLayout?: boolean;
 	Value?: IMatrixStructure;
 	OnChange?: Action<IMatrixStructure>;
@@ -234,6 +233,7 @@ export const Matrix: React.FC<IMatrixProps> = (props) => {
 	if (props.HasLayout !== undefined && props.HasLayout === false) {
 		return (
 			<Sizing>
+				<AbstractInputTitle {...props} />
 				{getContent()}
 			</Sizing>
 		)

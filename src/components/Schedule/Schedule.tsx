@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import './Schedule.scss';
 import { Box, IBoxProps } from '../Box/Box';
 import dayjs from 'dayjs';
 import { Ii18nProps } from '@echino/echino.ui.sdk';
 import { Popover } from '@headlessui/react';
 import { Sizing } from '../Sizing/Sizing';
+import { AbstractInputTitle } from '../AbstractInput/AbstractInput';
 
 interface IScheduleProps extends Ii18nProps, IBoxProps {
 	ClosedText?: string;
@@ -246,6 +246,7 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 	if (props.HasLayout !== undefined && props.HasLayout === false) {
 		return (
 			<Sizing>
+				<AbstractInputTitle {...props} />
 				{getContent()}
 			</Sizing>
 		)
