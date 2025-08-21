@@ -29,6 +29,11 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 	const [data, setData] = React.useState<IScheduleData>(props.Value || {});
 
 	useEffect(() => {
+			props._internalOnChange?.(data);
+			props.OnChange?.(data);
+		}, [data]);
+
+	useEffect(() => {
 		if (props.Value !== undefined && props.Value !== null && Object.keys(props.Value).length > 0) {
 			setData(props.Value);
 			props._internalOnChange?.(props.Value);
@@ -57,9 +62,6 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 				[day]: { blocks: [{ from: 0, to: 0 }] },
 			}));
 		}
-
-		props._internalOnChange?.(data);
-		props.OnChange?.(data);
 	};
 
 
@@ -71,9 +73,6 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 				blocks: [...(prevData[day]?.blocks || []), { from: 0, to: 0 }],
 			},
 		}));
-
-		props._internalOnChange?.(data);
-		props.OnChange?.(data);
 	};
 
 
@@ -85,9 +84,6 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 				blocks: prevData[day]?.blocks.map((block, index) => index === blockIndex ? { ...block, [which]: time } : block),
 			},
 		}));
-
-		props._internalOnChange?.(data);
-		props.OnChange?.(data);
 	};
 
 	const removeTime = (day: string, blockIndex: number) => {
@@ -98,9 +94,6 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 				blocks: prevData[day]?.blocks.filter((_, i) => i !== blockIndex),
 			},
 		}));
-
-		props._internalOnChange?.(data);
-		props.OnChange?.(data);
 	};
 
 	const bindDay = (day: string, blockIndex: number) => {
@@ -123,9 +116,6 @@ export const Schedule: React.FC<IScheduleProps> = (props) => {
 				},
 			};
 		});
-
-		props._internalOnChange?.(data);
-		props.OnChange?.(data);
 	};
 
 

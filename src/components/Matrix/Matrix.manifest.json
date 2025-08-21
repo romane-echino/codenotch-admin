@@ -82,6 +82,24 @@
       "type": "string"
     },
     {
+      "name": "Preview",
+      "displayName": "Preview",
+      "type": "boolean"
+    },
+    {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string",
+      "description": "Icon for the cell"
+    },
+    {
+      "name": "Color",
+      "displayName": "Color",
+      "type": "string",
+      "enum": ["Turquoise", "Emerald", "PeterRiver", "Amethyst", "WetAsphalt", "GreenSea", "Nephritis", "BelizeHole", "Wisteria", "MidnightBlue", "SunFlower", "Carrot", "Alizarin", "Clouds", "Concrete", "Orange", "Pumpkin", "Pomegranate", "Silver", "Asbestos"],
+      "description": "Color of the cell"
+    },
+    {
       "name": "Type",
       "displayName": "Type",
       "type": "string",

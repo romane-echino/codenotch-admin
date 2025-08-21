@@ -17,7 +17,7 @@ export const Inspect: React.FC<InspectProps> = (props) => {
   const { Source, Expand = true, Depth = 0, MaxDepth = 5 } = props;
   const [isExpanded, setIsExpanded] = useState(Expand && Depth < 3);
   const [source, setSource] = useState<any>(Source);
-  
+
   // Mettre à jour les données quand la source change
   useEffect(() => {
     setSource(Source);
@@ -80,14 +80,14 @@ export const Inspect: React.FC<InspectProps> = (props) => {
     }
 
     const isArray = type === 'array';
-    const entries = isArray 
+    const entries = isArray
       ? Array.from({ length: value.length }, (_, i) => [String(i), value[i]])
       : Object.entries(value);
-    
+
     return (
       <div className='w-full' >
-        <div 
-          className="flex items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors px-2" 
+        <div
+          className="flex items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors px-2"
           onClick={() => setIsExpanded(!isExpanded)}
         >
           <span className="mr-2 text-sm font-mono dark:text-white/90 text-gray-400">{isExpanded ? '▼' : '►'}</span>
@@ -98,7 +98,7 @@ export const Inspect: React.FC<InspectProps> = (props) => {
             {type}
           </span>
         </div>
-        
+
         {isExpanded && (
           <div className="pl-4 border-l border-gray-200 dark:border-gray-700 mt-1">
             {entries.length === 0 ? (
@@ -111,8 +111,8 @@ export const Inspect: React.FC<InspectProps> = (props) => {
                       {isArray ? `[${key}]:` : `${key}:`}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <Inspect 
-                        Source={val} 
+                      <Inspect
+                        Source={val}
                         Expand={Expand}
                         Depth={Depth + 1}
                         MaxDepth={MaxDepth}
@@ -131,12 +131,12 @@ export const Inspect: React.FC<InspectProps> = (props) => {
   // Rendu principal
   const type = getValueType(source);
   const isPrimitive = ['string', 'number', 'boolean', 'null', 'undefined', 'function', 'symbol', 'bigint'].includes(type);
-  
+
   return (
     <Sizing {...props} >
-    <div className={`rounded-lg bg-white dark:bg-gray-900 px-2 py-1 overflow-x-auto`}> 
+      <div className={`rounded-lg bg-white dark:bg-gray-900 px-2 py-1 overflow-x-auto`}>
         {isPrimitive ? renderPrimitive(source, type) : renderComplex(source, type)}
-    </div>
+      </div>
     </Sizing>
   );
 };

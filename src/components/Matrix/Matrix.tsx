@@ -6,9 +6,11 @@ import { Box } from '../Box/Box';
 import { Popover } from '@headlessui/react';
 import { Dropdown } from '../Dropdown/Dropdown';
 import { getFormattedValue, Label, LabelType } from '../Label/Label';
+import { ColorPalette, getTextColorFromName } from '../../utils/DefaultColorPalette';
 
 interface IMatrixProps extends IChildrenInheritedProps<IItemProps>, Ii18nProps {
 	HasLayout?: boolean;
+	Value?: IMatrixStructure;
 	OnChange?: Action<IMatrixStructure>;
 	_internalOnChange?: (value: IMatrixStructure) => void;
 	Vertical?: string[] | number[];
@@ -27,6 +29,9 @@ interface IMatrixProps extends IChildrenInheritedProps<IItemProps>, Ii18nProps {
 interface IItemProps {
 	Field: string;
 	Type?: LabelType;
+	Preview?: boolean;
+	Icon?: string;
+	Color?: ColorPalette;
 }
 
 
@@ -42,6 +47,18 @@ export const Matrix: React.FC<IMatrixProps> = (props) => {
 	const horizontal = props.Horizontal || [];
 	const [data, setData] = React.useState<IMatrixStructure>({});
 
+	useEffect(() => {
+		props._internalOnChange?.(data);
+		props.OnChange?.(data);
+	}, [data]);
+
+	useEffect(() => {
+		if (props.Value !== undefined && props.Value !== null && Object.keys(props.Value).length > 0) {
+			setData(props.Value);
+			props._internalOnChange?.(props.Value);
+			props.OnChange?.(props.Value);
+		}
+	}, [props.Value]);
 
 	const toggle = (vertical: number | string) => {
 		const isSelected = data[vertical] !== undefined;
@@ -74,7 +91,6 @@ export const Matrix: React.FC<IMatrixProps> = (props) => {
 
 
 	const remove = (vertical: number | string, horizontal: string | number) => {
-		console.log('Remove', vertical, horizontal);
 		if (Object.keys(data[vertical]).length === 1) {
 			setData((prevData) => {
 				const newData = { ...prevData };
@@ -106,9 +122,6 @@ export const Matrix: React.FC<IMatrixProps> = (props) => {
 				[horizontal]: newValue
 			}
 		}));
-
-		props.OnChange?.(data);
-		props._internalOnChange?.(data);
 	};
 
 	const changeKey = (vertical: number | string, oldKey: string | number, newKey: string | number) => {
@@ -260,7 +273,6 @@ const MatrixItem: React.FC<IMatrixItemProps> = (props) => {
 		 */
 		function handleClickOutside(event) {
 			if (ref.current && !ref.current.contains(event.target)) {
-				console.log("You clicked outside of me!");
 				setIsOpen(false);
 			}
 		}
@@ -286,7 +298,7 @@ const MatrixItem: React.FC<IMatrixItemProps> = (props) => {
 
 	const getChildren = useCallback(() => {
 
-		console.log('Matrix::getChildren')
+
 		return React.Children.map(props.children, (child, index) => {
 			//@ts-ignore
 			let effectiveProps: any = { ...child.props };
@@ -294,7 +306,7 @@ const MatrixItem: React.FC<IMatrixItemProps> = (props) => {
 
 			effectiveProps.children.props = {
 				...effectiveProps?.children?.props,
-				Value: data ? data[Object.keys(data)[index]] : undefined,
+				Value: (data && field) ? data[field] : undefined,
 				OnChange: field ? (value: any) => { handleChange(value, field) } : undefined,
 			}
 
@@ -303,15 +315,7 @@ const MatrixItem: React.FC<IMatrixItemProps> = (props) => {
 				return React.cloneElement(child, effectiveProps);
 			}
 		});
-	}, [data, props.children, props.childrenProps, props.VerticalKey, props.HorizontalKey, handleChange]);
-
-	const getIcon = (index: number) => {
-		const child: any = React.Children.toArray(props.children)[index] as any;
-		if (child?.props?.children?.props?.Icon) {
-			return <i className={`${child.props.children.props.Icon} text-xs flex items-center`}></i>;
-		}
-		return null;
-	};
+	}, [data, props.children, props.childrenProps, props.VerticalKey, props.HorizontalKey, handleChange]);;
 
 	return (
 		<div className="relative">
@@ -322,23 +326,30 @@ const MatrixItem: React.FC<IMatrixItemProps> = (props) => {
 					{props.HorizontalIcon && <i className={`${props.HorizontalIcon} text-xs flex items-center`}></i>}
 				</div>
 
-				{Object.entries(data).map(([key, value], index) => {
+				{props.childrenProps.map((childProps, index) => {
+
+					if (!childProps)
+						return null;
+
+					if (childProps?.Preview === false)
+						return null;
+
+					const value = data[childProps.Field];
+
 					if (!value)
 						return null;
 
-					return props.childrenProps?.[index]?.Type ?
-						(
-							<div key={index} className='flex items-center gap-1 px-2 '>
-								{value !== '' && value !== false && <div>{getFormattedValue(props.childrenProps[index].Type, (value as string), props.language)}</div>}
-								{getIcon(index)}
-							</div>
-						) :
-						(
-							<div key={index} className='flex items-center gap-1 px-2 '>
-								{value !== '' && typeof (value) !== 'boolean' && <div>{value}</div>}
-								{getIcon(index)}
-							</div>
-						);
+					return (
+						<div key={index} className={`flex items-center gap-1 px-2 ${childProps.Color ? getTextColorFromName(childProps.Color) : ''}`}>
+							{value !== '' && value !== false &&
+								<div>{childProps.Type ?
+									getFormattedValue(childProps.Type, (value as string), props.language) :
+									value}
+								</div>
+							}
+							{childProps.Icon && <i className={`${childProps.Icon} text-xs flex items-center`}></i>}
+						</div>
+					);
 				})}
 			</div>
 
