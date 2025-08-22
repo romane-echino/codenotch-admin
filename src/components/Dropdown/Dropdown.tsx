@@ -60,12 +60,13 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 		};
 	}, [focus]);
 
-	const updateValue = (value: any, index:number) => {
+	const updateValue = (value: any, index: number) => {
 		if (value) {
 			let result = props.ValueField ? value[props.ValueField] : value;
 			props.onPropertyChanged('value', undefined, result)
 			setSelected(index);
-			props._internalOnChange?.(value);
+			console.log('Dropdown _internalOnChange', result);
+			props._internalOnChange?.(result);
 			props.OnChange?.({ value: result, index: index });
 		}
 	}
@@ -105,32 +106,32 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 					{data.map((obj, objIndex) => {
 
 						let disabled = props.DisabledFunction ? props.DisabledFunction(obj, objIndex) : false;
-						return(
+						return (
 							<Listbox.Option
-							key={objIndex}
-							value={objIndex}
-							disabled={disabled}
-							className={({ active }) => `relative cursor-default select-none py-2 pr-10 pl-4 text-gray-700 dark:text-white/80
+								key={objIndex}
+								value={objIndex}
+								disabled={disabled}
+								className={({ active }) => `relative cursor-default select-none py-2 pr-10 pl-4 text-gray-700 dark:text-white/80
 							${disabled ? 'opacity-50 cursor-not-allowed line-through' : ''}
 							${active ? 'bg-primary-500 text-white' : 'text-gray-700'}`}>
 
-							{({ selected, active }) => (
-								<>
-									<span className={`truncate flex gap-2 items-center justify-start`}>
-										{props.Renderer ?
-											props.Renderer('item', obj) :
-											props.DisplayField ? obj[props.DisplayField] || obj : obj
-										}
-									</span>
-
-									{objIndex === selectedIndex &&
-										<span className={`absolute inset-y-0 right-0 flex items-center pr-3  ${active ? 'text-white' : 'text-gray-700 dark:text-white/80'}`}>
-											<i className="fa-regular fa-circle-check flex justify-center items-center"></i>
+								{({ selected, active }) => (
+									<>
+										<span className={`truncate flex gap-2 items-center justify-start`}>
+											{props.Renderer ?
+												props.Renderer('item', obj) :
+												props.DisplayField ? obj[props.DisplayField] || obj : obj
+											}
 										</span>
-									}
-								</>
-							)}
-						</Listbox.Option>
+
+										{objIndex === selectedIndex &&
+											<span className={`absolute inset-y-0 right-0 flex items-center pr-3  ${active ? 'text-white' : 'text-gray-700 dark:text-white/80'}`}>
+												<i className="fa-regular fa-circle-check flex justify-center items-center"></i>
+											</span>
+										}
+									</>
+								)}
+							</Listbox.Option>
 						)
 					})}
 				</Listbox.Options>

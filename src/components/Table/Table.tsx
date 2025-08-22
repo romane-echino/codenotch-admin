@@ -3,10 +3,18 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { Sizing } from '../Sizing/Sizing';
 import { IAbstractListAction, IInputProps } from '../AbstractInput/AbstractInput';
 import { Helper } from '../AbstractInput/Helper';
-import { IBindableComponentProps, IChildrenInheritedProps } from '@echino/echino.ui.sdk';
+import { Action, IBindableComponentProps, IChildrenInheritedProps } from '@echino/echino.ui.sdk';
 
-interface ITableProps extends IInputProps, IChildrenInheritedProps<{ DisplayName: string, Field: string }>, IBindableComponentProps {
+interface ITableProps extends IChildrenInheritedProps<{ DisplayName: string, Field: string }>, IBindableComponentProps {
     AddText?: string;
+    Value?: RowData[];
+    OnChange?: Action<RowData[]>
+    _internalOnChange?: (data: RowData[]) => void;
+
+
+    Title?: string;
+    Subtitle?: string;
+    Helper?: string;
 }
 
 interface RowData {
@@ -17,7 +25,6 @@ interface RowData {
 export const Table: React.FC<ITableProps> = (props) => {
     // Utiliser un tableau d'objets avec des IDs stables au lieu d'un tableau simple
     const [rows, setRows] = React.useState<RowData[]>([]);
-    let changeTimer: any = null;
 
     // Fonction pour générer un ID unique
     const generateId = useCallback(() => {
@@ -30,8 +37,8 @@ export const Table: React.FC<ITableProps> = (props) => {
             if (Array.isArray(props.Value) && props.Value.length > 0) {
                 // Convertir le tableau simple en tableau d'objets avec des IDs
                 setRows(props.Value.map(item => ({
-                    id: generateId(),
-                    data: item
+                    id: item.id || generateId(),
+                    data: item.data || {}
                 })));
             }
             else if (typeof props.Value === 'string') {
@@ -39,8 +46,8 @@ export const Table: React.FC<ITableProps> = (props) => {
                     const dataFromString = JSON.parse(props.Value);
                     if (Array.isArray(dataFromString) && dataFromString.length > 0) {
                         setRows(dataFromString.map(item => ({
-                            id: generateId(),
-                            data: item
+                            id: item.id || generateId(),
+                            data: item.data || {}
                         })));
                     }
                 } catch (e) {
@@ -51,17 +58,14 @@ export const Table: React.FC<ITableProps> = (props) => {
     }, [props.Value, generateId]);
 
     // Extraire juste les données pour la sortie
-    const data = useMemo(() => rows.map(row => row.data), [rows]);
+    //const data = useMemo(() => rows.map(row => row.data), [rows]);
 
     // Notifier les changements de données
     useEffect(() => {
-        clearTimeout(changeTimer);
-        changeTimer = setTimeout(() => {
-            props.OnChange?.(data);
-            props._internalOnChange?.(data);
-            props.onPropertyChanged?.('value', null, data);
-        }, 1200);
-    }, [data, props.OnChange, props.onPropertyChanged, props._internalOnChange]);
+        props.OnChange?.(rows);
+        props._internalOnChange?.(rows);
+        props.onPropertyChanged?.('value', null, rows);
+    }, [rows, props.OnChange, props.onPropertyChanged, props._internalOnChange]);
 
     // Fonction pour mettre à jour une cellule spécifique
     const handleUpdate = useCallback((rowId: string, colName: string, value: any) => {
@@ -95,10 +99,10 @@ export const Table: React.FC<ITableProps> = (props) => {
         });
 
         setRows(prevRows => [
-            ...prevRows, 
-            { 
-                id: generateId(), 
-                data: newObj 
+            ...prevRows,
+            {
+                id: generateId(),
+                data: newObj
             }
         ]);
     }, [props.childrenProps, generateId]);
@@ -127,8 +131,7 @@ export const Table: React.FC<ITableProps> = (props) => {
                     Containered: true,
                     Full: true,
                     Value: cellValue,
-                    OnChange: (value: any) => handleUpdate(rowId, field, value),
-                    OnSelect: (value: IAbstractListAction) => handleUpdate(rowId, field, value.value),
+                    _internalOnChange: (value: any) => handleUpdate(rowId, field, value),
                     // Utiliser rowId au lieu de rowIndex pour l'identifiant
                     id: `cell-${rowId}-${field}`,
                     key: `input-${rowId}-${field}`,
@@ -139,9 +142,8 @@ export const Table: React.FC<ITableProps> = (props) => {
         return (
             <div
                 key={`cell-${rowId}-${childIndex}-${field}`}
-                className={`border-r border-b border-gray-200 dark:border-gray-800 relative ${
-                    childIndex === props.childrenProps.length - 1 ? '' : 'border-r'
-                }`}
+                className={`border-r border-b border-gray-200 dark:border-gray-800 relative ${childIndex === props.childrenProps.length - 1 ? '' : 'border-r'
+                    }`}
             >
                 {React.cloneElement(child, effectiveProps)}
             </div>
@@ -157,8 +159,8 @@ export const Table: React.FC<ITableProps> = (props) => {
                 )}
 
                 {rows.length > 1 && (
-                    <div 
-                        className='size-10 cursor-pointer flex items-center justify-center' 
+                    <div
+                        className='size-10 cursor-pointer flex items-center justify-center'
                         onClick={() => removeRow(row.id)}
                     >
                         <i className='fas fa-minus-circle text-red-500'></i>
