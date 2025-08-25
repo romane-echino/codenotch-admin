@@ -14,6 +14,7 @@ interface ILabelProps extends Ii18nProps {
 
 	TextColor: 'Normal' | 'Light' | 'Inherit';
 	IconPlacement: 'Left' | 'Right';
+	Layout: 'Normal' | 'Compact';
 
 	Type: LabelType;
 
@@ -65,6 +66,7 @@ export class Label extends React.Component<ILabelProps, ILabelState> {
 		TextColor: 'Normal',
 		Type: 'Text',
 		IconPlacement: 'Left',
+		Layout: 'Normal'
 	}
 	constructor(props: ILabelProps) {
 		super(props);
@@ -77,7 +79,7 @@ export class Label extends React.Component<ILabelProps, ILabelState> {
 
 
 	getFormattedComponent(): { type: any, props: any } {
-		let component = 'p'
+		let component = 'div'
 		switch (this.props.Type) {
 			case 'Date':
 			case 'Time':
@@ -149,7 +151,7 @@ export class Label extends React.Component<ILabelProps, ILabelState> {
 
 		return (
 			<Sizing {...this.props}>
-				{this.props.Title &&
+				{this.props.Title && this.props.Layout === 'Normal' &&
 					<p className={`${titleClass} mb-1  text-xs ${this.props.TextColor !== 'Inherit' ? 'text-gray-500 dark:text-gray-400' : 'opacity-60'} sm:text-sm`}>
 						{this.props.Title}
 					</p>
@@ -160,7 +162,16 @@ export class Label extends React.Component<ILabelProps, ILabelState> {
 						<i className={`${this.props.Icon} ${iconClass} text-sm flex items-center justify-center`} />
 					}
 
-					{getFormattedValue(this.props.Type, this.props.Value, this.props.language)}
+					{this.props.Layout === 'Normal' ?
+						getFormattedValue(this.props.Type, this.props.Value, this.props.language)
+						:
+						<div>
+							<div className={`${titleClass} mb-1  text-xs ${this.props.TextColor !== 'Inherit' ? 'text-gray-500 dark:text-gray-400' : 'opacity-60'} sm:text-sm`}>
+								{this.props.Title}
+							</div>
+							{getFormattedValue(this.props.Type, this.props.Value, this.props.language)}
+						</div>
+					}
 
 					{this.props.Icon && this.props.IconPlacement === 'Right' &&
 						<i className={`${this.props.Icon} ${iconClass} text-sm flex items-center justify-center`} />

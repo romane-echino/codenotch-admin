@@ -18,6 +18,13 @@
       "displayName": "Value"
     },
     {
+      "name": "Layout",
+      "displayName": "Layout",
+      "description": "Layout of the radio buttons",
+      "type": "string",
+      "enum": ["Normal", "Grid"]
+    },
+    {
       "name": "Title",
       "displayName": "Title",
       "type": "string"

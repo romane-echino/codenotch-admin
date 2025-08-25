@@ -102,7 +102,7 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 				</Listbox.Button>
 
 				<Listbox.Options
-					className={`${popupPosition === 'top' ? 'bottom-full mb-1' : 'top-full mt-1'} popover`}>
+					className={`${popupPosition === 'top' ? 'bottom-full mb-1' : 'top-full mt-1'} cn-scroll popover`}>
 					{data.map((obj, objIndex) => {
 
 						let disabled = props.DisabledFunction ? props.DisabledFunction(obj, objIndex) : false;
@@ -112,17 +112,17 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 								value={objIndex}
 								disabled={disabled}
 								className={({ active }) => `relative cursor-default select-none py-2 pr-10 pl-4 text-gray-700 dark:text-white/80
-							${disabled ? 'opacity-50 cursor-not-allowed line-through' : ''}
-							${active ? 'bg-primary-500 text-white' : 'text-gray-700'}`}>
+								${disabled ? 'opacity-50 cursor-not-allowed line-through' : ''}
+								${active ? 'bg-primary-500 text-white' : 'text-gray-700'}`}>
 
 								{({ selected, active }) => (
 									<>
-										<span className={`truncate flex gap-2 items-center justify-start`}>
-											{props.Renderer ?
-												props.Renderer('item', obj) :
-												props.DisplayField ? obj[props.DisplayField] || obj : obj
-											}
-										</span>
+										{props.Renderer ?
+											props.Renderer('item', obj) :
+											<span className={`truncate flex gap-2 items-center justify-start`}>
+												{props.DisplayField ? obj[props.DisplayField] || obj : obj}
+											</span>
+										}
 
 										{objIndex === selectedIndex &&
 											<span className={`absolute inset-y-0 right-0 flex items-center pr-3  ${active ? 'text-white' : 'text-gray-700 dark:text-white/80'}`}>

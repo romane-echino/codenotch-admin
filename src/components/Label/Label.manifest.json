@@ -18,6 +18,12 @@
       "type": "string",
       "enum":["Small", "Medium", "Large"]
     },
+    {
+      "name": "Layout",
+      "displayName": "Layout",
+      "type": "string",
+      "enum": ["Normal", "Compact"]
+    },
      {
       "name": "Icon",
       "displayName": "Icon",
