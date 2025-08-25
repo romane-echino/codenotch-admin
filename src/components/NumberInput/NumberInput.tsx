@@ -1,5 +1,4 @@
 import React from 'react';
-import './TextInput.scss';
 import { IBindableComponentProps, IUserInfoProps } from '@echino/echino.ui.sdk';
 import { IPageInheritedProps } from '../Page/Page';
 import { AbstractInput, IInputProps } from '../AbstractInput/AbstractInput';
