@@ -35,7 +35,7 @@ export const Checkbox: React.FC<ICheckboxProps> = (props) => {
 
 	const columnTemplate = `auto ${props.Icon ? 'auto ' : ''}1fr ${props.Helper ? 'auto' : ''}`;
 	return (
-		<Sizing {...props}>
+		<Sizing {...props} Containered={true}>
 			<div onClick={() => updateValue(!selected)} 
 			style={{ gridTemplateColumns: columnTemplate }}
 			className={`grid cursor-pointer items-center text-sm font-medium text-gray-700 select-none dark:text-gray-400 
