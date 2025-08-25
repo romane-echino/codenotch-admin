@@ -8,6 +8,7 @@ interface ICheckboxProps extends IBindableComponentProps {
 	Title?: string;
 	Subtitle?: string;
 	Value?: boolean;
+	ColSpan?: '1/2' | '1/3' | '1/4' | '2/3' | '3/4' | 'full' | 'none';
 	Icon?: string;
 	Disabled?: boolean;
 	Helper?: string;

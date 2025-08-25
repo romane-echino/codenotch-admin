@@ -216,7 +216,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .popover {
-  @apply absolute w-full md:w-auto max-h-96 md:max-h-none cn-scroll
+  @apply absolute w-full md:w-auto max-h-96 md:max-h-none
   text-gray-800 dark:text-white/90 text-sm
   border border-gray-300 dark:border-gray-700
   bg-white  dark:bg-gray-800

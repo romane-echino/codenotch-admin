@@ -57,6 +57,11 @@
       "required": true
     },
     {
+      "name": "Subtitle",
+      "displayName": "Subtitle",
+      "type": "string"
+    },
+    {
       "name": "Icon",
       "displayName": "Icon",
       "type": "string"
