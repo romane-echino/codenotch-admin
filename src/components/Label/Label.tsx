@@ -23,7 +23,12 @@ export type LabelType = 'Date' | 'Time' | 'DateTime' | 'Text' | 'Duration' | 'Cu
 interface ILabelState {
 }
 
-export const getFormattedValue = (type:LabelType , value:string, language:string): string => {
+export const getFormattedValue = (type: LabelType, value: string, language: string): string => {
+
+	if (value === null || value === undefined || value === '' || value === 'null' || value === 'undefined') {
+		return '';
+	}
+
 	switch (type) {
 		case 'Date':
 			return dayjs(value).locale(language).format('ll');
@@ -35,23 +40,23 @@ export const getFormattedValue = (type:LabelType , value:string, language:string
 			//@ts-ignore
 			return dayjs.duration(dayjs(value).diff(dayjs())).locale(language).humanize(true);
 		case 'Currency':
-			return new Intl.NumberFormat(language, { style: 'currency', currency: 'CHF' }).format(parseInt(value)/100).replace('.00','.-');
+			return new Intl.NumberFormat(language, { style: 'currency', currency: 'CHF' }).format(parseInt(value) / 100).replace('.00', '.-');
 		case 'Percentage':
 			let percentageValue = parseFloat(value);
 			if (isNaN(percentageValue)) {
 				return '0%';
-				}
-				return `${percentageValue < 1 ? percentageValue * 100 : percentageValue}%`;
-			case 'Phone':
-				return value;
-			case 'Email':
-				return value;
-			case 'Url':
-				return value;
-			default:
-				return value;
-		}
+			}
+			return `${percentageValue < 1 ? percentageValue * 100 : percentageValue}%`;
+		case 'Phone':
+			return value;
+		case 'Email':
+			return value;
+		case 'Url':
+			return value;
+		default:
+			return value;
 	}
+}
 
 export class Label extends React.Component<ILabelProps, ILabelState> {
 
@@ -69,7 +74,7 @@ export class Label extends React.Component<ILabelProps, ILabelState> {
 	}
 
 
-	
+
 
 	getFormattedComponent(): { type: any, props: any } {
 		let component = 'p'

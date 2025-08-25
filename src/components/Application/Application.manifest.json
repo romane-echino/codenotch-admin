@@ -26,6 +26,11 @@
       "name": "Disabled",
       "displayName": "Disabled",
       "type": "boolean"
+    },
+    {
+      "name": "Actions",
+      "displayName": "Actions",
+      "type": "reactNode"
     }
   ],
   "childrenProps": [

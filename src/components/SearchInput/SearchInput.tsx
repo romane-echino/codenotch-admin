@@ -1,10 +1,10 @@
 import React from 'react';
-import { AbstractInput, IAbstractInputProps } from '../AbstractInput/AbstractInput';
+import { AbstractInput, IInputProps } from '../AbstractInput/AbstractInput';
 import { Combobox } from '@headlessui/react';
 import { getDataFromSource, getIndexFromSource } from '../../utils/SourceHandling';
 import { Action, IBindableComponentProps } from '@echino/echino.ui.sdk';
 
-interface ISearchInputProps extends IAbstractInputProps, IBindableComponentProps {
+interface ISearchInputProps extends IInputProps, IBindableComponentProps {
 	Source?: any;
 	DisplayField: string;
 	ValueField?: string;

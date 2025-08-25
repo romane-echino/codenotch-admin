@@ -14,6 +14,8 @@ export interface IApplicationProps extends IApplicationThemeProps, IUserInfoProp
   Disabled?: boolean;
 
   Loading?: boolean;
+
+  Actions?: React.ReactNode;
 }
 
 interface IApplicationInheritedProps {
@@ -206,11 +208,13 @@ export class Application extends React.Component<IApplicationProps, IApplication
       <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900">
 
         {/* Left navigation panel */}
-        <Navigation
-          {...this.props}
-          Menu={this.state.menu}
-          SideBarToggle={this.state.sideBarToggle}
-          SetSideBarToggle={(toggle) => this.setState({ sideBarToggle: toggle })} />
+        {this.state.menu.length > 1 &&
+          <Navigation
+            {...this.props}
+            Menu={this.state.menu}
+            SideBarToggle={this.state.sideBarToggle}
+            SetSideBarToggle={(toggle) => this.setState({ sideBarToggle: toggle })} />
+        }
 
 
         <div className="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
