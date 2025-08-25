@@ -27,6 +27,11 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 	const inputRef = React.useRef<HTMLInputElement>(null);
 	const buttonRef = React.useRef<HTMLButtonElement>(null);
 
+	props.declareFunction('setValue', (value: any) => {
+		const index = data.findIndex((item) => (props.ValueField ? item[props.ValueField] : item) === value)
+		updateValue(data[index], index);
+	});
+
 	React.useEffect(() => {
 		if (JSON.stringify(props.Source) !== JSON.stringify(data)) {
 			let src = getDataFromSource(props.Source);
@@ -91,8 +96,8 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 			else {
 				setPendingValue(value);
 			}
-			
-			props._internalOnChange?.(value);
+
+			props._internalOnChange?.(result);
 			props.OnChange?.({ value: result, index: index });
 		}
 	}
@@ -162,17 +167,19 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 				</Combobox.Button>
 
 
-				<Combobox.Options className={`absolute ${popupPosition === 'top' ? 'bottom-full mb-1' : 'top-full mt-1'} z-50 bg-white border border-gray-300 dark:border-gray-700 translate-y-0.5 rounded-lg shadow-lg overflow-hidden max-w-full`}>
+				<Combobox.Options className={`${popupPosition === 'top' ? 'bottom-full mb-1' : 'top-full mt-1'} popover cn-scroll`}>
 					{filteredData.length === 0 && query !== '' ? (
-						<div className="relative cursor-default select-none px-4 py-2 text-gray-700">
-							<div className="flex items-center justify-between">
+						<div className="relative cursor-default select-none px-4 py-2 text-gray-700 dark:text-white/80">
+							<div className="flex items-center justify-between ">
 								<span>{props.NoResultText || 'No results found'}</span>
 								{props.OnAdd &&
 									<button
-										className="ml-2 text-primary hover:underline"
+										className="ml-2 group flex gap-2"
 										onClick={AddNew}
 									>
-										{props.AddText || 'Add'} "{query}"
+										<span className='text-primary group-hover:underline'>{props.AddText || 'Add'} "{query}"</span>
+
+										<div className='text-xs text-gray-400 dark:text-gray-600 border border-gray-400 dark:border-gray-700 rounded-md px-1 py-0.5'>ENTER</div>
 									</button>
 								}
 							</div>
@@ -183,7 +190,7 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 							return (
 								<Combobox.Option
 									key={index}
-									className={({ active }) => `relative text-sm cursor-default select-none py-2 pr-10 pl-4 ${active ? 'bg-primary-500 text-white' : 'text-gray-700'}`}
+									className={({ active }) => `relative text-sm cursor-default text-gray-700 dark:text-white/80 select-none py-2 pr-10 pl-4 ${active ? 'bg-primary-500 text-white' : 'text-gray-700'}`}
 									value={index}
 								>
 									{({ selected, active }) => (

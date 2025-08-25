@@ -224,6 +224,7 @@ export class Application extends React.Component<IApplicationProps, IApplication
             <Header
               {...this.props}
               SideBarToggle={this.state.sideBarToggle}
+              DisableNavigation={this.state.menu.length <= 1}
               OnSideBarToggle={() => this.setState({ sideBarToggle: !this.state.sideBarToggle })} />
 
             {/* Main content area */}

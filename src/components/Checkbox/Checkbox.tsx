@@ -47,7 +47,7 @@ export const Checkbox: React.FC<ICheckboxProps> = (props) => {
 						updateValue(!selected);
 					}
 				}}
-				className={`${selected ? 'border-primary bg-primary dark:bg-primary' : 'border-gray-300 dark:border-gray-700 hover:border-primary dark:hover:border-primary focus:outline-hidden focus-within:dark:border-primary focus:border-primary focus:dark:border-primary'}
+				className={`${selected ? 'border-primary bg-primary dark:bg-primary' : 'border-gray-300 dark:border-gray-700 hover:border-primary dark:hover:border-primary'}
 					 dark:bg-gray-900  mr-3 flex h-5 w-5 items-center justify-center rounded-md border `}>
 					{selected &&
 						<i className="fa-solid fa-check text-white"></i>
