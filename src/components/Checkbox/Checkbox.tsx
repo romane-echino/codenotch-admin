@@ -41,7 +41,13 @@ export const Checkbox: React.FC<ICheckboxProps> = (props) => {
 			className={`grid cursor-pointer items-center text-sm font-medium text-gray-700 select-none dark:text-gray-400 
 				${props.Disabled ? 'opacity-50 pointer-events-none' : ''}`}>
 
-				<div className={`${selected ? 'border-primary bg-primary dark:bg-primary' : 'border-gray-300 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500'}
+				<div tabIndex={0} 
+				onKeyUp={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						updateValue(!selected);
+					}
+				}}
+				className={`${selected ? 'border-primary bg-primary dark:bg-primary' : 'border-gray-300 dark:border-gray-700 hover:border-primary dark:hover:border-primary focus:outline-hidden focus-within:dark:border-primary focus:border-primary focus:dark:border-primary'}
 					 dark:bg-gray-900  mr-3 flex h-5 w-5 items-center justify-center rounded-md border `}>
 					{selected &&
 						<i className="fa-solid fa-check text-white"></i>

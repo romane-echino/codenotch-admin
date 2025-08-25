@@ -83,10 +83,10 @@ export const NumberInput: React.FC<INumberInputProps> = (props) => {
 
 
 			<div className='right-1 absolute flex gap-1 '>
-				<button onClick={() => valueDelta(1)} className='cursor-pointer hover:text-primary hover:border-primary hover:ring-3 hover:ring-primary/10 size-8 flex items-center justify-center border border-gray-300 dark:border-gray-700 rounded-md'>
+				<button onClick={() => valueDelta(1)} tabIndex={-1} className='cursor-pointer hover:text-primary hover:border-primary hover:ring-3 hover:ring-primary/10 size-5 flex items-center justify-center border border-gray-300 dark:border-gray-700 rounded-md'>
 					<i className="fa-solid fa-plus"></i>
 				</button>
-				<button onClick={() => valueDelta(-1)} className='cursor-pointer hover:text-primary hover:border-primary hover:ring-3 hover:ring-primary/10 size-8 flex items-center justify-center border border-gray-300 dark:border-gray-700 rounded-md'>
+				<button onClick={() => valueDelta(-1)} tabIndex={-1} className='cursor-pointer hover:text-primary hover:border-primary hover:ring-3 hover:ring-primary/10 size-5 flex items-center justify-center border border-gray-300 dark:border-gray-700 rounded-md'>
 					<i className="fa-solid fa-minus"></i>
 				</button>
 			</div>

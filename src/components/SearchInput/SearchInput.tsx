@@ -159,7 +159,6 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 
 				<Combobox.Button ref={buttonRef} className="absolute cursor-pointer inset-y-0 right-0 flex items-center pr-4 ">
 					<i className="fa-solid fa-angle-down group-hover:hover:translate-y-1 transition-transform"></i>
-					{selectedIndex}
 				</Combobox.Button>
 
 
