@@ -11,6 +11,7 @@ export interface IAbstractInputProps extends IInputProps {
     DisabledSizing?: boolean;
     Dashed?: boolean;
     Full?:boolean;
+    Required?:boolean;
 }
 
 export interface IAbstractListAction {
@@ -50,11 +51,8 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
 
 
     componentDidUpdate(prevProps: Readonly<IAbstractInputProps>, prevState: Readonly<IAbstractInputState>, snapshot?: any): void {
-        if (this.props.Focus !== prevProps.Focus) {
-            this.setState({ focused: this.props.Focus || false });
-        }
-        else if (this.props.Error !== prevProps.Error) {
-            this.setState({ error: this.props.Error || false });
+        if ((this.props.Focus !== prevProps.Focus) || (this.props.Error !== prevProps.Error)) {
+            this.setState({ focused: this.props.Focus || false, error: this.props.Error || false });
         }
     }
 
@@ -123,13 +121,13 @@ export class AbstractInput extends React.Component<IAbstractInputProps, IAbstrac
 }
 
 
-export const AbstractInputTitle = (props: { Title?: string, Subtitle?: string, Helper?: React.ReactNode }) => {
+export const AbstractInputTitle = (props: { Title?: string, Subtitle?: string, Helper?: React.ReactNode, Required?: boolean }) => {
     return (
         <div className='flex justify-between'>
             <div>
                 {props.Title &&
                     <label className={`${props.Subtitle ? '' : 'mb-1.5'} block text-sm font-medium text-gray-700 dark:text-gray-400`}>
-                        {props.Title}
+                        {props.Title}{props.Required && <span className="text-alizarin">*</span>}
                     </label>
                 }
 

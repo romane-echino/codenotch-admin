@@ -16,6 +16,7 @@ interface IDropdownProps extends IAbstractInputProps, IBindableComponentProps {
 
 export const Dropdown: React.FC<IDropdownProps> = (props) => {
 
+	const [externalValue, setExternalValue] = React.useState<string | number | undefined>(undefined);
 	const [selectedIndex, setSelected] = React.useState<number | null>(null);
 	const [focus, setFocus] = React.useState<boolean>(false);
 	const [data, setData] = React.useState<any[]>([]);
@@ -25,14 +26,27 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 
 
 	React.useEffect(() => {
+		console.log('Dropdown useEffect');
 		let src = getDataFromSource(props.Source);
-		setData(src);
-
-		let defaultIndex = getIndexFromSource(src, props.Value, props.ValueField);
-		if (defaultIndex !== -1) {
-			updateValue(src?.[defaultIndex], defaultIndex);
+		if (JSON.stringify(src) !== JSON.stringify(data)) {
+			setData(src);
 		}
-	}, [props.Source, props.Value]);
+
+	}, [props.Source]);
+
+
+	React.useEffect(() => {
+		console.log('Dropdown useEffect value', props.Value, externalValue);
+		if (JSON.stringify(props.Value) !== JSON.stringify(externalValue)) {
+			setExternalValue(props.Value);
+			let src = getDataFromSource(props.Source);
+			let defaultIndex = getIndexFromSource(src, props.Value, props.ValueField);
+			if (defaultIndex !== -1) {
+
+				updateValue(src?.[defaultIndex], defaultIndex);
+			}
+		}
+	}, [props.Value]);
 
 	React.useEffect(() => {
 		const calculatePosition = () => {
@@ -61,6 +75,8 @@ export const Dropdown: React.FC<IDropdownProps> = (props) => {
 	}, [focus]);
 
 	const updateValue = (value: any, index: number) => {
+
+		console.log('Dropdown updateValue', value, index);
 		if (value) {
 			let result = props.ValueField ? value[props.ValueField] : value;
 			props.onPropertyChanged('value', undefined, result)

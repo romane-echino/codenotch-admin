@@ -65,7 +65,7 @@ export const Header: React.FC<IHeaderProps> = (props) => {
                             </svg>
                         </Popover.Button>
 
-                        <Popover.Panel className="popover right-0 flex flex-col gap-2 p-1">
+                        <Popover.Panel className="popover-auto right-0 flex flex-col gap-2 p-1">
                             <Button Label="Logout" Type="MenuItem" OnClick={() => {
                                 let appUrl = `${props._projectInfo.clusterUrl}/${props._projectInfo.serviceName}`;
                                 let logoutUrl = `${appUrl}/logout?redirectUrl=${encodeURIComponent(appUrl)}`;

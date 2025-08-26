@@ -149,10 +149,13 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 					displayValue={(index: number) => getDisplayValue(index)}
 					onChange={(event) => setQuery(event.target.value)}
 					onFocus={(e) => setFocus(true)}
-					onBlur={() => setFocus(false)}
+					onBlur={() => {setFocus(false); setQuery('');}}
 					onKeyDown={(e) => {
 						if (e.key === 'Enter' && query !== '' && filteredData.length === 0 && props.OnAdd !== undefined) {
 							AddNew();
+						}
+						else if(e.key === 'Escape') {
+							setQuery('');
 						}
 					}}
 					autoComplete='off'
