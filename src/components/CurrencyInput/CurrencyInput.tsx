@@ -14,16 +14,20 @@ export const CurrencyInput: React.FC<ICurrencyInputProps> = (props) => {
 
 	React.useEffect(() => {
 		if (props.Value !== undefined && props.Value !== null && props.Value !== '') {
-			updateValue(props.Value as number / 100);
+			const numericValue = parseInt(props.Value as string) / 100;
+			console.log('Currency input value changed:', JSON.stringify(numericValue));
+			updateValue(numericValue);
 		}
 	}, [props.Value]);
 
-	const updateValue = (value: number) => {
-		setValue(value);
-		let numericValue = Math.floor(value * 100);
-		props.onPropertyChanged('value', undefined, numericValue);
-		props.OnChange?.(numericValue);
-		props._internalOnChange?.(value);
+	const updateValue = (givenValue: number) => {
+		if (givenValue !== value) {
+			setValue(givenValue);
+			let numericValue = Math.floor(givenValue * 100);
+			props.onPropertyChanged('value', undefined, numericValue);
+			props.OnChange?.(numericValue);
+			props._internalOnChange?.(numericValue);
+		}
 	}
 
 	const suffix = (
