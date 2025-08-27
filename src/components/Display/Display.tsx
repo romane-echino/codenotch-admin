@@ -3,23 +3,31 @@ import './Display.scss';
 import { Sizing } from '../Sizing/Sizing';
 import { Box, IBoxProps } from '../Box/Box';
 import { IPageInheritedProps } from '../Page/Page';
+import { AbstractInputTitle } from '../AbstractInput/AbstractInput';
+import { IChildrenInheritedProps } from '@echino/echino.ui.sdk';
+import { LabelType } from '../Label/Label';
 
-interface IDisplayProps extends IPageInheritedProps, IBoxProps {
+interface IDisplayProps extends IPageInheritedProps, IBoxProps, IChildrenInheritedProps<DisplayCustomColumns> {
 	Source?: any;
+	HasLayout?: boolean;
+	AllowCopy?: boolean;
 }
 
 interface IDisplayState {
-	fields: DisplayCustomColumns[];
+	fields:DisplayCustomColumns[];
 }
 
 interface DisplayCustomColumns {
-
 	Field: string;
 	Label: string;
-
+	Type?: LabelType;
 }
 
 export class Display extends React.Component<IDisplayProps, IDisplayState> {
+	static defaultProps = {
+		HasLayout: true,
+		AllowCopy: false
+	};
 
 	constructor(props: IDisplayProps) {
 		super(props);
@@ -30,70 +38,78 @@ export class Display extends React.Component<IDisplayProps, IDisplayState> {
 	}
 
 	componentDidMount(): void {
-		this.updateSource();
+		const fields: { [field: string]: DisplayCustomColumns } = {};
+
+		Object.entries(this.props.Source || {}).forEach(([key, value]) => {
+			const customProps = this.props.childrenProps?.find(c => c.Field === key);
+
+			if (customProps) {
+				fields[key] = {
+					Field: customProps.Field,
+					Label: customProps.Label || key.charAt(0).toUpperCase() + key.slice(1),
+					Type: customProps.Type
+				};
+			}
+			else {
+				if (typeof value !== 'object') {
+					fields[key] = {
+						Field: key,
+						Label: key.charAt(0).toUpperCase() + key.slice(1),
+						Type: undefined
+					};
+				}
+			}
+		});
+
+		const result = Object.values(fields);
+		console.log('result', result);
+		this.setState({ fields: result });
 	}
 
-	componentDidUpdate(prevProps: Readonly<IDisplayProps>, prevState: Readonly<IDisplayState>, snapshot?: any): void {
-		if (JSON.stringify(prevProps.Source) !== JSON.stringify(this.props.Source)) {
-			this.updateSource();
-		}
-	}
+	getContent() {
+		return (
+			<div className={`grid grid-cols-1 gap-4 justify-start lg:grid-cols-2 lg:gap-7 2xl:gap-x-32 ${this.props.AllowCopy ? 'select-text' : 'select-none'}`}>
+				{this.state.fields.map((field, index) => {
+					return (
+						<div key={index} className='group'>
+							<p className="mb-2 leading-normal text-gray-500 dark:text-gray-400">
+								{field.Label}
+							</p>
 
-	updateSource() {
-		if (!this.props.Source)
-			return;
-
-		let fields: DisplayCustomColumns[] = []
-
-		let customFields = React.Children.toArray(this.props.children)
-			.map(c => (c as any).props.children.props)
-			.filter(c => c.componentDescription.tag.split(':')[1] === 'DisplayField')
-
-		if (customFields.length > 0) {
-			fields = customFields.map((col: any) => {
-				return {
-					Field: col.Field,
-					Label: col.Label || col.field.charAt(0).toUpperCase() + col.field.slice(1)
-				};
-			});
-			// When source is a direct array reference
-		}
-		else {
-			fields = Object.keys(this.props.Source).filter(k => (typeof this.props.Source[k] !== 'object')).map((key) => {
-				return {
-					Field: key,
-					Label: key.charAt(0).toUpperCase() + key.slice(1)
-				};
-			});
-
-		}
-
-		this.setState({ fields });
+							<div onClick={() => this.props.AllowCopy === true && navigator.clipboard.writeText(this.props.Source[field.Field].toString())}
+								className={`font-medium text-gray-800 dark:text-white/90 flex gap-2 ${this.props.AllowCopy === true ? 'cursor-pointer active:text-primary' : ''}`}>
+								<div>{this.props.Source[field.Field] !== undefined ? this.props.Source[field.Field].toString() : 'N/A'}</div>
+								{this.props.AllowCopy === true &&
+									<i className="fa-regular fa-copy opacity-0 group-hover:opacity-100 cursor-pointer"
+										title="Copy to clipboard" />
+								}
+							</div>
+						</div>
+					)
+				})}
+			</div>
+		);
 	}
 
 	render() {
 		if (!this.props.Source) {
 			return null;
 		}
-
-		return (
-			<Box {...this.props}>
-				<div className="grid grid-cols-1 gap-4 justify-start lg:grid-cols-[auto_auto] lg:gap-7 2xl:gap-x-32">
-					{this.state.fields.map((field, index) => {
-						return (
-							<div key={index}>
-								<p className="mb-2 leading-normal text-gray-500 dark:text-gray-400">
-									{field.Label}
-								</p>
-								<p className="font-medium text-gray-800 dark:text-white/90">
-									{this.props.Source[field.Field] !== undefined ? this.props.Source[field.Field].toString() : 'N/A'}
-								</p>
-							</div>
-						)
-					})}
-				</div>
-			</Box>
-		)
+		if (this.props.HasLayout) {
+			return (
+				<Box {...this.props}>
+					{this.getContent()}
+				</Box>
+			)
+		}
+		else {
+			return (
+				<Sizing {...this.props}>
+					<AbstractInputTitle {...this.props} />
+					{this.getContent()}
+				</Sizing>
+			)
+		}
 	}
 
 }

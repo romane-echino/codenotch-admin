@@ -204,11 +204,13 @@ export class Application extends React.Component<IApplicationProps, IApplication
   }
 
   render() {
+
+    const childCount = React.Children.count(this.props.children);
     return (
       <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900">
 
         {/* Left navigation panel */}
-        {this.state.menu.length > 1 &&
+        {childCount > 1 &&
           <Navigation
             {...this.props}
             Menu={this.state.menu}
@@ -224,7 +226,7 @@ export class Application extends React.Component<IApplicationProps, IApplication
             <Header
               {...this.props}
               SideBarToggle={this.state.sideBarToggle}
-              DisableNavigation={this.state.menu.length <= 1}
+              DisableNavigation={childCount <= 1}
               OnSideBarToggle={() => this.setState({ sideBarToggle: !this.state.sideBarToggle })} />
 
             {/* Main content area */}

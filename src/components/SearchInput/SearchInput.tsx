@@ -28,35 +28,37 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 	const buttonRef = React.useRef<HTMLButtonElement>(null);
 
 	props.declareFunction('setValue', (value: any) => {
-		console.log("SearchInput setValue called with", value);
-		const index = data.findIndex((item) => (props.ValueField ? item[props.ValueField] : item) === value)
-		console.log("SearchInput found index:", index, data[index]);
-		updateValue(data[index], index);
+		const defaultIndex = getIndexFromSource(data, value, props.ValueField);
+		if (defaultIndex > -1) {
+			updateValue(data?.[defaultIndex], defaultIndex);
+		}
 	});
 
 	React.useEffect(() => {
 		if (JSON.stringify(props.Source) !== JSON.stringify(data)) {
-			let src = getDataFromSource(props.Source);
+			const src = getDataFromSource(props.Source);
 			setData(src);
 
-			if (props.Value !== undefined && props.Value !== null) {
-				let defaultIndex = getIndexFromSource(src, props.Value, props.ValueField);
-				if (defaultIndex > -1) {
-					console.log("Default index found in source", defaultIndex);
-					updateValue(src?.[defaultIndex], defaultIndex);
-					if (props.DisplayField) {
-						setPendingValue(src?.[defaultIndex]?.[props.DisplayField]);
-					}
-					else {
-						setPendingValue(src?.[defaultIndex]);
-					}
-				} else if (typeof (props.Value) === 'string' && props.Value !== '') {
-
-					setPendingValue(props.Value);
+			if (pendingValue !== null) {
+				const index = getIndexFromSource(src, pendingValue, props.DisplayField);
+				if (index !== -1) {
+					updateValue(src[index], index);
+					setPendingValue(null);
 				}
 			}
 		}
-	}, [props.Source, props.Value]);
+	}, [props.Source]);
+
+	React.useEffect(() => {
+		if (props.Value !== undefined && props.Value !== null) {
+			const src = getDataFromSource(props.Source);
+			const defaultIndex = getIndexFromSource(src, props.Value, props.ValueField);
+			if (defaultIndex > -1) {
+				console.log("Default index found in source", defaultIndex);
+				updateValue(src?.[defaultIndex], defaultIndex);
+			}
+		}
+	}, [props.Value]);
 
 	React.useEffect(() => {
 		const calculatePosition = () => {
@@ -127,13 +129,19 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 		}
 	};
 
-	const filteredData = query === ''
-		? data
-		: data.filter((item) =>
-			typeof (item) === 'object' ?
-				item[props.DisplayField]?.toLowerCase().includes(query.toLowerCase()) :
-				item.toLowerCase().includes(query.toLowerCase())
-		);
+
+	const getFilteredData = (): any[] => {
+		if (query === '') return data;
+		const queryValue = query.toLowerCase();
+		return data.filter((item) => {
+			const itemValue = typeof (item) === 'object' ? item[props.DisplayField] : item;
+			const hasPartOfQuery = itemValue?.toLowerCase().includes(queryValue);
+			const hasInitials = itemValue?.toLowerCase().split(' ').map((word: string) => word.charAt(0)).join('').includes(queryValue);
+			return hasPartOfQuery || hasInitials;
+		});
+	}
+
+	const filteredData = getFilteredData();
 
 	return (
 		<AbstractInput {...props} Focus={focus}>
@@ -150,12 +158,12 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 					displayValue={(index: number) => getDisplayValue(index)}
 					onChange={(event) => setQuery(event.target.value)}
 					onFocus={(e) => setFocus(true)}
-					onBlur={() => {setFocus(false); setQuery('');}}
+					onBlur={() => { setFocus(false); setQuery(''); }}
 					onKeyDown={(e) => {
 						if (e.key === 'Enter' && query !== '' && filteredData.length === 0 && props.OnAdd !== undefined) {
 							AddNew();
 						}
-						else if(e.key === 'Escape') {
+						else if (e.key === 'Escape') {
 							setQuery('');
 						}
 					}}

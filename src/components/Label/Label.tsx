@@ -20,7 +20,7 @@ interface ILabelProps extends Ii18nProps {
 
 }
 
-export type LabelType = 'Date' | 'Time' | 'DateTime' | 'Text' | 'Duration' | 'Currency' | 'Percentage' | 'Phone' | 'Email' | 'Url'
+export type LabelType = 'Date' | 'Time' | 'DateTime' | 'Text' | 'Duration' | 'Currency' | 'Percentage' | 'Phone' | 'Email' | 'Url' | 'Color'
 interface ILabelState {
 }
 
@@ -53,6 +53,8 @@ export const getFormattedValue = (type: LabelType, value: string, language: stri
 		case 'Email':
 			return value;
 		case 'Url':
+			return value;
+		case 'Color':
 			return value;
 		default:
 			return value;
@@ -88,6 +90,8 @@ export class Label extends React.Component<ILabelProps, ILabelState> {
 			case 'Currency':
 			case 'Percentage':
 				return { type: component, props: {} };
+			case 'Color':
+				return { type: component, props: { style: { color: this.props.Value } } };
 			case 'Phone':
 				return { type: 'a', props: { href: `tel:${this.props.Value}` } };
 			case 'Email':

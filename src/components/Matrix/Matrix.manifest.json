@@ -15,6 +15,10 @@
       "description": "Subtitle of the matrix"
     },
     {
+      "name": "Value",
+      "displayName": "Value"
+    },
+    {
       "name": "Vertical",
       "displayName": "Vertical",
       "type": "array",

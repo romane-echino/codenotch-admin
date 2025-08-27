@@ -20,6 +20,27 @@
       "displayName": "Helper",
       "type": "string"
     },
+
+    {
+      "name": "EnabledText",
+      "displayName": "Enabled Text",
+      "type": "string",
+      "description": "Text to display when the checkbox is enabled"
+    },
+    {
+      "name": "DisabledText",
+      "displayName": "Disabled Text",
+      "type": "string",
+      "description": "Text to display when the checkbox is disabled"
+    },
+
+    {
+      "name": "Layout",
+      "displayName": "Layout",
+      "type": "string",
+      "description": "Layout of the checkbox",
+      "enum": ["Inline", "Input"]
+    },
     {
       "name": "Icon",
       "displayName": "Icon",

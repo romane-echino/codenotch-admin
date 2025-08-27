@@ -26,6 +26,16 @@
       "name": "Footer",
       "displayName": "Footer",
       "type": "reactNode"
+    },
+    {
+      "name": "HasLayout",
+      "displayName": "HasLayout",
+      "type": "boolean"
+    },
+    {
+      "name": "AllowCopy",
+      "displayName": "AllowCopy",
+      "type": "boolean"
     }
   ],
   "childrenProps":[
@@ -38,6 +48,12 @@
       "name": "Label",
       "displayName": "Label",
       "type": "string"
+    },
+    {
+      "name": "Type",
+      "displayName": "Type",
+      "type": "string",
+      "enum": ["Date", "Time", "DateTime", "Text", "Duration", "Currency", "Percentage", "Phone", "Email", "Url"]
     }
   ],
   "snippets": {

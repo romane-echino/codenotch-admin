@@ -63,7 +63,7 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 			return (
 				<div
 					onClick={() => this.props.BoxClick?.()}
-					className={`group @container rounded-2xl bg-white
+					className={`@container rounded-2xl bg-white
 			${this.props.Clickable ? 'cursor-pointer hover:shadow-lg hover:border-primary hover:ring-3 hover:ring-primary/10' : ''}  
 				${(this.props.Modal === true && !this.props.Footer) ? 'relative w-full max-w-[700px]' : ' h-full grow'} 
 				${hasBorder && 'border border-gray-200 dark:border-gray-800'}  
@@ -85,7 +85,7 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 		}
 		else {
 			return (
-				<div className={`group @container`}>
+				<div className={`@container`}>
 					<BoxTitle {...this.props} />
 
 					{this.props.Modal ?
@@ -138,6 +138,10 @@ interface IBoxTitleProps extends IBoxProps {
 	Helper?: string;
 }
 
+export const HasTitle = (props:IBoxTitleProps):boolean => {
+	return (props.Title !== undefined || props.Subtitle !== undefined || props.Actions !== undefined || props.Icon !== undefined || props.Helper !== undefined);
+}
+
 /**
  * BoxTitle component displays the title and subtitle of a box.
  * @hidden
@@ -147,8 +151,8 @@ export const BoxTitle: React.FC<IBoxTitleProps> = (props) => {
 	const { Title, Subtitle, Actions, Icon, DisableMargins } = props;
 	return (
 		<>
-			{(Title !== undefined || Subtitle !== undefined || Actions !== undefined || Icon !== undefined || props.Helper !== undefined) &&
-				<div className={`flex items-center gap-4 p-4 md:p-6 border-b border-gray-200 dark:border-gray-800`}>
+			{HasTitle(props) &&
+				<div className={`flex items-center gap-4 ${DisableMargins?'py-4 md:py-6':'p-4 md:p-6'} border-b border-gray-200 dark:border-gray-800`}>
 					{Icon &&
 						<div className="flex size-[42px] items-center text-lg justify-center rounded-xl text-gray-800 dark:text-white/90 bg-gray-100 dark:bg-gray-800">
 							<i className={`${Icon}`}></i>

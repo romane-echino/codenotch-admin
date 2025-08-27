@@ -1,7 +1,33 @@
 {
   "name": "Tab item",
   "menu": "Layout",
-  "props": [],
+  "props": [
+    {
+      "name": "Title",
+      "displayName": "Title",
+      "type": "string"
+    },
+    {
+      "name": "Subtitle",
+      "displayName": "Subtitle",
+      "type": "string"
+    },
+    {
+      "name": "Icon",
+      "displayName": "Icon",
+      "type": "string"
+    },
+    {
+      "name": "Helper",
+      "displayName": "Helper",
+      "type": "string"
+    },
+    {
+      "name": "Actions",
+      "displayName": "Actions",
+      "type": "reactNode"
+    }
+  ],
    "childrenProps":[
      {
       "name": "ColSpan",

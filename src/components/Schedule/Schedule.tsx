@@ -304,7 +304,7 @@ const TimeInput: React.FC<ITimeInputProps> = (props) => {
 				{`${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`}
 			</Popover.Button>
 
-			<Popover.Panel className="absolute z-10 top-full mt-1 flex text-gray-800 dark:text-white/90 bg-white border border-gray-300  dark:border-gray-700 dark:bg-gray-800 rounded-lg">
+			<Popover.Panel className="popover cn-scoll flex">
 				<div className='overflow-y-auto max-h-96 py-1 cn-scroll'>
 					{Array.from({ length: 24 }, (_, i) => (
 						<div key={i} className='py-0.5 px-2 cursor-pointer' onClick={() => setHours(i)}>
