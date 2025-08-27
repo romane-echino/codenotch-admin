@@ -28,7 +28,9 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 	const buttonRef = React.useRef<HTMLButtonElement>(null);
 
 	props.declareFunction('setValue', (value: any) => {
+		console.log("SearchInput setValue called with", value);
 		const index = data.findIndex((item) => (props.ValueField ? item[props.ValueField] : item) === value)
+		console.log("SearchInput found index:", index, data[index]);
 		updateValue(data[index], index);
 	});
 
@@ -85,7 +87,6 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
 	const updateValue = (value: any, index: number) => {
 
 		if (value && index !== selectedIndex) {
-			console.log("Updating value to", value, "at index", index);
 			setSelected(index);
 			let result = props.ValueField ? value[props.ValueField] : value;
 			props.onPropertyChanged('value', undefined, result)
