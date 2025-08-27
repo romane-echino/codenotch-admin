@@ -222,3 +222,11 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   bg-white  dark:bg-gray-800
   right-0 z-50 translate-y-0.5 rounded-lg shadow-lg overflow-auto md:overflow-hidden;
 }
+
+.popover-auto {
+  @apply absolute w-auto max-h-96 md:max-h-none
+  text-gray-800 dark:text-white/90 text-sm
+  border border-gray-300 dark:border-gray-700
+  bg-white  dark:bg-gray-800
+  right-0 z-50 translate-y-0.5 rounded-lg shadow-lg overflow-auto md:overflow-hidden;
+}

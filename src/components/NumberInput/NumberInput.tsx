@@ -21,39 +21,39 @@ export const NumberInput: React.FC<INumberInputProps> = (props) => {
 		}
 	}, [props.Value]);
 
-	const updateValue = (value: string | number) => {
 
+	const isValid = (value: number | undefined): boolean => {
+		if (value === undefined) return false;
+		if (props.Min !== undefined && value < props.Min) return false;
+		if (props.Max !== undefined && value > props.Max) return false;
+		return true;
+	};
+
+	const updateValue = (value: string | number) => {
 		const numericValue = typeof value === 'number' ? value : parseFloat(value);
 		if (isNaN(numericValue)) {
 			setError(true);
+			setValue(undefined);
+		}
+		else if (!isValid(numericValue)) {
+			setError(true);
+			setValue(numericValue);
 		} else {
-			if (props.Min !== undefined && props.Max !== undefined && props.Step !== undefined) {
-				if (numericValue < props.Min || numericValue > props.Max) {
-					setError(true);
-				}
-				else {
-					setError(false);
-					props.onPropertyChanged('value', undefined, numericValue);
-					props.OnChange?.(numericValue);
-					props._internalOnChange?.(numericValue);
-					setValue(numericValue);
-				}
-			}
-			else {
-				setError(false);
-				props.onPropertyChanged('value', undefined, numericValue);
-				props.OnChange?.(numericValue);
-				props._internalOnChange?.(numericValue);
-				setValue(numericValue);
-			}
+			setError(false);
+			props.onPropertyChanged('value', undefined, numericValue);
+			props.OnChange?.(numericValue);
+			props._internalOnChange?.(numericValue);
+			setValue(numericValue);
 		}
 
 	}
 
 	const valueDelta = (delta: number) => {
 
-		const result = (value || 0) + (delta * (props.Step || 1));
-		console.log('valueDelta', delta, value, result);
+		let result = (value || 0) + (delta * (props.Step || 1));
+		if (props.Step) {
+			result = Math.round(result / props.Step) * props.Step;
+		}
 		if (props.Min !== undefined && props.Max !== undefined) {
 			if (result < props.Min) {
 				updateValue(props.Min);
@@ -75,10 +75,15 @@ export const NumberInput: React.FC<INumberInputProps> = (props) => {
 				disabled={props.Disabled}
 				min={props.Min}
 				max={props.Max}
-				step={props.Step}
 				onChange={(e) => updateValue(e.target.value)}
 				className={`${props.Icon && 'pl-9'} px-4 py-2.5 w-full focus:border-0 focus:outline-hidden placeholder:text-gray-400 dark:placeholder:text-white/30`}
-				onBlur={() => setFocused(false)}
+				onBlur={() => {
+					setFocused(false);
+					if (!isValid(value)) {
+						setValue('' as any);
+						setError(false)
+					}
+				}}
 				onFocus={() => setFocused(true)} />
 
 

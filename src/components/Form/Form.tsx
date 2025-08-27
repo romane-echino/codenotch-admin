@@ -6,7 +6,7 @@ import { Action, IBindableComponentProps, IChildrenInheritedProps } from '@echin
 import { IAbstractListAction } from '../AbstractInput/AbstractInput';
 import { Sizing } from '../Sizing/Sizing';
 
-interface IFormProps extends IBoxProps, IPageInheritedProps, IBindableComponentProps, IChildrenInheritedProps<{ Field: string }> {
+interface IFormProps extends IBoxProps, IPageInheritedProps, IBindableComponentProps, IChildrenInheritedProps<{ Field: string, Required?:boolean }> {
 	HasLayout?: boolean;
 	OnChange?: Action<any>;
 	Lazy?: boolean;
@@ -17,6 +17,8 @@ interface IFormProps extends IBoxProps, IPageInheritedProps, IBindableComponentP
 interface IFormState {
 	value: any;
 	disabled?: boolean;
+
+	requiredFields: string[];
 }
 
 export class Form extends React.Component<IFormProps, IFormState> {
@@ -33,7 +35,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
 		this.state = {
 			value: {},
-			disabled: props.AwaitProps ? true : false
+			disabled: props.AwaitProps ? true : false,
+			requiredFields: []
 		}
 
 
@@ -50,7 +53,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
 	componentDidMount(): void {
 		if (this.props.Value !== undefined && this.props.Value !== null) {
 			//console.log("Setting initial value from props", this.props.Value);
-			this.setState({ value: this.props.Value }, () => {
+			const requiredFields: string[] = this.props.childrenProps?.filter(c => c.Required).map(c => c.Field) || [];
+			this.setState({ value: this.props.Value, requiredFields }, () => {
 				this.props.onPropertyChanged('value', undefined, this.state.value);
 				if (this.props.AwaitProps) {
 					this.setState({ disabled: false });
@@ -62,7 +66,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
 	componentDidUpdate(prevProps: Readonly<IFormProps>, prevState: Readonly<IFormState>, snapshot?: any): void {
 		if (this.props.Value !== undefined && this.props.Value !== null && JSON.stringify(this.props.Value) !== JSON.stringify(prevProps.Value)) {
 			//console.log("Updated value from props", this.props.Value);
-			this.setState({ value: this.props.Value }, () => {
+			const requiredFields: string[] = this.props.childrenProps?.filter(c => c.Required).map(c => c.Field) || [];
+			this.setState({ value: this.props.Value, requiredFields }, () => {
 				this.props.onPropertyChanged('value', undefined, this.state.value);
 				if (this.props.AwaitProps) {
 					this.setState({ disabled: false });
@@ -160,6 +165,20 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
 			result = this.setValueAtPath(result, normalizedParts, value);
 
+			if(this.state.requiredFields.length > 0) {
+				let valid = true;
+				for(let reqField of this.state.requiredFields) {
+					if(!result[reqField]) {
+						valid = false;
+						break;
+					}
+				}
+
+				this.props.onPropertyChanged('valid', undefined, valid);
+			}
+			else{
+				this.props.onPropertyChanged('valid', undefined, true);
+			}
 
 			//console.log("-> current", JSON.stringify(result));
 
