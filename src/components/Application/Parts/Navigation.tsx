@@ -51,7 +51,7 @@ export const Navigation: React.FC<INavigationProps> = (props) => {
 
 
             {props.Actions &&
-                <div className="">
+                <div className={`mb-4 ${props.Disabled ? 'opacity-50 pointer-events-none' : ''}`}>
                     {props.Actions}
                 </div>
             }
