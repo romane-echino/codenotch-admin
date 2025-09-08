@@ -1,0 +1,36 @@
+<Application>
+	<Application.Imports>
+		<Import Namespace="e" Source="/static/" />
+	</Application.Imports>
+
+	<Application.Declarations>
+
+		<SioQL xmlns="integration" Id="phones">
+			<Phones>
+				<Id />
+				<CreatedAt />
+				<UpdatedAt />
+				<Contact />
+				<Duration />
+				<Language />
+				<Company.Name Ref="Company" />
+				<User />
+			</Phones>
+		</SioQL>
+
+	</Application.Declarations>
+
+
+	<e:History Take="5">
+		<e:ForEach In="{_auml.phones.data.Phones}" As="phone">
+			<e:Item
+				History.Title="{_auml.phone.Company}"
+				History.Subtitle="{_auml.phone.User}"
+				History.Label1="{_auml.phone.Duration} min"
+				History.Label2="{_auml.phone.CreatedAt}"
+				History.Label2Type="Duration"/>
+		</e:ForEach>
+	</e:History>
+
+
+</Application>
