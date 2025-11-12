@@ -17,6 +17,11 @@
       "name": "Rounded",
       "displayName": "Rounded",
       "type": "boolean"
+    },
+    {
+      "name": "FullWidth",
+      "displayName": "FullWidth",
+      "type": "boolean"
     }
   ]
 }
