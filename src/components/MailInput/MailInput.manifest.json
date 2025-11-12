@@ -49,6 +49,11 @@
       "name": "Suffix",
       "displayName": "Suffix",
       "type": "reactNode"
+    },
+    {
+      "name": "ErrorText",
+      "displayName": "ErrorText",
+      "type": "string"
     }
   ],
   "snippets": {
