@@ -603,8 +603,20 @@
   .max-h-96 {
     max-height: calc(var(--spacing) * 96);
   }
-  .max-h-\[550px\] {
-    max-height: 550px;
+  .max-h-\[80dvh\] {
+    max-height: 80dvh;
+  }
+  .max-h-\[80vh\] {
+    max-height: 80vh;
+  }
+  .max-h-\[90dvh\] {
+    max-height: 90dvh;
+  }
+  .max-h-\[90vh\] {
+    max-height: 90vh;
+  }
+  .max-h-\[calc\(100dvh-100px\)\] {
+    max-height: calc(100dvh - 100px);
   }
   .min-h-9 {
     min-height: calc(var(--spacing) * 9);
@@ -2380,6 +2392,11 @@
   .lg\:h-11 {
     @media (width >= 64rem) {
       height: calc(var(--spacing) * 11);
+    }
+  }
+  .lg\:max-h-\[700px\] {
+    @media (width >= 64rem) {
+      max-height: 700px;
     }
   }
   .lg\:w-11 {
