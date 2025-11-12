@@ -71,7 +71,7 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 					<BoxTitle {...this.props} />
 
 					{this.props.Modal ?
-						<div className={`max-h-[550px] overflow-x-hidden overflow-y-auto cn-scroll ${this.props.DisablePadding ? '' : 'p-5 md:p-6'}`}>
+						<div className={`max-h-[700px] overflow-x-hidden overflow-y-auto cn-scroll ${this.props.DisablePadding ? '' : 'p-5 md:p-6'}`}>
 							{this.renderChildren()}
 						</div>
 						:
@@ -89,7 +89,7 @@ export class Box extends React.Component<IBoxProps, IBoxState> {
 					<BoxTitle {...this.props} />
 
 					{this.props.Modal ?
-						<div className='max-h-[550px] pb-1 overflow-x-hidden px-1 overflow-y-auto cn-scroll'>
+						<div className='max-h-[700px] pb-1 overflow-x-hidden px-1 overflow-y-auto cn-scroll'>
 							{this.renderChildren()}
 						</div> :
 						this.renderChildren()

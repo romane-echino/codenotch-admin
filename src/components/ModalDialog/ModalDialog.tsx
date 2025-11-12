@@ -1,9 +1,9 @@
 import React from 'react';
-import './ModalDialog.scss';
 import { Action, IDialogProps } from '@echino/echino.ui.sdk';
 import { Box, IBoxProps } from '../Box/Box';
 import { Button } from '../Button/Button';
 import { motion } from 'framer-motion';
+import { getTint } from '../../utils/ColorPaletteUtils';
 
 
 interface IModalDialogProps extends IBoxProps, IDialogProps {
@@ -15,6 +15,9 @@ interface IModalDialogProps extends IBoxProps, IDialogProps {
 
 export const ModalDialog: React.FC<IModalDialogProps> = (props) => {
 
+	if(props.Tint)
+		document.getElementsByTagName("body")[0].style = getTint(props.Tint);
+	
 	return (
 		<div
 			onClick={() => props.dialogId && props.cancelDialog(props.dialogId)}
